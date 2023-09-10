@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Paper } from "@mui/material"
+import { Button, Grid, Paper, Typography } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
 
@@ -14,7 +14,7 @@ export default function RootPage() {
         <Paper>
           <Grid 
             container 
-            spacing={2} 
+            spacing={6} 
             padding={2}
             alignItems="center"
             justifyContent="center"
@@ -25,7 +25,7 @@ export default function RootPage() {
               xs={12} 
               justifyContent="center"
             >
-              <span>Welcome to AwesomeApp</span>
+              <Typography variant="h5">Welcome to AwesomeApp</Typography>
             </Grid>
             <Grid 
               item 
