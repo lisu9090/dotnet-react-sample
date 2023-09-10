@@ -6,14 +6,12 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function App({ Component, pageProps }: any) {
   return (
-    <div className="page">
+    <div className={`${inter.className} page-container`} >
       <Head>
         <link rel="icon" href="favicon.ico" />
-        <title>Test</title>
+        <title>AwesomeApp</title>
       </Head>
-      <div className={`${inter.className} page`} >
-        <Component {...pageProps} />
-      </div>
+      <Component {...pageProps} />
     </div>
   ) 
   
