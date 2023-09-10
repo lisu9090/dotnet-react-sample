@@ -31,8 +31,11 @@ export default function RootPage() {
               item 
               container 
               xs={12} 
+              direction="column"
+              alignItems="center"
               justifyContent="center"
             >
+              <Typography variant="caption">Powered by</Typography>
               <Image src="next.svg" width={500} height={500} alt="Next logo"/>
             </Grid>
             <Grid 
