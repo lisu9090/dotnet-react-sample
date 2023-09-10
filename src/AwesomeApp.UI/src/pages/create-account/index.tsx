@@ -1,10 +1,8 @@
 "use client"
 
 import { useState } from "react";
-import { NavBar } from "../../components/nav-bar"
-import styles from "./styles.module.css"
-import { resolve } from "path";
-import { GetStaticPathsResult } from "next";
+import { PageBox } from "@/components/page-box";
+import { Button } from "@mui/material";
 
 interface WeatherDto {
   date: string;
@@ -27,8 +25,8 @@ export default function CreateAccount({ title }: { title: string}): React.ReactE
   }
 
   return (
-    <div>
-      <span>{title}</span>
+    <PageBox>
+      <span>Create account</span>
       <div>
         {weathers.map((weather, index) => (
           <div key={index}>
@@ -38,60 +36,7 @@ export default function CreateAccount({ title }: { title: string}): React.ReactE
           </div>
         ))}
       </div>
-      <input type="button" value="Get Weather Forecast" onClick={() => fetchData()} />
-      <NavBar />
-    </div>
+      <Button variant="outlined" onClick={() => fetchData()} >Get weather forecast</Button>
+    </PageBox>
   )
 }
-
-type StaticProps = {
-  props : {
-    title: string;
-  };
-}
-
-export async function getStaticProps({ params }: any): Promise<StaticProps> {
-  // return new Promise<StaticProps>(
-  //   (resolve) => resolve({
-    return {
-      props: {
-        title: 'Test static props ' + params?.something
-      }
-    }
-    // })
-  // )
-}
-
-// export async function getStaticPaths(): Promise<GetStaticPathsResult> {
-//   return {
-//     paths: [
-//       {
-//         params: {
-//           something: 'test'
-//         }
-//       },
-//       {
-//         params: {
-//           something: 'test2'
-//         }
-//       }
-//     ],
-//     fallback: false
-//   }
-// }
-
-// type ServerSideProps = {
-//   props: {
-//     id: number;
-//   };
-// }
-
-// export async function getServerSideProps(): Promise<ServerSideProps> {
-//   return new Promise(
-//     (resolve) => resolve({
-//       props: {
-//         id: Math.random() * 100
-//       }
-//     })
-//   )
-// }
