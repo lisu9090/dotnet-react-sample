@@ -8,14 +8,13 @@ import { CustomerType } from "@/types/models";
 export default function CreateAccount(): React.ReactElement {
   return (
     <PageBox>
-      <Grid container direction="column">
+      <Grid container direction="column" spacing={4}>
         <Grid item>
           <Typography variant="h5">Create Account</Typography>
         </Grid>
         <Grid 
           item 
           container
-          spacing={2}
           direction="column"
           justifyContent="space-between"
           alignItems="stretch"
@@ -63,7 +62,8 @@ export default function CreateAccount(): React.ReactElement {
           <FormControl>
             <FormLabel id="customer-type">Customer type</FormLabel>
             <RadioGroup
-              name="radio-buttons-group"
+              row
+              name="customer-type-radio"
               defaultValue={CustomerType.private}
             >
               <FormControlLabel value={CustomerType.private} control={<Radio />} label="Private" />
@@ -74,9 +74,11 @@ export default function CreateAccount(): React.ReactElement {
         <Grid
           item
           container
-          justifyContent="space-between"
+          spacing={2}
+          justifyContent="end"
         >
-
+          <Button color="warning">Go Back</Button>
+          <Button>Submit</Button>
         </Grid>
       </Grid>
     </PageBox>

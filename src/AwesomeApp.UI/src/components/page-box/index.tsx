@@ -16,7 +16,7 @@ export function PageBox({ children }: any) {
         md={6}
         className="main-box"
       >
-        <Paper className="p-2">
+        <Paper className="p-6">
           { children }
         </Paper>
       </Grid>
