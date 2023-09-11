@@ -82,6 +82,7 @@ export default function CreateAccount(): React.ReactElement {
             variant="standard"
             value={formValue.email}
             error={!!formValidation.fieldErrors.email}
+            onBlur={() => setFormValidation(validateFormField("email", formValue.email, formValidation))}
             onChange={createPropertyChangeHandler("email")}
           />
           <TextField 
