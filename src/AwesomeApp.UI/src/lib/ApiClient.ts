@@ -1,5 +1,7 @@
-export async function fetchData(): Promise<any> {
-  const response = await fetch('https://localhost:7075/WeatherForecast')
+import useSWR from "swr";
 
-  return []
+export function useApiClient(): any {
+  const { data, error, isLoading } = useSWR("") 
+  
+  return data
 }
