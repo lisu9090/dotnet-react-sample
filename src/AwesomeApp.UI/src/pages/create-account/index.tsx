@@ -5,6 +5,7 @@ import { PageBox } from "@/components/page-box";
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { CustomerType } from "@/types/models";
 import Link from "next/link";
+import { FormValidators, SimpleFormValidation, notEmptyValidator, useSimpleFormValidation } from "@/lib";
 
 type CreateAccountForm = {
   email: string;
@@ -26,12 +27,7 @@ const initialFormValue: CreateAccountForm = {
   customerType: CustomerType.private
 }
 
-type FormValidation = {
-  isValid: boolean;
-  fieldErrors: { [fieldName: string]: string }
-}
-
-const initialFormValidation: FormValidation = {
+const initialFormValidation: SimpleFormValidation = {
   isValid: false,
   fieldErrors: {
     email: '',
@@ -44,16 +40,25 @@ const initialFormValidation: FormValidation = {
   }
 }
 
+const formValidators: FormValidators = {
+  email: [notEmptyValidator("Value cannot be empty")],
+  password: [notEmptyValidator("Value cannot be empty")],
+  passwordRepeated: [notEmptyValidator("Value cannot be empty")],
+  fullName: [notEmptyValidator("Value cannot be empty")],
+  dateOfBirth: [notEmptyValidator("Value cannot be empty")],
+  vechiclesNumber: [notEmptyValidator("Value cannot be empty")],
+  customerType: [notEmptyValidator("Value cannot be empty")]
+}
+
 export default function CreateAccount(): React.ReactElement {
   const [formValue, setFormValue] = useState<CreateAccountForm>(initialFormValue)
-  const [formValidation, setFormValidation] = useState<FormValidation>(initialFormValidation)
+  const { formValidation, validateFormField } = useSimpleFormValidation(initialFormValidation, formValidators)
 
-  const createPropertyChangeHandler = (formField: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormValidation(validateFormField(formField, event.target.value, formValidation))
-    setFormValue({
-      ...formValue,
-      [formField]: event.target.value
-    })
+  const createBlurHandler = (fieldName: string, fieldValue: string) => () => validateFormField(fieldName, fieldValue)
+
+  const createFormFieldChangeHandler = (formField: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    validateFormField(formField, event.target.value)
+    setFormValue({ ...formValue, [formField]: event.target.value })
   }
 
   const submitForm = () => {
@@ -82,8 +87,8 @@ export default function CreateAccount(): React.ReactElement {
             variant="standard"
             value={formValue.email}
             error={!!formValidation.fieldErrors.email}
-            onBlur={() => setFormValidation(validateFormField("email", formValue.email, formValidation))}
-            onChange={createPropertyChangeHandler("email")}
+            onBlur={createBlurHandler("email", formValue.email)}
+            onChange={createFormFieldChangeHandler("email")}
           />
           <TextField 
             required
@@ -92,7 +97,9 @@ export default function CreateAccount(): React.ReactElement {
             label="Password" 
             variant="standard"
             value={formValue.password}
-            onChange={createPropertyChangeHandler("password")}
+            error={!!formValidation.fieldErrors.password}
+            onBlur={createBlurHandler("password", formValue.password)}
+            onChange={createFormFieldChangeHandler("password")}
           />
           <TextField 
             required
@@ -101,7 +108,9 @@ export default function CreateAccount(): React.ReactElement {
             label="Repeat password" 
             variant="standard"
             value={formValue.passwordRepeated}
-            onChange={createPropertyChangeHandler("passwordRepeated")}
+            error={!!formValidation.fieldErrors.passwordRepeated}
+            onBlur={createBlurHandler("passwordRepeated", formValue.passwordRepeated)}
+            onChange={createFormFieldChangeHandler("passwordRepeated")}
           />
           <TextField 
             required
@@ -111,7 +120,9 @@ export default function CreateAccount(): React.ReactElement {
             placeholder="Jane Doe"
             variant="standard"
             value={formValue.fullName}
-            onChange={createPropertyChangeHandler("fullName")}
+            error={!!formValidation.fieldErrors.fullName}
+            onBlur={createBlurHandler("fullName", formValue.fullName)}
+            onChange={createFormFieldChangeHandler("fullName")}
           />
           <TextField 
             required
@@ -121,7 +132,9 @@ export default function CreateAccount(): React.ReactElement {
             variant="standard"
             InputLabelProps={{ shrink: true }}
             value={formValue.dateOfBirth}
-            onChange={createPropertyChangeHandler("dateOfBirth")}
+            error={!!formValidation.fieldErrors.dateOfBirth}
+            onBlur={createBlurHandler("dateOfBirth", formValue.dateOfBirth)}
+            onChange={createFormFieldChangeHandler("dateOfBirth")}
           />
           <TextField 
             required
@@ -131,7 +144,9 @@ export default function CreateAccount(): React.ReactElement {
             placeholder="1"
             variant="standard"
             value={formValue.vechiclesNumber}
-            onChange={createPropertyChangeHandler("vechiclesNumber")}
+            error={!!formValidation.fieldErrors.vechiclesNumber}
+            onBlur={createBlurHandler("vechiclesNumber", formValue.vechiclesNumber)}
+            onChange={createFormFieldChangeHandler("vechiclesNumber")}
           />
           <FormControl>
             <FormLabel id="customer-type">Customer type</FormLabel>
@@ -139,7 +154,7 @@ export default function CreateAccount(): React.ReactElement {
               row
               name="customer-type-radio"
               value={formValue.customerType}
-              onChange={createPropertyChangeHandler("customerType")}
+              onChange={createFormFieldChangeHandler("customerType")}
             >
               <FormControlLabel value={CustomerType.private} control={<Radio />} label="Private" />
               <FormControlLabel value={CustomerType.company} control={<Radio />} label="Company" />
@@ -160,27 +175,4 @@ export default function CreateAccount(): React.ReactElement {
       </Grid>
     </PageBox>
   )
-}
-
-function validateFormField(fieldName: string, fieldValue: string, formValidation: FormValidation): FormValidation {
-  const notEmptyValidator = (message: string) => (value: string) => value?.trim().length === 0 ? message : ''
-
-  const formValidators = {
-    email: [
-      notEmptyValidator('Value cannot be empty')
-    ]
-  } as { [name: string]: ((value: string) => string)[] }
-  
-  const fieldErrors = {
-    ...formValidation.fieldErrors,
-    [fieldName]: formValidators[fieldName]
-      .map(validator => validator(fieldValue))
-      .filter(errorMessage => errorMessage)
-      [0] ?? ''
-  }
-
-  return {
-    isValid: !Object.keys(fieldErrors).some(fieldName => Boolean(fieldErrors[fieldName])),
-    fieldErrors: fieldErrors
-  }
 }

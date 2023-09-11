@@ -18,7 +18,11 @@ export const notEmptyValidator: (message: string) => ValidatorFn =
   (message: string) => (value: string) => value?.trim().length === 0 ? message : ''
 
 
-export function useSimpleFormValidation(initialValue: SimpleFormValidation, validators: FormValidators): any {
+export function useSimpleFormValidation(initialValue: SimpleFormValidation, validators: FormValidators): {
+  formValidation: SimpleFormValidation;
+  validateFormField: ValidateFormFieldFn;
+  setFormValidators: (value: FormValidators) => void;
+} {
   const [formValidation, setFormValidation] = useState<SimpleFormValidation>(initialValue)
   const [formValidators, setFormValidators] = useState<FormValidators>(validators)
 
