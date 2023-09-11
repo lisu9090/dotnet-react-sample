@@ -1,4 +1,4 @@
-import { PageBox } from "@/components/page-box";
+import { PageBox } from "@/components";
 import { Typography } from "@mui/material";
 
 export default function NotFound() {

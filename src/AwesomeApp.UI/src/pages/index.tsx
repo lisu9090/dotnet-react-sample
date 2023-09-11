@@ -1,5 +1,5 @@
-import { PageBox } from "@/components/page-box"
-import { Button, Grid, Paper, Typography } from "@mui/material"
+import { PageBox } from "@/components"
+import { Button, Grid, Typography } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
 

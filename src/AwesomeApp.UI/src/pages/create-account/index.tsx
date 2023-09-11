@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react";
-import { PageBox } from "@/components/page-box";
+import { PageBox } from "@/components";
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { CustomerType } from "@/types/models";
 import Link from "next/link";
