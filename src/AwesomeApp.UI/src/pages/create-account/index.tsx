@@ -30,13 +30,12 @@ const initialFormValue: CreateAccountForm = {
 const initialFormValidation: SimpleFormValidation = {
   isValid: false,
   fieldErrors: {
-    email: '',
-    password: '',
-    passwordRepeated: '',
-    fullName: '',
-    dateOfBirth: '',
-    vechiclesNumber: '',
-    customerType: ''
+    email: null,
+    password: null,
+    passwordRepeated: null,
+    fullName: null,
+    dateOfBirth: null,
+    vechiclesNumber: null,
   }
 }
 

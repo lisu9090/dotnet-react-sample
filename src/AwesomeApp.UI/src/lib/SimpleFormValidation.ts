@@ -9,7 +9,7 @@ export type ValidateFormFieldFn = (fieldName: string, fieldValue: string) => voi
 export interface SimpleFormValidation {
   isValid: boolean;
   fieldErrors: {
-    [ fieldName: string ]: string;
+    [ fieldName: string ]: string | null;
   };
 }
 
@@ -58,7 +58,7 @@ export function useSimpleFormValidation(initialValue: SimpleFormValidation, vali
       }
 
       setFormValidation({
-        isValid: !Object.keys(fieldErrors).some(fieldName => !!fieldErrors[fieldName]),
+        isValid: Object.keys(fieldErrors).every(fieldName => fieldErrors[fieldName] === ''),
         fieldErrors: fieldErrors
       })
     },
