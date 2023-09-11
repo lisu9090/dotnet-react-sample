@@ -49,7 +49,7 @@ export function useSimpleFormValidation(initialValue: SimpleFormValidation, vali
     () => (fieldName: string, fieldValue: string) => {
       const validationError = formValidators[fieldName]
         ?.map(validator => validator(fieldValue))
-        .filter(errorMessage => Boolean(errorMessage))
+        .filter(errorMessage => !!errorMessage)
         [0] ?? ''
 
       const fieldErrors = {
@@ -58,7 +58,7 @@ export function useSimpleFormValidation(initialValue: SimpleFormValidation, vali
       }
 
       setFormValidation({
-        isValid: !Object.keys(fieldErrors).some(fieldName => Boolean(fieldErrors[fieldName])),
+        isValid: !Object.keys(fieldErrors).some(fieldName => !!fieldErrors[fieldName]),
         fieldErrors: fieldErrors
       })
     },
