@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { PageBox } from "@/components/page-box";
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { CustomerType } from "@/types/models";
 import Link from "next/link";
-import { FormValidators, SimpleFormValidation, notEmptyValidator, useSimpleFormValidation } from "@/lib";
+import { FormValidators, SimpleFormValidation, ValidatorFn, emailValidator, minLengthValidator, notEmptyValidator, positiveValueValidator, strongPasswordValidator, useSimpleFormValidation } from "@/lib";
 
 type CreateAccountForm = {
   email: string;
@@ -40,30 +40,46 @@ const initialFormValidation: SimpleFormValidation = {
   }
 }
 
-const formValidators: FormValidators = {
-  email: [notEmptyValidator("Value cannot be empty")],
-  password: [notEmptyValidator("Value cannot be empty")],
-  passwordRepeated: [notEmptyValidator("Value cannot be empty")],
-  fullName: [notEmptyValidator("Value cannot be empty")],
-  dateOfBirth: [notEmptyValidator("Value cannot be empty")],
-  vechiclesNumber: [notEmptyValidator("Value cannot be empty")],
-  customerType: [notEmptyValidator("Value cannot be empty")]
-}
-
 export default function CreateAccount(): React.ReactElement {
   const [formValue, setFormValue] = useState<CreateAccountForm>(initialFormValue)
-  const { formValidation, validateFormField } = useSimpleFormValidation(initialFormValidation, formValidators)
 
-  const createBlurHandler = (fieldName: string, fieldValue: string) => () => validateFormField(fieldName, fieldValue)
+  const repeatPasswordValidator = useMemo<ValidatorFn>(
+    () => (value: string) => value === formValue.password ? '' : 'Password does not match',
+    [formValue.password]
+  ) 
 
-  const createFormFieldChangeHandler = (formField: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-    validateFormField(formField, event.target.value)
-    setFormValue({ ...formValue, [formField]: event.target.value })
-  }
+  const formValidators = useMemo<FormValidators>(
+    () => ({
+      email: [notEmptyValidator(), emailValidator()],
+      password: [notEmptyValidator(), strongPasswordValidator()],
+      passwordRepeated: [notEmptyValidator(), repeatPasswordValidator],
+      fullName: [notEmptyValidator(), minLengthValidator()],
+      dateOfBirth: [notEmptyValidator()],
+      vechiclesNumber: [notEmptyValidator(), positiveValueValidator()]
+    }),
+    [repeatPasswordValidator]
+  )
+
+  const { 
+    formValidation, 
+    validateFormField, 
+    setFormValidators 
+  } = useSimpleFormValidation(initialFormValidation, formValidators)
+
+  const createBlurHandler = (fieldName: string, fieldValue: string) => 
+    () => validateFormField(fieldName, fieldValue)
+
+  const createFormFieldChangeHandler = (formField: string) => 
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      validateFormField(formField, event.target.value)
+      setFormValue({ ...formValue, [formField]: event.target.value })
+    }
 
   const submitForm = () => {
     console.log(formValue)
   }
+
+  useEffect(() => setFormValidators(formValidators), [setFormValidators, formValidators])
 
   return (
     <PageBox>
@@ -87,6 +103,7 @@ export default function CreateAccount(): React.ReactElement {
             variant="standard"
             value={formValue.email}
             error={!!formValidation.fieldErrors.email}
+            helperText={formValidation.fieldErrors.email}
             onBlur={createBlurHandler("email", formValue.email)}
             onChange={createFormFieldChangeHandler("email")}
           />
@@ -98,6 +115,7 @@ export default function CreateAccount(): React.ReactElement {
             variant="standard"
             value={formValue.password}
             error={!!formValidation.fieldErrors.password}
+            helperText={formValidation.fieldErrors.password}
             onBlur={createBlurHandler("password", formValue.password)}
             onChange={createFormFieldChangeHandler("password")}
           />
@@ -109,6 +127,7 @@ export default function CreateAccount(): React.ReactElement {
             variant="standard"
             value={formValue.passwordRepeated}
             error={!!formValidation.fieldErrors.passwordRepeated}
+            helperText={formValidation.fieldErrors.passwordRepeated}
             onBlur={createBlurHandler("passwordRepeated", formValue.passwordRepeated)}
             onChange={createFormFieldChangeHandler("passwordRepeated")}
           />
@@ -121,6 +140,7 @@ export default function CreateAccount(): React.ReactElement {
             variant="standard"
             value={formValue.fullName}
             error={!!formValidation.fieldErrors.fullName}
+            helperText={formValidation.fieldErrors.fullName}
             onBlur={createBlurHandler("fullName", formValue.fullName)}
             onChange={createFormFieldChangeHandler("fullName")}
           />
@@ -133,6 +153,7 @@ export default function CreateAccount(): React.ReactElement {
             InputLabelProps={{ shrink: true }}
             value={formValue.dateOfBirth}
             error={!!formValidation.fieldErrors.dateOfBirth}
+            helperText={formValidation.fieldErrors.dateOfBirth}
             onBlur={createBlurHandler("dateOfBirth", formValue.dateOfBirth)}
             onChange={createFormFieldChangeHandler("dateOfBirth")}
           />
@@ -145,6 +166,7 @@ export default function CreateAccount(): React.ReactElement {
             variant="standard"
             value={formValue.vechiclesNumber}
             error={!!formValidation.fieldErrors.vechiclesNumber}
+            helperText={formValidation.fieldErrors.vechiclesNumber}
             onBlur={createBlurHandler("vechiclesNumber", formValue.vechiclesNumber)}
             onChange={createFormFieldChangeHandler("vechiclesNumber")}
           />

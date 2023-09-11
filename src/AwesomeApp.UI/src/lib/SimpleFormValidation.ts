@@ -1,5 +1,8 @@
 import { useMemo, useState } from "react";
 
+const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const strongPasswordRegExp = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,20})/
+
 export type ValidatorFn = (value: string) => string
 export type ValidateFormFieldFn = (fieldName: string, fieldValue: string) => void
 
@@ -14,9 +17,25 @@ export interface FormValidators {
   [fieldName: string]: ValidatorFn[];
 }
 
-export const notEmptyValidator: (message: string) => ValidatorFn = 
-  (message: string) => (value: string) => value?.trim().length === 0 ? message : ''
+export const notEmptyValidator: (message?: string) => ValidatorFn = 
+  (message: string = "Value must not be empty") => 
+    (value: string) => value?.trim().length > 0 ? '' : message
 
+export const minLengthValidator: (message?: string, minLength?: number) => ValidatorFn = 
+  (message: string = "Value must have more then 3 characters", minLength: number = 3) => 
+    (value: string) => value?.trim().length >= minLength ? '' : message
+
+export const positiveValueValidator: (message?: string) => ValidatorFn = 
+  (message: string = "Value must be positive number") => 
+    (value: string) => Number.parseFloat(value) >= 0 ? '' : message
+
+export const emailValidator: (message?: string) => ValidatorFn = 
+  (message: string = "Value must be valid email") => 
+    (value: string) => emailRegExp.test(value) ? '' : message
+
+export const strongPasswordValidator: (message?: string) => ValidatorFn = 
+  (message: string = "Value must contain capital letter, small letter, number, special character and be between 8 and 20 characters long") => 
+    (value: string) => strongPasswordRegExp.test(value) ? '' : message
 
 export function useSimpleFormValidation(initialValue: SimpleFormValidation, validators: FormValidators): {
   formValidation: SimpleFormValidation;
