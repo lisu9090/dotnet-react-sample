@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useMemo, useState } from "react";
 import { PageBox } from "@/components";
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";

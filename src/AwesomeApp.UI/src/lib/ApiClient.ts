@@ -1,7 +1,7 @@
 import useSWR from "swr";
 
-export function useApiClient(): any {
-  const { data, error, isLoading } = useSWR("") 
+async function getActiveAccounts(payload: any): Promise<any> {
+  const { data, error, isLoading } = useSWR("/api/accounts", payload) 
   
   return data
-}
+} 

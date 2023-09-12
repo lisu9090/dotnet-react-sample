@@ -14,7 +14,7 @@ export function PageBox({ children }: any) {
         xs={12}
         sm={10}
         md={6}
-        className="main-box"
+        className={styles.mainBox}
       >
         <Paper className="p-6">
           { children }
