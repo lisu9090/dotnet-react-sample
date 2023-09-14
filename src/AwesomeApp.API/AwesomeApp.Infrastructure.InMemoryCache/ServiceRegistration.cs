@@ -1,9 +1,8 @@
 ﻿using AwesomeApp.Domain.Repositories;
-using AwesomeApp.Infrastructure.MemoryCache.Repositories;
-using Microsoft.Extensions.Caching.Memory;
+using AwesomeApp.Infrastructure.InMemoryCache.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AwesomeApp.Infrastructure.MemoryCache
+namespace AwesomeApp.Infrastructure.InMemoryCache
 {
     /// <summary>
     /// Application Layer Registration

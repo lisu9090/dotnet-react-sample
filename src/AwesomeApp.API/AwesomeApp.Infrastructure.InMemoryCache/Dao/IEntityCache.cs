@@ -1,6 +1,6 @@
 ﻿using AwesomeApp.Domain.Entities;
 
-namespace AwesomeApp.Infrastructure.MemoryCache.Dao
+namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
     internal interface IEntityCache<T> where T : AwesomeEntity
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AwesomeApp.Infrastructure.MemoryCache.Dao
+namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
     internal interface IMemoryCacheProxy
     {

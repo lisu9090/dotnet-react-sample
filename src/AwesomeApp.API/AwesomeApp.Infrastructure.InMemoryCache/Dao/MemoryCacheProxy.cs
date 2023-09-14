@@ -1,4 +1,4 @@
-﻿namespace AwesomeApp.Infrastructure.MemoryCache.Dao
+﻿namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
     internal class MemoryCacheProxy : IMemoryCacheProxy
     {

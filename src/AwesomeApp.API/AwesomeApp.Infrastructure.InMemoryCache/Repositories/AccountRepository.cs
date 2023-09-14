@@ -1,7 +1,7 @@
 ﻿using AwesomeApp.Domain.Entities;
 using AwesomeApp.Domain.Repositories;
 
-namespace AwesomeApp.Infrastructure.MemoryCache.Repositories
+namespace AwesomeApp.Infrastructure.InMemoryCache.Repositories
 {
     internal class AccountRepository : IAccountRepository
     {
