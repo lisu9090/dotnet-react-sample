@@ -4,57 +4,51 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
     internal class EntityCache<T> : IEntityCache<T> where T : AwesomeEntity
     {
-        private readonly System.Runtime.Caching.MemoryCache _memoryCache;
+        private readonly IMemoryCacheProxy _cache;
 
-        public EntityCache(System.Runtime.Caching.MemoryCache memoryCache)
+        public EntityCache(IMemoryCacheProxy cache)
         {
-            _memoryCache = memoryCache;
+            _cache = cache;
         }
 
-        public T? GetEntry(uint id)
+        public T? GetEntity(uint id)
         {
-            throw new NotImplementedException();
+            return (T)_cache.Get(id.ToString());
         }
 
-        public IEnumerable<T> GetEntries()
+        public IEnumerable<T> GetEntities()
         {
-            throw new NotImplementedException();
-
-            //return _memoryCache.Values;
+            return _cache.GetAll().Select(item => (T)item);
         }
 
-        public T SetEntry(T entry)
+        public T SetEntity(T entry)
         {
-            throw new NotImplementedException();
+            if (entry == null)
+            {
+                throw new ArgumentNullException(nameof(entry));
+            }
 
-            //if (entry == null)
-            //{
-            //    throw new ArgumentNullException(nameof(entry));
-            //}
+            if (entry.Id != default)
+            {
+                var id = GetNextId();
 
-            //if (entry.Id != default)
-            //{
-            //    var id = GetNextId();
+                entry.Id = id;
 
-            //    entry.Id = id;
+                _cache.Set(id.ToString(), entry);
 
-            //    _memoryCache.Add(id, entry);
+                return entry;
+            }
 
-            //    return entry;
-            //}
+            _cache.Set(entry.Id.ToString(), entry);
 
-            //_memoryCache[entry.Id] = entry;
-
-            //return entry;
+            return entry;
         }
 
-        public void DeleteEntry(uint id)
+        public void DeleteEntity(uint id)
         {
-            throw new NotImplementedException();
-         
-            //_memoryCache.Remove(id);
+            _cache.Remove(id.ToString());
         }
 
-        //private uint GetNextId() => _memoryCache.Keys.Max() + 1;
+        private uint GetNextId() => _cache.GetKeys().Select(uint.Parse).Max() + 1;
     }
 }

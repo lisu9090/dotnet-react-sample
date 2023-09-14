@@ -4,12 +4,12 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
     internal interface IEntityCache<T> where T : AwesomeEntity
     {
-        T? GetEntry(uint id);
+        T? GetEntity(uint id);
 
-        IEnumerable<T> GetEntries();
+        IEnumerable<T> GetEntities();
 
-        T SetEntry(T entry);
+        T SetEntity(T entry);
 
-        void DeleteEntry(uint id);
+        void DeleteEntity(uint id);
     }
 }

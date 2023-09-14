@@ -1,4 +1,6 @@
-﻿using AwesomeApp.Domain.Repositories;
+﻿using AwesomeApp.Domain.Entities;
+using AwesomeApp.Domain.Repositories;
+using AwesomeApp.Infrastructure.InMemoryCache.Dao;
 using AwesomeApp.Infrastructure.InMemoryCache.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +18,8 @@ namespace AwesomeApp.Infrastructure.InMemoryCache
         /// <returns>service collection</returns>
         public static IServiceCollection RegisterApplication(this IServiceCollection services)
         {
+            services.AddSingleton<IMemoryCacheProxy<Account>, MemoryCacheProxy<Account>>();
+
             services.AddScoped<IAccountRepository, AccountRepository>();
 
             return services;
