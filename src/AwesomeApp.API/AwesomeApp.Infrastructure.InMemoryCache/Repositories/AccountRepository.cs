@@ -13,24 +13,31 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Repositories
             _cache = cache;
         }
 
-        public Task<Account> GetAsync(int id, CancellationToken cancellationToken)
+        public async Task<Account> GetAsync(uint id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return _cache.GetEntity(id);
         }
 
-        public Task<Account> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Account>> GetAllAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return _cache.GetEntities();
         }
 
-        public Task<Account> UpsertAsync(Account entity, CancellationToken cancellationToken)
+        public async Task<Account> UpsertAsync(Account entity, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return _cache.SetEntity(entity);
         }
 
-        public Task DeleteAsync(int id, CancellationToken cancellationToken)
+        public async Task DeleteAsync(uint id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var entity = _cache.GetEntity(id);
+
+            if (entity != null)
+            {
+                entity.IsDeleted = true;
+
+                _cache.SetEntity(entity);
+            }
         }
     }
 }
