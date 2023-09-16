@@ -1,5 +1,4 @@
-﻿using AwesomeApp.Application.Services.AccountService;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace AwesomeApp.Application
 {
@@ -15,8 +14,6 @@ namespace AwesomeApp.Application
         /// <returns>service collection</returns>
         public static IServiceCollection RegisterApplication(this IServiceCollection services)
         {
-            services.AddScoped<IAccountService, AccountService>();
-
             return services;
         }
     }
