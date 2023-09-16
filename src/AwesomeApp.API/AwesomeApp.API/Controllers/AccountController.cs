@@ -18,6 +18,7 @@ namespace AwesomeApp.API.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(AccountDto), 200)]
+        [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetAccount([FromRoute] uint id)
         {
