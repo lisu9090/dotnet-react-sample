@@ -13,7 +13,7 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Repositories
             _cache = cache;
         }
 
-        public async Task<Account> GetAsync(uint id, CancellationToken cancellationToken)
+        public async Task<Account?> GetAsync(uint id, CancellationToken cancellationToken)
         {
             return _cache.GetEntity(id);
         }

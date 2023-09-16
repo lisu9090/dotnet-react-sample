@@ -4,7 +4,7 @@ namespace AwesomeApp.Domain.Repositories
 {
     public interface IEntityRepository<T> where T : AwesomeEntity
     {
-        Task<T> GetAsync(uint id, CancellationToken cancellationToken);
+        Task<T?> GetAsync(uint id, CancellationToken cancellationToken);
 
         Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
 

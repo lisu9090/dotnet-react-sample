@@ -19,8 +19,10 @@ namespace AwesomeApp.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(AccountDto), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetAccount([FromRoute] GetAccountQueryRequest request)
+        public async Task<IActionResult> GetAccount([FromRoute] uint id)
         {
+            var request = new GetAccountQueryRequest(id);
+
             AccountDto? data = await _mediator.Send(request);
 
             if (data != null)
