@@ -11,6 +11,11 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
             _cache = cache;
         }
 
+        public static EntityCache<T> CreateEntityCache()
+        {
+            return new EntityCache<T>(new MemoryCacheProxy(nameof(T)));
+        }
+
         public T? GetEntity(uint id)
         {
             return (T)_cache.Get(id.ToString());

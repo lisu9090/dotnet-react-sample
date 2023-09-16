@@ -28,9 +28,9 @@ namespace AwesomeApp.Domain.Entities
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>
-        /// CarsNumber
+        /// NumberOfCars
         /// </summary>
-        public uint CarsNumber { get; set; }
+        public uint NumberOfCars { get; set; }
 
         /// <summary>
         /// ECustomerType

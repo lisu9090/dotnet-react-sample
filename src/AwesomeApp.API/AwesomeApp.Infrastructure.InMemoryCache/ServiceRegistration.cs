@@ -18,9 +18,7 @@ namespace AwesomeApp.Infrastructure.InMemoryCache
         /// <returns>service collection</returns>
         public static IServiceCollection RegisterApplication(this IServiceCollection services)
         {
-            services.AddSingleton<IEntityCache<Account>, EntityCache<Account>>(_ => 
-                new EntityCache<Account>(
-                    new MemoryCacheProxy(nameof(Account))));
+            services.AddSingleton<IEntityCache<Account>, EntityCache<Account>>(_ => EntityCache<Account>.CreateEntityCache());
 
             services.AddScoped<IAccountRepository, AccountRepository>();
 
