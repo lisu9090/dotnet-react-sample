@@ -17,9 +17,4 @@
     <ProjectReference Include="..\AwesomeApp.Domain\AwesomeApp.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Accounts\Commands\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>

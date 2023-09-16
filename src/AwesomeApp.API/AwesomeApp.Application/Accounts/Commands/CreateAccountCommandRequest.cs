@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MediatR;
 
-namespace AwesomeApp.Application.Accounts.Dtos
+namespace AwesomeApp.Application.Accounts.Commands
 {
-    public class AccountDto
+    internal class CreateAccountCommandRequest : IRequest<uint>
     {
     }
 }

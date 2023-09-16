@@ -14,6 +14,8 @@ namespace AwesomeApp.Application
         /// <returns>service collection</returns>
         public static IServiceCollection RegisterApplication(this IServiceCollection services)
         {
+            services.AddMediatR(new MediatRServiceConfiguration());
+
             return services;
         }
     }

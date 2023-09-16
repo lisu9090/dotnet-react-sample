@@ -33,11 +33,13 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
                 throw new ArgumentNullException(nameof(entry));
             }
 
+            // TODO this logic should be parametrized
             if (entry.Id != default)
             {
                 var id = GetNextId();
 
                 entry.Id = id;
+                entry.CreatedAt = DateTime.UtcNow;
 
                 _cache.Set(id.ToString(), entry);
 

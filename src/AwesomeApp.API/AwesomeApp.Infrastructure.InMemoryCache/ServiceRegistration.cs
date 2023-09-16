@@ -16,7 +16,7 @@ namespace AwesomeApp.Infrastructure.InMemoryCache
         /// </summary>
         /// <param name="services">service collection</param>
         /// <returns>service collection</returns>
-        public static IServiceCollection RegisterApplication(this IServiceCollection services)
+        public static IServiceCollection RegisterInMemoryCache(this IServiceCollection services)
         {
             services.AddSingleton<IEntityCache<Account>, EntityCache<Account>>(_ => EntityCache<Account>.CreateEntityCache());
 
