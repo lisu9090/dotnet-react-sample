@@ -3,7 +3,7 @@ using MediatR;
 
 namespace AwesomeApp.Application.Accounts.Commands
 {
-    internal class CreateAccountCommandRequest : IRequest<uint>
+    public class CreateAccountCommandRequest : IRequest<uint>
     {
         /// <summary>
         /// Email

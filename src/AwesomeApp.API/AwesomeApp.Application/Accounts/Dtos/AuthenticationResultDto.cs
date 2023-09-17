@@ -2,7 +2,7 @@
 
 namespace AwesomeApp.Application.Accounts.Dtos
 {
-    internal class AuthenticationResultDto
+    public class AuthenticationResultDto
     {
         public uint? AccountId { get; set; }
 

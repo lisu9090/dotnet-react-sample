@@ -1,4 +1,5 @@
-﻿using AwesomeApp.Application.Accounts.Dtos;
+﻿using AwesomeApp.Application.Accounts.Commands;
+using AwesomeApp.Application.Accounts.Dtos;
 using AwesomeApp.Application.Accounts.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -35,6 +36,22 @@ namespace AwesomeApp.API.Controllers
             }
 
             return NotFound();
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(uint), 200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountCommandRequest request)
+        {
+            return Ok(await _mediator.Send(request));
+        }
+
+        [HttpPost("authenticate")]
+        [ProducesResponseType(typeof(AuthenticationResultDto), 200)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> CreateAccount([FromBody] AuthenticateAccountQueryRequest request)
+        {
+            return Ok(await _mediator.Send(request));
         }
     }
 }
