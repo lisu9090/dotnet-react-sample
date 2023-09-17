@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AwesomeApp.Application.Security;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AwesomeApp.Application
 {
@@ -17,6 +18,8 @@ namespace AwesomeApp.Application
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ServiceRegistration).Assembly));
 
             services.AddAutoMapper(typeof(ServiceRegistration).Assembly);
+
+            services.AddTransient<IHashService, Sha512HashService>();
 
             return services;
         }

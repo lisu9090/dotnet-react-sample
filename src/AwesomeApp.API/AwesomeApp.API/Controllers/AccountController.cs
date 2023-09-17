@@ -22,7 +22,10 @@ namespace AwesomeApp.API.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetAccount([FromRoute] uint id)
         {
-            var request = new GetAccountQueryRequest(id);
+            var request = new GetAccountQueryRequest
+            {
+                Id = id
+            };
 
             AccountDto? data = await _mediator.Send(request);
 

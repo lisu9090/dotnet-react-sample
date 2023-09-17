@@ -5,11 +5,6 @@ namespace AwesomeApp.Application.Accounts.Queries
 {
     public class GetAccountQueryRequest : IRequest<AccountDto?>
     {
-        public GetAccountQueryRequest(uint id)
-        {
-            Id = id;
-        }
-
-        public uint Id { get; private set; }
+        public uint Id { get; set; }
     }
 }

@@ -1,13 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AwesomeApp.Domain.Enums;
 using MediatR;
 
 namespace AwesomeApp.Application.Accounts.Commands
 {
     internal class CreateAccountCommandRequest : IRequest<uint>
     {
+        /// <summary>
+        /// Email
+        /// </summary>
+        public string? Email { get; set; }
+
+        /// <summary>
+        /// Password
+        /// </summary>
+        public string? Password { get; set; }
+
+        /// <summary>
+        /// FullName
+        /// </summary>
+        public string? FullName { get; set; }
+
+        /// <summary>
+        /// DateOfBirth
+        /// </summary>
+        public DateTime DateOfBirth { get; set; }
+
+        /// <summary>
+        /// NumberOfCars
+        /// </summary>
+        public uint NumberOfCars { get; set; }
+
+        /// <summary>
+        /// ECustomerType
+        /// </summary>
+        public ECustomerType CustomerType { get; set; }
+
+        /// <summary>
+        /// EAccountRole
+        /// </summary>
+        public EAccountRole AccountRole { get; set; }
     }
 }

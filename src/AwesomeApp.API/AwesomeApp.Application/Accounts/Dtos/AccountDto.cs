@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AwesomeApp.Domain.Enums;
+﻿using AwesomeApp.Domain.Enums;
 
 namespace AwesomeApp.Application.Accounts.Dtos
 {

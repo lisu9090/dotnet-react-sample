@@ -18,6 +18,11 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Repositories
             return _cache.GetEntity(id);
         }
 
+        public async Task<Account?> GetByEmailAsync(string email)
+        {
+            return _cache.GetEntities().FirstOrDefault(e => e.Email == email);
+        }
+
         public async Task<IEnumerable<Account>> GetAllAsync(CancellationToken cancellationToken)
         {
             return _cache.GetEntities();
