@@ -17,6 +17,7 @@ namespace AwesomeApp.Infrastructure.InMemoryCache
         /// Registers service
         /// </summary>
         /// <param name="services">service collection</param>
+        /// <param name="config">app configuration</param>
         /// <returns>service collection</returns>
         public static IServiceCollection RegisterInMemoryCache(this IServiceCollection services, IConfiguration config)
         {
