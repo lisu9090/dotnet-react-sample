@@ -2,7 +2,6 @@ import { CreateAccountDto } from '@/types/dtos'
 import { CustomerType } from '@/types/models'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-
 export default async function createAccountEndpoint(req: NextApiRequest, res: NextApiResponse<CreateAccountDto>) {
   res.json({
     email: "test@test.com",
