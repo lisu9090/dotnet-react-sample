@@ -45,7 +45,7 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
             }
 
             // TODO this logic should be parametrized
-            if (entry.Id != default)
+            if (entry.Id == default)
             {
                 var id = GetNextId();
 
