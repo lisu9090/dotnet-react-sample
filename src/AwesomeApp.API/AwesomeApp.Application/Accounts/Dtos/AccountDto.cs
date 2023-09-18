@@ -1,21 +1,23 @@
 ﻿using AwesomeApp.Domain.Enums;
 
-namespace AwesomeApp.Domain.Entities
+namespace AwesomeApp.Application.Accounts.Dtos
 {
-    /// <summary>
-    /// Account
-    /// </summary>
-    public class Account : AwesomeEntity
+    public class AccountDto
     {
+        /// <summary>
+        /// Entity identity
+        /// </summary>
+        public uint Id { get; set; }
+
+        /// <summary>
+        /// CreatedAt
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
+
         /// <summary>
         /// Email
         /// </summary>
         public string? Email { get; set; }
-
-        /// <summary>
-        /// PasswordHash
-        /// </summary>
-        public string? PasswordHash { get; set; }
 
         /// <summary>
         /// FullName

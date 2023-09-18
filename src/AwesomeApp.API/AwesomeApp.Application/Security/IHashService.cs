@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AwesomeApp.Application.Dtos
+namespace AwesomeApp.Application.Security
 {
-    internal class AccountDto
+    internal interface IHashService
     {
+        string GetHash(string key);
     }
 }

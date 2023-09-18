@@ -1,11 +1,9 @@
 ﻿using AwesomeApp.Domain.Enums;
+using MediatR;
 
-namespace AwesomeApp.Domain.Entities
+namespace AwesomeApp.Application.Accounts.Commands
 {
-    /// <summary>
-    /// Account
-    /// </summary>
-    public class Account : AwesomeEntity
+    public class CreateAccountCommandRequest : IRequest<uint>
     {
         /// <summary>
         /// Email
@@ -13,9 +11,9 @@ namespace AwesomeApp.Domain.Entities
         public string? Email { get; set; }
 
         /// <summary>
-        /// PasswordHash
+        /// Password
         /// </summary>
-        public string? PasswordHash { get; set; }
+        public string? Password { get; set; }
 
         /// <summary>
         /// FullName

@@ -1,5 +1,7 @@
-export async function fetchData(): Promise<any> {
-  const response = await fetch('https://localhost:7075/WeatherForecast')
+import useSWR from "swr";
 
-  return []
-}
+async function getActiveAccounts(payload: any): Promise<any> {
+  const { data, error, isLoading } = useSWR("/api/accounts", payload) 
+  
+  return data
+} 
