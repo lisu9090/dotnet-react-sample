@@ -1,4 +1,5 @@
 ﻿using AwesomeApp.Domain.Entities;
+using Microsoft.Extensions.Options;
 
 namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
@@ -11,9 +12,19 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
             _cache = cache;
         }
 
-        public static EntityCache<T> CreateEntityCache()
+        public static EntityCache<T> CreateEntityCache(IOptions<List<T>>? dataToSeed = null)
         {
-            return new EntityCache<T>(new MemoryCacheProxy(nameof(T)));
+            var cache = new EntityCache<T>(new MemoryCacheProxy(nameof(T)));
+
+            if (dataToSeed != null && dataToSeed.Value.Any())
+            {
+                foreach(var item in dataToSeed.Value)
+                {
+                    cache.SetEntity(item);
+                }
+            }
+
+            return cache;
         }
 
         public T? GetEntity(uint id)
@@ -56,6 +67,7 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
             _cache.Remove(id.ToString());
         }
 
-        private uint GetNextId() => _cache.GetKeys().Select(uint.Parse).Max() + 1;
+        private uint GetNextId() => 
+            Enumerable.DefaultIfEmpty(_cache.GetKeys().Select(uint.Parse)).Max() + 1;
     }
 }

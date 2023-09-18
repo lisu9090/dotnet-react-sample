@@ -49,7 +49,7 @@ namespace AwesomeApp.API.Controllers
         [HttpPost("authenticate")]
         [ProducesResponseType(typeof(AuthenticationResultDto), 200)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> CreateAccount([FromBody] AuthenticateAccountQueryRequest request)
+        public async Task<IActionResult> AuthenticateAccount([FromBody] AuthenticateAccountQueryRequest request)
         {
             return Ok(await _mediator.Send(request));
         }
