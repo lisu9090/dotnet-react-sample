@@ -1,14 +1,16 @@
-import { CreateAccountDto } from '@/types/dtos'
-import { CustomerType } from '@/types/models'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function getAccountByIdEndpoint(req: NextApiRequest, res: NextApiResponse<CreateAccountDto>) {
-  res.json({
-    email: "test@test.com",
-    password: "Test",
-    fullName: "Test Test",
-    dateOfBirth: new Date(),
-    vechiclesNumber: 0,
-    customerType: CustomerType.private
-  })
+export default async function getAccountByIdEndpoint(req: NextApiRequest, res: NextApiResponse<any>) {
+  try {
+    const apiResponse = await fetch('http://localhost:5036/account/' + req.query.id, { method: 'GET' })
+
+    if (apiResponse.ok) {
+      return res.send(await apiResponse.json())
+    }
+  }
+  catch (e) {
+    res.json(e)
+  }
+
+  res.status(404).send("Not found")
 } 
