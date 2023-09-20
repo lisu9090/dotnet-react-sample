@@ -9,7 +9,7 @@ export default async function getAccountByIdEndpoint(req: NextApiRequest, res: N
     }
   }
   catch (e) {
-    res.json(e)
+    res.status(500).json(e)
   }
 
   res.status(404).send("Not found")

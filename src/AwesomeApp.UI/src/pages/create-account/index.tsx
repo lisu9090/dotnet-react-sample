@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { PageBox } from "@/components";
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import { CustomerType } from "@/types/models";
 import Link from "next/link";
-import { FormValidators, SimpleFormValidation, ValidatorFn, emailValidator, minLengthValidator, notEmptyValidator, positiveValueValidator, strongPasswordValidator, useSimpleFormValidation } from "@/lib";
+import { FormValidators, SimpleFormValidation, ValidatorFn, emailValidator, minLengthValidator, requiredValidator, positiveValueValidator, strongPasswordValidator, useSimpleFormValidation } from "@/lib";
 
 type CreateAccountForm = {
   email: string;
@@ -40,19 +40,19 @@ const initialFormValidation: SimpleFormValidation = {
 export default function CreateAccount(): React.ReactElement {
   const [formValue, setFormValue] = useState<CreateAccountForm>(initialFormValue)
 
-  const repeatPasswordValidator = useMemo<ValidatorFn>(
-    () => (value: string) => value === formValue.password ? '' : 'Password does not match',
+  const repeatPasswordValidator = useCallback<ValidatorFn>(
+    (value: string) => value === formValue.password ? '' : 'Password does not match',
     [formValue.password]
   ) 
 
   const formValidators = useMemo<FormValidators>(
     () => ({
-      email: [notEmptyValidator(), emailValidator()],
-      password: [notEmptyValidator(), strongPasswordValidator()],
-      passwordRepeated: [notEmptyValidator(), repeatPasswordValidator],
-      fullName: [notEmptyValidator(), minLengthValidator()],
-      dateOfBirth: [notEmptyValidator()],
-      vechiclesNumber: [notEmptyValidator(), positiveValueValidator()]
+      email: [requiredValidator(), emailValidator()],
+      password: [requiredValidator(), strongPasswordValidator()],
+      passwordRepeated: [requiredValidator(), repeatPasswordValidator],
+      fullName: [requiredValidator(), minLengthValidator()],
+      dateOfBirth: [requiredValidator()],
+      vechiclesNumber: [requiredValidator(), positiveValueValidator()]
     }),
     [repeatPasswordValidator]
   )
