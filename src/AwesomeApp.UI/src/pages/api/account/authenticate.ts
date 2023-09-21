@@ -19,9 +19,9 @@ async function authenticate(req: NextApiRequest, res: NextApiResponse<number | s
     } else {
       res.send(authResult.authenticationErrorMessage!)
     }
+  } else {
+    res.status(500).send("Server error - " + await apiResponse.text())
   }
-
-  res.status(500).send("Server error")
 }
 
 export default withIronSessionApiRoute(authenticate, sessionConfig)
