@@ -1,4 +1,4 @@
-import { PageBox } from "@/components"
+import { PageBox } from "@/frontend/components"
 import { Button, Grid, Typography } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"

@@ -1,9 +1,19 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { PageBox } from "@/components";
+import { PageBox } from "@/frontend/components";
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
-import { CustomerType } from "@/types/models";
 import Link from "next/link";
-import { FormValidators, SimpleFormValidation, ValidatorFn, emailValidator, minLengthValidator, requiredValidator, positiveValueValidator, strongPasswordValidator, useSimpleFormValidation } from "@/lib";
+import { 
+  FormValidators, 
+  SimpleFormValidation, 
+  ValidatorFn, 
+  emailValidator, 
+  minLengthValidator, 
+  requiredValidator, 
+  positiveValueValidator, 
+  strongPasswordValidator, 
+  useSimpleFormValidation 
+} from "@/frontend/lib";
+import { CustomerType } from "@/shared";
 
 type CreateAccountForm = {
   email: string;

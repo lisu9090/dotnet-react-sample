@@ -1,5 +1,5 @@
-import { CreateAccountDto } from '@/types/dtos'
-import { CustomerType } from '@/types/models'
+import { CreateAccountDto } from '@/backend/dtos'
+import { CustomerType } from '@/shared'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function createAccountEndpoint(req: NextApiRequest, res: NextApiResponse<CreateAccountDto>) {
