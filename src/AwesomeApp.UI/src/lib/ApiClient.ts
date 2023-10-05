@@ -1,4 +1,6 @@
-// const test = localStorage.getItem('authToekn')
+// import * as config from '../../local.config.json'
+
+// config.apiConfig
 
 const headers = { 'Content-Type': 'application/json' }
 

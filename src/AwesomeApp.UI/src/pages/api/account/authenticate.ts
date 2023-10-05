@@ -1,6 +1,6 @@
 import { apiClient } from "@/lib";
-import { sessionConfig } from "@/lib/IronSessionConfig";
-import { AuthenticationResultDto } from "@/types/dtos/AuthenticationResultDto";
+import { sessionConfig } from "@/lib";
+import { AuthenticationResultDto } from "@/types/dtos";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 
