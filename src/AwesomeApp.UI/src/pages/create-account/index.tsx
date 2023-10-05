@@ -12,7 +12,7 @@ import {
   positiveValueValidator, 
   strongPasswordValidator, 
   useSimpleFormValidation 
-} from "@/frontend/lib";
+} from "@/frontend/libs";
 import { CustomerType } from "@/shared";
 
 type CreateAccountForm = {

@@ -1,5 +1,5 @@
-import { apiClient } from "@/backend/lib";
-import { sessionConfig } from "@/backend/lib";
+import { apiClient } from "@/backend/libs";
+import { sessionConfig } from "@/backend/libs";
 import { AuthenticationResultDto } from "@/backend/dtos";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
