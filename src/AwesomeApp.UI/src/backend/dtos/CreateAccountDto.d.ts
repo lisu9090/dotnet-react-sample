@@ -6,5 +6,5 @@ export interface CreateAccountDto {
   fullName: string;
   dateOfBirth: Date;
   vechiclesNumber: number;
-  customerType: CustomerType
+  customerType: CustomerType;
 }
