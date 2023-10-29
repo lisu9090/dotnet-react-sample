@@ -1,5 +1,5 @@
-import { BackendConfig, backendConfig } from "@/app-config"
 import axios from "axios"
+import { BackendConfig, backendConfig } from "../config";
 
 let config: BackendConfig; 
 
