@@ -1,7 +1,15 @@
-import { backendConfig } from "@/app-config"
+import { BackendConfig, backendConfig } from "@/app-config"
 import axios from "axios"
 
-const { apiConfig } = backendConfig
+let config: BackendConfig; 
 
-const apiClient = axios.create({ baseURL: apiConfig?.baseUrl })
+export async function createApiClient(): Promise<any> {
+  if (!config) {
+    config = await backendConfig
+  }
+
+  const apiClient = axios.create({ baseURL: config.apiConfig.baseUrl })
+
+  return apiClient
+}
 

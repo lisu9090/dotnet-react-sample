@@ -1,5 +1,5 @@
 export interface BackendConfig {
-  apiConfig?: {
+  apiConfig: {
     baseUrl: string;
   };
 }
@@ -7,11 +7,7 @@ export interface BackendConfig {
 export interface FrontendConfig {
 }
 
+// TODO throw error if configs have not been found
+
 export const backendConfig: Promise<BackendConfig> = import(`@/backend.${process.env.NODE_ENVIRONMENT}.config.json`)
 export const frontendConfig: Promise<FrontendConfig> = import(`@/frontend.${process.env.NODE_ENVIRONMENT}.config.json`)
-
-// import(`@/backend.${process.env.NODE_ENVIRONMENT}.config.json`)
-//   .then((module: BackendConfig) => backendConfig = module)
-
-// import(`@/frontend.${process.env.NODE_ENVIRONMENT}.config.json`)
-//   .then((module: FrontendConfig) => frontendConfig = module)
