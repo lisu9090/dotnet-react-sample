@@ -1,10 +1,11 @@
-import { apiClient } from "@/backend/libs";
-import { sessionConfig } from "@/backend/libs";
+import { createApiClient, sessionConfig } from "@/backend/libs";
 import { AuthenticationResultDto } from "@/backend/dtos";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiRequest, NextApiResponse } from "next";
 
-async function authenticate(req: NextApiRequest, res: NextApiResponse<number | string>) {
+async function authenticate(req: NextApiRequest, res: NextApiResponse<number | string>): Promise<void> {
+  const apiClient = await createApiClient()
+
   const apiResponse = await apiClient.post('http://localhost:5036/account/authenticate', req.body)
 
   if (apiResponse.ok) {

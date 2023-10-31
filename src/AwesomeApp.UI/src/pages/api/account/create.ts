@@ -1,14 +1,13 @@
-import { CreateAccountDto } from '@/backend/dtos'
-import { CustomerType } from '@/shared'
-import { NextApiRequest, NextApiResponse } from 'next'
+import { accountController } from '@/backend/controllers/AccountController'
+import { createEndpointBuilder } from '@/backend/libs'
 
-export default async function createAccountEndpoint(req: NextApiRequest, res: NextApiResponse<CreateAccountDto>) {
-  res.json({
-    email: "test@test.com",
-    password: "Test",
-    fullName: "Test Test",
-    dateOfBirth: new Date(),
-    vechiclesNumber: 0,
-    customerType: CustomerType.private
-  })
-} 
+export default createEndpointBuilder()
+  .get(accountController.createAccount)
+  .build()
+
+// endpointBuilder
+//   .secured()
+//   .get(async (req, res) => await accountController.createAccount(req, res))
+//   .post(async (req, res) => await accountController.createAccount(req, res))
+//   .build()
+

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function getAccountByIdEndpoint(req: NextApiRequest, res: NextApiResponse<any>) {
+export default async function getAccountByIdEndpoint(req: NextApiRequest, res: NextApiResponse<any>): Promise<void> {
   try {
     const apiResponse = await fetch('http://localhost:5036/account/' + req.query.id, { method: 'GET' })
 
