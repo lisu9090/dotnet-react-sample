@@ -1,5 +1,5 @@
-import { createAccount } from '@/backend/controllers/AccountController'
-import { withAuthentication, withEndpoints, withErrorHandling } from '@/backend/libs'
+import { createAccount } from '@/backend/handlers/AccountHandlers'
+import { withEndpoints, withErrorHandling } from '@/backend/libs'
 import { HttpMethod } from '@/shared/HttpMethod'
 
 export default 

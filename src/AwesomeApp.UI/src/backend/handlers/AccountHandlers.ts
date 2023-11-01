@@ -15,7 +15,7 @@ export async function getAccountById(req: NextApiRequest, res: NextApiResponse<a
   }
 } 
 
-export async function createAccount(req: NextApiRequest, res: NextApiResponse<CreateAccountDto>) {
+export async function createAccount(req: NextApiRequest, res: NextApiResponse<CreateAccountDto>): Promise<void> {
   res.json({
     email: "test@test.com",
     password: "Test",
@@ -26,7 +26,7 @@ export async function createAccount(req: NextApiRequest, res: NextApiResponse<Cr
   })
 } 
 
-export async function authenticate(req: NextApiRequest, res: NextApiResponse<number | string>) {
+export async function authenticate(req: NextApiRequest, res: NextApiResponse<number | string>): Promise<void> {
   const apiClient = await createApiClient()
 
   const apiResponse = await apiClient.post('http://localhost:5036/account/authenticate', req.body)

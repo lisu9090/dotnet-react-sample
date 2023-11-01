@@ -1,4 +1,4 @@
-import { getAccountById } from '@/backend/controllers/AccountController'
+import { getAccountById } from '@/backend/handlers/AccountHandlers'
 import { withAuthentication, withEndpoints, withErrorHandling } from '@/backend/libs'
 import { HttpMethod } from '@/shared/HttpMethod'
 
