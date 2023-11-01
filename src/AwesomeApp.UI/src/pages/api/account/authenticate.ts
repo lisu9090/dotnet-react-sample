@@ -1,29 +1,13 @@
-import { createApiClient, sessionConfig } from "@/backend/libs";
-import { AuthenticationResultDto } from "@/backend/dtos";
-import { withIronSessionApiRoute } from "iron-session/next";
-import { NextApiRequest, NextApiResponse } from "next";
+import { withAuthentication, withEndpoints, withErrorHandling } from "@/backend/libs";
+import { HttpMethod } from "@/shared/HttpMethod";
+import { authenticate } from "@/backend/controllers/AccountController";
 
-async function authenticate(req: NextApiRequest, res: NextApiResponse<number | string>): Promise<void> {
-  const apiClient = await createApiClient()
-
-  const apiResponse = await apiClient.post('http://localhost:5036/account/authenticate', req.body)
-
-  if (apiResponse.ok) {
-    const authResult: AuthenticationResultDto = await apiResponse.json()
-    
-    if (authResult.authenticationSuccessful) {
-      req.session.user = { id: authResult.accountId!, role: authResult.accountRole! }
-      
-      await req.session.save()
-    
-      res.send(authResult.accountId!)
-    } else {
-      res.send(authResult.authenticationErrorMessage!)
-    }
-  } else {
-    res.status(500).send("Server error - " + await apiResponse.text())
-  }
-}
-
-export default withIronSessionApiRoute(authenticate, sessionConfig)
+export default 
+withErrorHandling(
+  withAuthentication(
+    withEndpoints({
+      [HttpMethod.get]: authenticate
+    })
+  )
+)
   

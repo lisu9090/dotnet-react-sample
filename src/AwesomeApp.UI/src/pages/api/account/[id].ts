@@ -1,16 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { getAccountById } from '@/backend/controllers/AccountController'
+import { withAuthentication, withEndpoints, withErrorHandling } from '@/backend/libs'
+import { HttpMethod } from '@/shared/HttpMethod'
 
-export default async function getAccountByIdEndpoint(req: NextApiRequest, res: NextApiResponse<any>): Promise<void> {
-  try {
-    const apiResponse = await fetch('http://localhost:5036/account/' + req.query.id, { method: 'GET' })
-
-    if (apiResponse.ok) {
-      return res.send(await apiResponse.json())
-    }
-  }
-  catch (e) {
-    res.status(500).json(e)
-  }
-
-  res.status(404).send("Not found")
-} 
+export default 
+withErrorHandling(
+  withAuthentication(
+    withEndpoints({
+      [HttpMethod.get]: getAccountById
+    })
+  )
+)
