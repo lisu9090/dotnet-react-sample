@@ -13,7 +13,7 @@ import {
   strongPasswordValidator, 
   useSimpleFormValidation 
 } from "@/frontend/libs";
-import { CustomerType } from "@/shared";
+import { CustomerType } from "@/shared/models";
 
 type CreateAccountForm = {
   email: string;

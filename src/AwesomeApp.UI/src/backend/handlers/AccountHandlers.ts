@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { AuthenticationResultDto, CreateAccountDto } from "../dtos";
-import { CustomerType } from "@/shared";
+import { CustomerType } from "@/shared/models";
 import { createApiClient } from "../libs";
 
 export async function getAccountById(req: NextApiRequest, res: NextApiResponse<any>): Promise<void> {

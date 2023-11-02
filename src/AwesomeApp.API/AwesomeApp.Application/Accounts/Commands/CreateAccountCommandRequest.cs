@@ -28,7 +28,7 @@ namespace AwesomeApp.Application.Accounts.Commands
         /// <summary>
         /// NumberOfCars
         /// </summary>
-        public uint NumberOfCars { get; set; }
+        public uint VechiclesNumber { get; set; }
 
         /// <summary>
         /// ECustomerType
