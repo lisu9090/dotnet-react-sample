@@ -1,8 +1,9 @@
+import { AccountRole } from "@/shared/models";
 import { IronSessionOptions } from "iron-session";
 
 declare module "iron-session" { 
   interface IronSessionData { 
-    user?: { id: number, role: number }; 
+    user?: { id: number, role: AccountRole }; 
   } 
 } 
 

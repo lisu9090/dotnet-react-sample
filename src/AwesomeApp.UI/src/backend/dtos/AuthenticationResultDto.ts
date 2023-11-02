@@ -1,6 +1,8 @@
+import { AccountRole } from "@/shared/models";
+
 export interface AuthenticationResultDto {
   accountId?: number;
-  accountRole?: number;
+  accountRole?: AccountRole;
   authenticationSuccessful: boolean;
   authenticationErrorMessage?: string; 
 }

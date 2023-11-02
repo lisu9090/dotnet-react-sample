@@ -1,6 +1,8 @@
+import { AccountRole } from "../models";
+
 export interface AuthenticationResultDto {
   accountId?: number;
-  accountRole?: number //EAccountRole? 
+  accountRole?: AccountRole;
   authenticationSuccessful: boolean;
   authenticationErrorMessage?: string; 
 }
