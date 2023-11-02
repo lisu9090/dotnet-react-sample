@@ -6,7 +6,7 @@ import { createApiClient } from "../libs";
 export async function getAccountById(req: NextApiRequest, res: NextApiResponse<any>): Promise<void> {
   const apiClient = await createApiClient()
   
-  const apiResponse = await apiClient.get(`http://localhost:5036/account/${req.query.id}`)
+  const apiResponse = await apiClient.get(`/account/${req.query.id}`)
 
   if (apiResponse.ok) {
     res.send(await apiResponse.json())
@@ -15,7 +15,7 @@ export async function getAccountById(req: NextApiRequest, res: NextApiResponse<a
   }
 } 
 
-export async function createAccount(req: NextApiRequest, res: NextApiResponse<CreateAccountDto>): Promise<void> {
+export async function postCreateAccount(req: NextApiRequest, res: NextApiResponse<CreateAccountDto>): Promise<void> {
   res.json({
     email: "test@test.com",
     password: "Test",
@@ -26,10 +26,10 @@ export async function createAccount(req: NextApiRequest, res: NextApiResponse<Cr
   })
 } 
 
-export async function authenticate(req: NextApiRequest, res: NextApiResponse<number | string>): Promise<void> {
+export async function postAuthenticate(req: NextApiRequest, res: NextApiResponse<number | string>): Promise<void> {
   const apiClient = await createApiClient()
 
-  const apiResponse = await apiClient.post('http://localhost:5036/account/authenticate', req.body)
+  const apiResponse = await apiClient.post('/account/authenticate', req.body)
 
   if (apiResponse.ok) {
     const authResult: AuthenticationResultDto = await apiResponse.json()
