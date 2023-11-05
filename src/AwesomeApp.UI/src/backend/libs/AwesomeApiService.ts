@@ -22,6 +22,17 @@ export class AwesomeApiService {
     }
   }
 
+  public async getAccounts(): Promise<AccountDto[]> {
+    const response = await this.axiosClient.get<AccountDto[]>(`/account/list`)
+  
+    switch (response.status) {
+      case HttpStatusCode.Ok:
+        return response.data
+      default:
+        throw new Error(`Unexpected response - ${response.status}`)
+    }
+  }
+
   public async createAccount(createAccountDto: CreateAccountDto): Promise<number | null> {
     if (!createAccountDto) {
       throw new Error(`Parameter createAccountDto cannot be falsy`)

@@ -3,16 +3,26 @@ import { AccountDto } from "../dtos";
 import { createAwesomeApiService } from "../libs";
 import { HttpStatusCode } from "axios";
 
-export async function getAccountById(req: NextApiRequest, res: NextApiResponse<AccountDto | string>): Promise<void> {
+export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<AccountDto | string>): Promise<void> {
   const apiService = await createAwesomeApiService() 
   
-  const accountDto = await apiService.getAccount(Number.parseInt(`${req.query.id}`))
+  const currentAccountId =  req.session.user?.id!
+
+  const accountDto = await apiService.getAccount(currentAccountId)
 
   if (accountDto) {
     res.send(accountDto)
   } else {
     res.status(404).send("Account not found")
   }
+} 
+
+export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<AccountDto[]>): Promise<void> {
+  const apiService = await createAwesomeApiService() 
+  
+  const accountDtos = await apiService.getAccounts()
+
+  res.send(accountDtos)
 } 
 
 export async function postCreateAccount(req: NextApiRequest, res: NextApiResponse<number | string>): Promise<void> {
