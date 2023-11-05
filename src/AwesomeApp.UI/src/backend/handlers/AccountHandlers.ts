@@ -13,7 +13,7 @@ export async function getCurrentAccount(req: NextApiRequest, res: NextApiRespons
   if (accountDto) {
     res.send(accountDto)
   } else {
-    res.status(404).send("Account not found")
+    res.status(HttpStatusCode.NotFound).send("Account not found")
   }
 } 
 

@@ -67,9 +67,9 @@ export class AwesomeApiService {
 }
 
 export async function createAwesomeApiService(): Promise<AwesomeApiService> {
-  const { apiConfig } = await backendConfig
+  const { awesomeApiConfig } = await backendConfig
   
-  const axiosInstance = axios.create({ baseURL: apiConfig.baseUrl })
+  const axiosInstance = axios.create({ baseURL: awesomeApiConfig.baseUrl })
 
   return new AwesomeApiService(axiosInstance)
 }

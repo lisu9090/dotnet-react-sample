@@ -1,5 +1,5 @@
 export interface BackendConfig {
-  apiConfig: {
+  awesomeApiConfig: {
     baseUrl: string;
   };
 }
