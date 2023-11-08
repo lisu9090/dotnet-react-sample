@@ -1,6 +1,6 @@
 import { withEndpoints, withErrorHandling } from "@/backend/libs";
 import { appSettings } from "@/backend/settings";
-import { HttpMethod } from "@/shared/models";
+import { HttpMethod } from "@/shared/types";
 
 export default
 withErrorHandling(

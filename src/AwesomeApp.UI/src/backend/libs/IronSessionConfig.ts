@@ -1,4 +1,4 @@
-import { AccountRole } from "@/shared/models";
+import { AccountRole } from "@/shared/types";
 import { IronSessionOptions } from "iron-session";
 
 declare module "iron-session" { 

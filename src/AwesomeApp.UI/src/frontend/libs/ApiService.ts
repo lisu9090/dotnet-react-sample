@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from "@/shared/dtos";
-import { AppSettings } from "@/shared/models";
+import { AppSettings } from "@/shared/types";
 
 class ApiService {
   constructor(private readonly axiosClient: AxiosInstance) { }

@@ -1,4 +1,4 @@
-import { AccountRole } from "../models";
+import { AccountRole } from "../types";
 
 export interface AuthenticationResultDto {
   accountId?: number;

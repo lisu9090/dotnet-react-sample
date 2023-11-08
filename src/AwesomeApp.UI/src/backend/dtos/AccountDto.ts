@@ -1,4 +1,4 @@
-import { CustomerType, AccountRole } from "@/shared/models";
+import { CustomerType, AccountRole } from "@/shared/types";
 
 export interface AccountDto {
   id: number;

@@ -1,4 +1,4 @@
-import { AppSettings } from "@/shared/models"
+import { AppSettings } from "@/shared/types"
 import { apiService } from "."
 
 let appSettings: AppSettings

@@ -14,7 +14,7 @@ import {
   useSimpleFormValidation, 
   getApiService
 } from "@/frontend/libs";
-import { CustomerType } from "@/shared/models";
+import { CustomerType } from "@/shared/types";
 import { CreateAccountDto } from "@/shared/dtos/CreateAccountDto";
 import { useRouter } from "next/router";
 
