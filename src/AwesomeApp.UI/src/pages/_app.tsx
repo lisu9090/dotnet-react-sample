@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ['latin'] })
 export default function App({ Component, pageProps }: any) {
   const modulesInitlializers = useMemo<ModuleInitializer[]>(
     () => [
-      initApiServiceModule
+      initApiServiceModule 
     ],
     []
   )

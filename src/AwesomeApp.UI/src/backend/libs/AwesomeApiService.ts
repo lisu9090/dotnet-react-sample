@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, HttpStatusCode } from "axios";
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from "../dtos";
-import { backendConfig } from "../config";
+import { apiSettings } from "../settings";
 
-export class AwesomeApiService {
+class AwesomeApiService {
   constructor(private readonly axiosClient: AxiosInstance) { }
 
   public async getAccount(id: number): Promise<AccountDto | null> {
@@ -66,10 +66,8 @@ export class AwesomeApiService {
   }
 }
 
-export async function createAwesomeApiService(): Promise<AwesomeApiService> {
-  const { awesomeApiConfig } = await backendConfig
+const { awesomeApiConfig } = apiSettings
   
-  const axiosInstance = axios.create({ baseURL: awesomeApiConfig.baseUrl })
+const axiosInstance = axios.create({ baseURL: awesomeApiConfig.baseUrl })
 
-  return new AwesomeApiService(axiosInstance)
-}
+export const awesomeApiService = new AwesomeApiService(axiosInstance)

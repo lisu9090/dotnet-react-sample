@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from "axios";
-import { frontendConfig } from "../config";
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from "@/shared/dtos";
 
 let service: ApiService
