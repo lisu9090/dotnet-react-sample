@@ -25,7 +25,7 @@ export default function App({ Component, pageProps }: any) {
         <title>AwesomeApp</title>
       </Head>
       {appInitialized && <Component {...pageProps} />}
-      {!appInitialized && <PageBox>AwesomeApp is loading...</PageBox>}      
+      {!appInitialized && <PageBox>AwesomeApp is loading...</PageBox>}   
     </div>
   ) 
 }
