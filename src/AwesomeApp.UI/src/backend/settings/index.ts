@@ -1,9 +1,9 @@
 import { AppSettings } from '@/shared/types'
 import { ApiSettings } from './ApiSettings'
 import apiLocalSettigns from './api.local.settings.json'
-import apiProdSettigns from './api.local.settings.json'
-import appLocalSettigns from './api.local.settings.json'
-import appProdSettigns from './api.local.settings.json'
+import apiProdSettigns from './api.prod.settings.json'
+import appLocalSettigns from './app.local.settings.json'
+import appProdSettigns from './app.prod.settings.json'
 
 function selectSettings(): { apiSettings: ApiSettings, appSettings: AppSettings } {
   switch (process.env.NODE_ENVIRONMENT) {
