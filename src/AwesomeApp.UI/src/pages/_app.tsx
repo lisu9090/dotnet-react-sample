@@ -2,16 +2,16 @@ import './globals.css'
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import { useMemo } from 'react'
-import initApiServiceModule from '@/frontend/libs/ApiService'
 import { PageBox } from '@/frontend/components'
 import { ModuleInitializer, useModulesInit } from '@/frontend/hooks'
+import initAppSettings from '@/frontend/libs/Settings'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function App({ Component, pageProps }: any) {
   const modulesInitlializers = useMemo<ModuleInitializer[]>(
     () => [
-      initApiServiceModule 
+      initAppSettings
     ],
     []
   )

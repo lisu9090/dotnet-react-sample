@@ -1,10 +1,15 @@
 import axios, { AxiosInstance } from "axios";
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from "@/shared/dtos";
-
-let service: ApiService
+import { AppSettings } from "@/shared/models";
 
 class ApiService {
   constructor(private readonly axiosClient: AxiosInstance) { }
+
+  public async getConfig(): Promise<AppSettings> {
+    const response = await this.axiosClient.get<AppSettings>(`/settings`)
+
+    return response.data
+  }
 
   public async getCurrentAccount(): Promise<AccountDto> {
     const response = await this.axiosClient.get<AccountDto>(`/account/current`)
@@ -31,24 +36,8 @@ class ApiService {
   }
 }
 
-export default async function initModule(): Promise<void> {
-  if (service) {
-    return
-  }
-
-  const { apiConfig } = await frontendConfig
-
-  const axiosInstance = axios.create({
-    baseURL: apiConfig.baseUrl
+export const apiService = new ApiService(
+  axios.create({
+    baseURL: window.location.origin
   })
-
-  service = new ApiService(axiosInstance)
-}
-
-export function getApiService() {
-  if (!service) {
-    throw new Error("Module ApiService not initialized")
-  }
-
-  return service
-}
+)
