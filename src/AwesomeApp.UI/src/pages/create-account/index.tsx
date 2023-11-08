@@ -11,9 +11,12 @@ import {
   requiredValidator, 
   positiveValueValidator, 
   strongPasswordValidator, 
-  useSimpleFormValidation 
+  useSimpleFormValidation, 
+  getApiService
 } from "@/frontend/libs";
 import { CustomerType } from "@/shared/models";
+import { CreateAccountDto } from "@/shared/dtos/CreateAccountDto";
+import { useRouter } from "next/router";
 
 type CreateAccountForm = {
   email: string;
@@ -47,7 +50,20 @@ const initialFormValidation: SimpleFormValidation = {
   }
 }
 
+function toCreateAccountDto(formValue: CreateAccountForm): CreateAccountDto {
+  return {
+    email: formValue.email,
+    password: formValue.password,
+    fullName: formValue.fullName,
+    dateOfBirth: new Date(formValue.dateOfBirth),
+    vechiclesNumber: Number.parseInt(formValue.vechiclesNumber),
+    customerType: formValue.customerType
+  }
+}
+
 export default function CreateAccount(): React.ReactElement {
+  const router = useRouter()
+  
   const [formValue, setFormValue] = useState<CreateAccountForm>(initialFormValue)
 
   const repeatPasswordValidator = useCallback<ValidatorFn>(
@@ -82,8 +98,20 @@ export default function CreateAccount(): React.ReactElement {
       setFormValue({ ...formValue, [formField]: event.target.value })
     }
 
-  const submitForm = () => {
-    console.log(formValue)
+  const submitForm = async () => {
+    if (!formValidation.isValid) {
+      return
+    }
+
+    const apiService = getApiService()
+
+    const accountId = await apiService.createAccount(toCreateAccountDto(formValue))
+
+    if (accountId) {
+      router.push('/log-in')
+    } else {
+      window.alert('Error while create account')
+    }
   }
 
   useEffect(() => setFormValidators(formValidators), [setFormValidators, formValidators])
