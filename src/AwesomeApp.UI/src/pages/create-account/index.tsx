@@ -11,12 +11,12 @@ import {
   requiredValidator, 
   positiveValueValidator, 
   strongPasswordValidator, 
-  useSimpleFormValidation, 
-  getApiService
+  useSimpleFormValidation,
+  apiService, 
 } from "@/frontend/libs";
-import { CustomerType } from "@/shared/types";
 import { CreateAccountDto } from "@/shared/dtos/CreateAccountDto";
 import { useRouter } from "next/router";
+import { CustomerType } from "@/shared/types";
 
 type CreateAccountForm = {
   email: string;
@@ -102,8 +102,6 @@ export default function CreateAccount(): React.ReactElement {
     if (!formValidation.isValid) {
       return
     }
-
-    const apiService = getApiService()
 
     const accountId = await apiService.createAccount(toCreateAccountDto(formValue))
 

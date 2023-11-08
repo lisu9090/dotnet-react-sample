@@ -38,6 +38,6 @@ class ApiService {
 
 export const apiService = new ApiService(
   axios.create({
-    baseURL: window.location.origin
+    baseURL: process.env.NEXT_PUBLIC_API_URL
   })
 )

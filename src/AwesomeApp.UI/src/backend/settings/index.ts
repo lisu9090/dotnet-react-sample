@@ -1,5 +1,5 @@
+import { AppSettings } from '@/shared/types'
 import { ApiSettings } from './ApiSettings'
-import { AppSettings } from '@/shared/types/AppSettings'
 import apiLocalSettigns from './api.local.settings.json'
 import apiProdSettigns from './api.local.settings.json'
 import appLocalSettigns from './api.local.settings.json'
