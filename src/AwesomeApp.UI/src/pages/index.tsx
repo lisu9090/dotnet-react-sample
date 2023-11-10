@@ -3,7 +3,7 @@ import { Button, Grid, Typography } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
 
-export default function RootPage() {
+export default function LandingPage() {
   return (
     <PageBox>
       <Grid

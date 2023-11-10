@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: [
-    `./backend.${process.env.NODE_ENVIRONMENT}.config.json`,
-    `./frontend.${process.env.NODE_ENVIRONMENT}.config.json`
+    `./backend.${process.env.NEXT_PUBLIC_NODE_ENVIRONMENT}.config.json`,
+    `./frontend.${process.env.NEXT_PUBLIC_NODE_ENVIRONMENT}.config.json`
   ]
  }
 

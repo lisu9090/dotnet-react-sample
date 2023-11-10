@@ -6,7 +6,7 @@ import appLocalSettigns from './app.local.settings.json'
 import appProdSettigns from './app.prod.settings.json'
 
 function selectSettings(): { apiSettings: ApiSettings, appSettings: AppSettings } {
-  switch (process.env.NODE_ENVIRONMENT) {
+  switch (process.env.NEXT_PUBLIC_NODE_ENVIRONMENT) {
     case 'local':
       return { 
         apiSettings: apiLocalSettigns, 
@@ -18,7 +18,7 @@ function selectSettings(): { apiSettings: ApiSettings, appSettings: AppSettings 
         appSettings: appProdSettigns 
       }
     default:
-      throw new Error(`No settings for envorinment ${process.env.NODE_ENVIRONMENT}`)
+      throw new Error(`No settings for envorinment ${process.env.NEXT_PUBLIC_NODE_ENVIRONMENT}`)
   }
 }
 
