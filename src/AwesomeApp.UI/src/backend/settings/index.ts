@@ -6,7 +6,7 @@ import appLocalSettigns from './app.local.settings.json'
 import appProdSettigns from './app.prod.settings.json'
 
 function selectSettings(): { apiSettings: ApiSettings, appSettings: AppSettings } {
-  switch (process.env.NEXT_PUBLIC_NODE_ENVIRONMENT) {
+  switch (process.env.NODE_ENVIRONMENT) {
     case 'local':
       return { 
         apiSettings: apiLocalSettigns, 
