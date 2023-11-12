@@ -12,14 +12,26 @@ namespace AwesomeApp.Application.Security
                 throw new ArgumentNullException(nameof(key));
             }
 
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-
             using (SHA512 sha = SHA512.Create())
             {
+                byte[] keyBytes = Encoding.UTF8.GetBytes(key);
                 byte[] hashBytes = sha.ComputeHash(keyBytes);
 
-                return Convert.ToBase64String(hashBytes);
+                return Convert.ToHexString(hashBytes);
             }
+        }
+
+        public bool Compare(string hash1, string hash2)
+        {
+            if (string.IsNullOrEmpty(hash1) || string.IsNullOrEmpty(hash2))
+            {
+                throw new ArgumentNullException("Hash value cannot be null or empty");
+            }
+
+            var hash1Bytes = Convert.FromHexString(hash1);
+            var hash2Bytes = Convert.FromHexString(hash2);
+
+            return hash1Bytes.SequenceEqual(hash2Bytes);
         }
     }
 }

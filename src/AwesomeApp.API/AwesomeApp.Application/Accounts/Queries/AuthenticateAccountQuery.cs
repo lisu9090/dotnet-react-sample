@@ -20,8 +20,9 @@ namespace AwesomeApp.Application.Accounts.Queries
         public async Task<AuthenticationResultDto> Handle(AuthenticateAccountQueryRequest request, CancellationToken cancellationToken)
         {
             Account? account = await _accountRepository.GetByEmailAsync(request.Email);
+            string passwordHash = _hashService.GetHash(request.Password);
 
-            if (account == null || account.PasswordHash != _hashService.GetHash(request.Password))
+            if (account == null || !_hashService.Compare(account.PasswordHash, passwordHash))
             {
                 return AuthenticationResultDto.AuthenticationFailedResult();
             }

@@ -17,8 +17,8 @@ export interface FormValidators {
   [fieldName: string]: ValidatorFn[];
 }
 
-export const notEmptyValidator: (message?: string) => ValidatorFn = 
-  (message: string = "Value must not be empty") => 
+export const requiredValidator: (message?: string) => ValidatorFn = 
+  (message: string = "Value is required") => 
     (value: string) => value?.trim().length > 0 ? '' : message
 
 export const minLengthValidator: (message?: string, minLength?: number) => ValidatorFn = 

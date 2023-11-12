@@ -1,4 +1,4 @@
-import { CustomerType } from "@/models";
+import { CustomerType } from "@/shared/types";
 
 export interface CreateAccountDto {
   email: string;
@@ -6,5 +6,5 @@ export interface CreateAccountDto {
   fullName: string;
   dateOfBirth: Date;
   vechiclesNumber: number;
-  customerType: CustomerType
+  customerType: CustomerType;
 }

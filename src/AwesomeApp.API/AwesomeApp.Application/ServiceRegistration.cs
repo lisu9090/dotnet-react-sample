@@ -19,7 +19,7 @@ namespace AwesomeApp.Application
 
             services.AddAutoMapper(typeof(ServiceRegistration).Assembly);
 
-            services.AddTransient<IHashService, Sha512HashService>();
+            services.AddSingleton<IHashService, Sha512HashService>();
 
             return services;
         }
