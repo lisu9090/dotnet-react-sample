@@ -1,9 +1,10 @@
-import { PageBox } from "@/components/page-box"
-import { Button, Grid, Paper, Typography } from "@mui/material"
+import { PageBox } from "@/frontend/components"
+import { Button, Grid, Typography } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
+import { ReactElement } from "react"
 
-export default function RootPage() {
+export default function LandingPage(): ReactElement {
   return (
     <PageBox>
       <Grid

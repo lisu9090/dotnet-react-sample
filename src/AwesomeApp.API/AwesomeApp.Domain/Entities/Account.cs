@@ -23,9 +23,14 @@ namespace AwesomeApp.Domain.Entities
         public string? FullName { get; set; }
 
         /// <summary>
-        /// Age
+        /// DateOfBirth
         /// </summary>
-        public uint Age { get; set; }
+        public DateTime DateOfBirth { get; set; }
+
+        /// <summary>
+        /// NumberOfCars
+        /// </summary>
+        public uint NumberOfCars { get; set; }
 
         /// <summary>
         /// ECustomerType

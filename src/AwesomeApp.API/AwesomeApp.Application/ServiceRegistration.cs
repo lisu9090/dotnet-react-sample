@@ -1,4 +1,4 @@
-﻿using AwesomeApp.Application.Services.AccountService;
+﻿using AwesomeApp.Application.Security;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AwesomeApp.Application
@@ -15,7 +15,11 @@ namespace AwesomeApp.Application
         /// <returns>service collection</returns>
         public static IServiceCollection RegisterApplication(this IServiceCollection services)
         {
-            services.AddScoped<IAccountService, AccountService>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ServiceRegistration).Assembly));
+
+            services.AddAutoMapper(typeof(ServiceRegistration).Assembly);
+
+            services.AddSingleton<IHashService, Sha512HashService>();
 
             return services;
         }

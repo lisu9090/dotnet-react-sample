@@ -1,11 +1,22 @@
-"use client"
-
-import { useEffect, useMemo, useState } from "react";
-import { PageBox } from "@/components/page-box";
+import { ReactElement, useCallback, useEffect, useMemo, useState } from "react";
+import { PageBox } from "@/frontend/components";
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
-import { CustomerType } from "@/types/models";
 import Link from "next/link";
-import { FormValidators, SimpleFormValidation, ValidatorFn, emailValidator, minLengthValidator, notEmptyValidator, positiveValueValidator, strongPasswordValidator, useSimpleFormValidation } from "@/lib";
+import { 
+  FormValidators, 
+  SimpleFormValidation, 
+  ValidatorFn, 
+  emailValidator, 
+  minLengthValidator, 
+  requiredValidator, 
+  positiveValueValidator, 
+  strongPasswordValidator, 
+  useSimpleFormValidation,
+  apiService, 
+} from "@/frontend/libs";
+import { CreateAccountDto } from "@/shared/dtos/CreateAccountDto";
+import { useRouter } from "next/router";
+import { CustomerType } from "@/shared/types";
 
 type CreateAccountForm = {
   email: string;
@@ -30,32 +41,44 @@ const initialFormValue: CreateAccountForm = {
 const initialFormValidation: SimpleFormValidation = {
   isValid: false,
   fieldErrors: {
-    email: '',
-    password: '',
-    passwordRepeated: '',
-    fullName: '',
-    dateOfBirth: '',
-    vechiclesNumber: '',
-    customerType: ''
+    email: null,
+    password: null,
+    passwordRepeated: null,
+    fullName: null,
+    dateOfBirth: null,
+    vechiclesNumber: null,
   }
 }
 
-export default function CreateAccount(): React.ReactElement {
+function toCreateAccountDto(formValue: CreateAccountForm): CreateAccountDto {
+  return {
+    email: formValue.email,
+    password: formValue.password,
+    fullName: formValue.fullName,
+    dateOfBirth: new Date(formValue.dateOfBirth),
+    vechiclesNumber: Number.parseInt(formValue.vechiclesNumber),
+    customerType: formValue.customerType
+  }
+}
+
+export default function CreateAccount(): ReactElement {
+  const router = useRouter()
+  
   const [formValue, setFormValue] = useState<CreateAccountForm>(initialFormValue)
 
-  const repeatPasswordValidator = useMemo<ValidatorFn>(
-    () => (value: string) => value === formValue.password ? '' : 'Password does not match',
+  const repeatPasswordValidator = useCallback<ValidatorFn>(
+    (value: string) => value === formValue.password ? '' : 'Password does not match',
     [formValue.password]
   ) 
 
   const formValidators = useMemo<FormValidators>(
     () => ({
-      email: [notEmptyValidator(), emailValidator()],
-      password: [notEmptyValidator(), strongPasswordValidator()],
-      passwordRepeated: [notEmptyValidator(), repeatPasswordValidator],
-      fullName: [notEmptyValidator(), minLengthValidator()],
-      dateOfBirth: [notEmptyValidator()],
-      vechiclesNumber: [notEmptyValidator(), positiveValueValidator()]
+      email: [requiredValidator(), emailValidator()],
+      password: [requiredValidator(), strongPasswordValidator()],
+      passwordRepeated: [requiredValidator(), repeatPasswordValidator],
+      fullName: [requiredValidator(), minLengthValidator()],
+      dateOfBirth: [requiredValidator()],
+      vechiclesNumber: [requiredValidator(), positiveValueValidator()]
     }),
     [repeatPasswordValidator]
   )
@@ -75,8 +98,18 @@ export default function CreateAccount(): React.ReactElement {
       setFormValue({ ...formValue, [formField]: event.target.value })
     }
 
-  const submitForm = () => {
-    console.log(formValue)
+  const submitForm = async () => {
+    if (!formValidation.isValid) {
+      return
+    }
+
+    const accountId = await apiService.createAccount(toCreateAccountDto(formValue))
+
+    if (accountId) {
+      router.push('/log-in')
+    } else {
+      window.alert('Error while create account')
+    }
   }
 
   useEffect(() => setFormValidators(formValidators), [setFormValidators, formValidators])
