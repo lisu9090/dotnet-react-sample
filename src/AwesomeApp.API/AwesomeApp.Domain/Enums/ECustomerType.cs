@@ -2,7 +2,7 @@
 {
     public enum ECustomerType
     {
-        Private,
-        Company,
+        Private = 1,
+        Company = 2,
     }
 }

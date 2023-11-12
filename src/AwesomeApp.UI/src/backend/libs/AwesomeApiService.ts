@@ -68,6 +68,11 @@ class AwesomeApiService {
 
 const { awesomeApiConfig } = apiSettings
   
-const axiosInstance = axios.create({ baseURL: awesomeApiConfig.baseUrl })
+const axiosInstance = axios.create({ 
+  baseURL: awesomeApiConfig.baseUrl, 
+  headers: {
+    "Content-Type": "application/json"
+  } 
+})
 
 export const awesomeApiService = new AwesomeApiService(axiosInstance)

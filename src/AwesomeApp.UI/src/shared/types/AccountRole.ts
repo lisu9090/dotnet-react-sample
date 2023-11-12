@@ -1,4 +1,4 @@
 export enum AccountRole {
-  Admin = 'admin',
-  User = 'user'
+  Admin = 1,
+  User = 2
 }

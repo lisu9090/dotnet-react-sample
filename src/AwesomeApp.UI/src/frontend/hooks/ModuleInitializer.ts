@@ -12,7 +12,7 @@ export function useModulesInit(moduleInitializers: ModuleInitializer[]): boolean
         .all(moduleInitializers.map(initializer => initializer()))
         .then(() => setModulesInitialized(true))
     },
-    []
+    [] // Module init should be fired only once
   )
 
   return modulesInitialized

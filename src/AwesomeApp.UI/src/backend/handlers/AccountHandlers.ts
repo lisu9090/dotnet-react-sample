@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { AccountDto } from "../dtos";
+import { AccountDto, CreateAccountDto } from "../dtos";
 import { HttpStatusCode } from "axios";
 import { awesomeApiService } from "../libs";
+import { AccountRole } from "@/shared/types";
 
 export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<AccountDto | string>): Promise<void> {
   const currentAccountId =  req.session.user?.id!
@@ -22,7 +23,12 @@ export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<Ac
 } 
 
 export async function postCreateAccount(req: NextApiRequest, res: NextApiResponse<number | string>): Promise<void> {
-  const accountId = await awesomeApiService.createAccount(req.body)
+  const payload: CreateAccountDto = {
+    ...req.body,
+    accountRole: AccountRole.User
+  } 
+
+  const accountId = await awesomeApiService.createAccount(payload)
 
   if (accountId) {
     res.send(accountId)
