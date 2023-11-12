@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { ReactElement, useCallback, useEffect, useMemo, useState } from "react";
 import { PageBox } from "@/frontend/components";
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
 import Link from "next/link";
@@ -61,7 +61,7 @@ function toCreateAccountDto(formValue: CreateAccountForm): CreateAccountDto {
   }
 }
 
-export default function CreateAccount(): React.ReactElement {
+export default function CreateAccount(): ReactElement {
   const router = useRouter()
   
   const [formValue, setFormValue] = useState<CreateAccountForm>(initialFormValue)
