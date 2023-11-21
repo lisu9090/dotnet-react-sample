@@ -12,7 +12,8 @@ import {
   positiveValueValidator, 
   strongPasswordValidator, 
   useSimpleFormValidation,
-  apiService, 
+  apiService,
+  fieldEqualityValidator, 
 } from "@/frontend/libs";
 import { CreateAccountDto } from "@/shared/dtos/CreateAccountDto";
 import { useRouter } from "next/router";
@@ -50,6 +51,15 @@ const initialFormValidation: SimpleFormValidation = {
   }
 }
 
+const formValidators: FormValidators = {
+  email: [requiredValidator(), emailValidator()],
+  password: [requiredValidator(), strongPasswordValidator()],
+  passwordRepeated: [requiredValidator(), fieldEqualityValidator('password', 'Password does not match')],
+  fullName: [requiredValidator(), minLengthValidator()],
+  dateOfBirth: [requiredValidator()],
+  vechiclesNumber: [requiredValidator(), positiveValueValidator()]
+}
+
 function toCreateAccountDto(formValue: CreateAccountForm): CreateAccountDto {
   return {
     email: formValue.email,
@@ -63,31 +73,13 @@ function toCreateAccountDto(formValue: CreateAccountForm): CreateAccountDto {
 
 export default function CreateAccount(): ReactElement {
   const router = useRouter()
-  
-  const [formValue, setFormValue] = useState<CreateAccountForm>(initialFormValue)
-
-  const repeatPasswordValidator = useCallback<ValidatorFn>(
-    (value: string) => value === formValue.password ? '' : 'Password does not match',
-    [formValue.password]
-  ) 
-
-  const formValidators = useMemo<FormValidators>(
-    () => ({
-      email: [requiredValidator(), emailValidator()],
-      password: [requiredValidator(), strongPasswordValidator()],
-      passwordRepeated: [requiredValidator(), repeatPasswordValidator],
-      fullName: [requiredValidator(), minLengthValidator()],
-      dateOfBirth: [requiredValidator()],
-      vechiclesNumber: [requiredValidator(), positiveValueValidator()]
-    }),
-    [repeatPasswordValidator]
-  )
 
   const { 
-    formValidation, 
-    validateFormField, 
-    setFormValidators 
-  } = useSimpleFormValidation(initialFormValidation, formValidators)
+    formValue,
+    formValidation,
+    setFormValue,
+    validateFormField
+  } = useSimpleFormValidation(initialFormValue, initialFormValidation, formValidators)
 
   const createBlurHandler = (fieldName: string, fieldValue: string) => 
     () => validateFormField(fieldName, fieldValue)
@@ -111,8 +103,6 @@ export default function CreateAccount(): ReactElement {
       window.alert('Error while create account')
     }
   }
-
-  useEffect(() => setFormValidators(formValidators), [setFormValidators, formValidators])
 
   return (
     <PageBox>
