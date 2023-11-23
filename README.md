@@ -45,3 +45,20 @@ In order to run app you will need following software to be installed:
     4. Open browser and access http://localhost:3000
 
 ## Roadmap
+
+- [x] Create API and App projects
+- [x] Setup projects structure
+- [x] Setup communication between API and App Backend
+- [x] Setup communication between App Backend and App frontend
+- [ ] Setup error handling in API
+- [ ] Setup error handling mechanism in both App Backend and frontend
+- [ ] (Optional) Setup sample logging mechanism in API and App Backend
+- [ ] Secure communication between API and App Backend (simple subscription key)
+- [ ] Secure communication between App backend and App frontend (uster autheintication and authorization)
+- [ ] Secure App routing and enable user authorization
+- [ ] Enable App localization (string translations)
+- [x] Feature: Landing, Error and NotFound pages
+- [X] Feature: Create user account
+- [x] Feature: Authenticate user
+- [ ] Feature: UserDetails page that allows to view and edit account data (secured)
+- [ ] Feature: AdminPanel page that allows admins to manage accounts (secured)
