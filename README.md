@@ -22,15 +22,21 @@ Concept behind the project is to speed up development process by delivering exte
 ### Architecture
 
 System consists of three main components: 
-- **RESTful web API** - REST compiliant web API, which serves business logic and can be easly consumed by multiple services.
+- **RESTful web API** - REST compliant web API, which serves business logic and can be easly consumed by multiple services.
 - **App backend** - acts as a proxy to API, handles user authentication, authorization and HTTP errors. It can be extended to consume multiple web services. 
 - **App frontend** - application user interface.
 
 ### RESTful web API
 
+Created using ASP.NET Core Web API is a REST compliant web service. It takes advanteage of Layered Archtecture and implements Command-Query Responsibility Segregation (CQRS) and Repository patterns. Each layer is separated with contracts that hide implementations and enables power of Dependency Injection. Code quality is ensured by set of Unit Tests.
+
 ### App backend
 
+Next.js projects ship with build-in API. Here, API acts as application backend that fetches data from other services, handles user athentication, role-based authorization and HTTP Errors.   
+
 ### App frontend
+
+App frontend is React application that takes advantage of Next.js framework. It uses Static Site Generation for pages that do not require user context and Server-Side Rendering in order to manage user access.
 
 ## Running
 
@@ -75,4 +81,5 @@ In order to run app you will need following software to be installed:
 - [x] Feature: Authenticate user
 - [ ] Feature: UserDetails page that allows to view and edit account data (secured)
 - [ ] Feature: AdminPanel page that allows admins to manage accounts (secured)
+- [ ] Unit tests
 - [ ] Docker support
