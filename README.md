@@ -17,22 +17,22 @@ Powered by the most common web technologies and frameworks project which gives y
 
 ## Design concepts
 
-Concept behind the project is to speed up development process by delivering extensible, ready-to-develop web app. The app takes advantage of common technology stack, architecture, best practices and design patterns that are widely used in modern web systems. Moreover it ships with bunch of mechanisms, which usually needs to be developed from skratch on project startup. This includes user authentication, role-based authoriazation, error handling, logging and localization. All of these can be found in Awesome Web App.
+Concept behind the project is to speed up development process by delivering extensible, ready-to-develop web app. The app takes advantage of common technology stack, architecture, best practices and design patterns that are widely used in modern web systems. Moreover it ships with bunch of mechanisms, which usually need to be developed from scratch on project startup. This includes user authentication, role-based authorization, error handling, logging and localization. All of these can be found in Awesome Web App.
 
 ### Architecture
 
 System consists of three main components: 
-- **RESTful web API** - REST compliant web API, which serves business logic and can be easly consumed by multiple services.
+- **RESTful web API** - REST compliant web API, which serves business logic and can be easily consumed by multiple services.
 - **App backend** - acts as a proxy to API, handles user authentication, authorization and HTTP errors. It can be extended to consume multiple web services. 
 - **App frontend** - application user interface.
 
 ### RESTful web API
 
-Created using ASP.NET Core Web API is a REST compliant web service. It takes advanteage of Layered Archtecture and implements Command-Query Responsibility Segregation (CQRS) and Repository patterns. Each layer is separated with contracts that hide implementations and enables power of Dependency Injection. Code quality is ensured by set of Unit Tests.
+Created using ASP.NET Core Web API is a REST compliant web service. It takes advanteage of Layered Architecture and implements Command-Query Responsibility Segregation (CQRS) and Repository patterns. Each layer is separated with contracts that hide implementations and enables power of Dependency Injection. Code quality is ensured by set of Unit Tests.
 
 ### App backend
 
-Next.js projects ship with build-in API. Here, API acts as application backend that fetches data from other services, handles user athentication, role-based authorization and HTTP Errors.   
+Next.js projects ship with build-in API. Here, API acts as application backend that fetches data from other services, handles user authentication, role-based authorization and HTTP Errors.   
 
 ### App frontend
 
@@ -40,7 +40,7 @@ App frontend is React application that takes advantage of Next.js framework. It 
 
 ## Running
 
-Application has no production evironment yet, therefore you will need to compile source files.
+Application has no production environment yet, therefore you will need to compile source files.
 
 ### Prerequisites
 
@@ -73,7 +73,7 @@ In order to run app you will need following software to be installed:
 - [ ] Setup error handling mechanism in both App Backend and frontend
 - [ ] (Optional) Setup sample logging mechanism in API and App Backend
 - [ ] Secure communication between API and App Backend (simple subscription key)
-- [ ] Secure communication between App backend and App frontend (uster autheintication and authorization)
+- [ ] Secure communication between App backend and App frontend (user authentication and authorization)
 - [ ] Secure App routing and enable role-based user authorization
 - [ ] Enable App localization (string translations)
 - [x] Feature: Landing, Error and NotFound pages
