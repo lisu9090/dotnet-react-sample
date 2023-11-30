@@ -213,9 +213,20 @@ export default function CreateAccount(): ReactElement {
           justifyContent="end"
         >
           <Link className="mr-2" href="/">
-            <Button color="warning">Go Back</Button>
+            <Button 
+              variant="outlined" 
+              color="warning"
+            >
+              Go Back
+            </Button>
           </Link>
-          <Button disabled={!formValidation.isValid} onClick={submitForm}>Submit</Button>
+          <Button 
+            variant="outlined" 
+            disabled={!formValidation.isValid} 
+            onClick={submitForm}
+          >
+            Submit
+          </Button>
         </Grid>
       </Grid>
     </PageBox>
