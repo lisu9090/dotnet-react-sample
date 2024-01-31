@@ -3,7 +3,7 @@ import { AccountDto, CreateAccountDto } from "../dtos";
 import { HttpStatusCode } from "axios";
 import { awesomeApiService } from "../libs";
 import { AccountRole } from "@/shared/types";
-import { AuthenticationResultDto } from "@/shared/dtos";
+import { AuthenticationResult } from "@/shared/types";
 
 export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<AccountDto | string>): Promise<void> {
   const currentAccountId =  req.session.user?.id!
@@ -38,7 +38,7 @@ export async function postCreateAccount(req: NextApiRequest, res: NextApiRespons
   }
 } 
 
-export async function postAuthenticate(req: NextApiRequest, res: NextApiResponse<AuthenticationResultDto>): Promise<void> {
+export async function postAuthenticate(req: NextApiRequest, res: NextApiResponse<AuthenticationResult>): Promise<void> {
   const authenticationResultDto = await awesomeApiService.authenticateAccount(req.body)
 
   if (authenticationResultDto.authenticationSuccessful) {

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, HttpStatusCode } from "axios";
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from "../dtos";
-import { apiSettings } from "../settings";
+import settings from "@/settings";
 
 class AwesomeApiService {
   constructor(private readonly axiosClient: AxiosInstance) { }
@@ -66,7 +66,7 @@ class AwesomeApiService {
   }
 }
 
-const { awesomeApiConfig } = apiSettings
+const { awesomeApiConfig } = settings
   
 const axiosInstance = axios.create({ 
   baseURL: awesomeApiConfig.baseUrl, 
