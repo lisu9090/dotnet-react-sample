@@ -1,6 +1,6 @@
 import { CustomerType, AccountRole } from "@/shared/types";
 
-export interface AccountDto {
+export interface Account {
   id: number;
   createdAt: Date,
   email: string;

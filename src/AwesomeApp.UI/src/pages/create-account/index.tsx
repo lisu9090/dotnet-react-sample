@@ -15,7 +15,7 @@ import {
   apiService,
   fieldEqualityValidator, 
 } from "@/frontend/libs";
-import { CreateAccountDto } from "@/shared/dtos/CreateAccountDto";
+import { CreateAccount } from "@/shared/types/CreateAccount";
 import { useRouter } from "next/router";
 import { CustomerType } from "@/shared/types";
 
@@ -60,7 +60,7 @@ const formValidators: FormValidators = {
   vechiclesNumber: [requiredValidator(), positiveValueValidator()]
 }
 
-function toCreateAccountDto(formValue: CreateAccountForm): CreateAccountDto {
+function toCreateAccountDto(formValue: CreateAccountForm): CreateAccount {
   return {
     email: formValue.email,
     password: formValue.password,

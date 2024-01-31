@@ -1,6 +1,6 @@
 import { CustomerType } from "@/shared/types";
 
-export interface CreateAccountDto {
+export interface CreateAccount {
   email: string;
   password: string;
   fullName: string;

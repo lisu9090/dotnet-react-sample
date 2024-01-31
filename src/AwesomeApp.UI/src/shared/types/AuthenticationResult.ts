@@ -1,6 +1,6 @@
-import { AccountRole } from "../types";
+import { AccountRole } from ".";
 
-export interface AuthenticationResultDto {
+export interface AuthenticationResult {
   accountId?: number;
   accountRole?: AccountRole;
   authenticationSuccessful: boolean;
