@@ -12,5 +12,5 @@ export function getConfig(): AppSettings {
     throw new Error("Module Settigns has not been initialized")
   }
 
-  return appSettings
+  return { ...appSettings }
 }

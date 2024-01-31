@@ -42,22 +42,36 @@ export default function LogIn(): ReactElement {
           container
           direction="column"
           alignContent="stretch"
+          spacing={4}
         >
-          <Typography variant="h5">Log in to AwesomeApp</Typography>
-          <TextField
-            className="mt-6"
-            type="text"
-            label="Email"
-            value={userEmail}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setUserEmail(event.target.value)}
-          />
-          <TextField
-            className="mt-2"
-            type="password"
-            label="Password"
-            value={userPassword}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => setUserPassword(event.target.value)}
-          />
+          <Grid item>
+            <Typography variant="h5">Log in to AwesomeApp</Typography>
+          </Grid>
+          <Grid 
+            item 
+            container 
+            direction="column"
+            alignContent="stretch"
+          >
+            <TextField
+              className="mb-2"
+              type="text"
+              label="Email"
+              value={userEmail}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setUserEmail(event.target.value)}
+            />
+            <TextField
+              type="password"
+              label="Password"
+              value={userPassword}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>) => setUserPassword(event.target.value)}
+            />
+          </Grid>
+          <Grid 
+            item
+            container
+            direction="column"
+          >
           <Typography className="mt-6">Don&apos;t hane an account? Create one!</Typography>
           <Grid
             className="mt-2"
@@ -87,6 +101,8 @@ export default function LogIn(): ReactElement {
               </Button>
             </Grid>
           </Grid>
+          </Grid>
+
         </Grid>
       </form>
     </PageBox>
