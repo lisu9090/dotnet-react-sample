@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { Account, AuthenticateAccount, AuthenticationResult, CreateAccount } from "@/shared/dtos";
+import { Account, AuthenticateAccount, AuthenticationResult, CreateAccount } from "@/shared/types";
 import { AppSettings } from "@/shared/types";
 
 class ApiService {
@@ -23,14 +23,14 @@ class ApiService {
     return response.data
   }
 
-  public async createAccount(createAccountDto: CreateAccount): Promise<number> {
-    const response = await this.axiosClient.post<number>(`/account/create`, createAccountDto)
+  public async createAccount(createAccountEntry: CreateAccount): Promise<number> {
+    const response = await this.axiosClient.post<number>(`/account/create`, createAccountEntry)
 
     return response.data
   }
 
-  public async authenticateAccount(authenticateAccountDto: AuthenticateAccount): Promise<AuthenticationResult> {
-    const response = await this.axiosClient.post<AuthenticationResult>(`/account/authenticate`, authenticateAccountDto)
+  public async authenticateAccount(authenticateAccountEntry: AuthenticateAccount): Promise<AuthenticationResult> {
+    const response = await this.axiosClient.post<AuthenticationResult>(`/account/authenticate`, authenticateAccountEntry)
 
     return response.data
   }

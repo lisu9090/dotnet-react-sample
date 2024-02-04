@@ -1,4 +1,4 @@
-import { AccountRole } from ".";
+import { AccountRole } from "..";
 
 export interface AuthenticationResult {
   accountId?: number;

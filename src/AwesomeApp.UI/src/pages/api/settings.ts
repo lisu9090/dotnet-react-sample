@@ -1,9 +1,9 @@
 import { withEndpoints, withErrorHandling } from "@/backend/libs";
-import { HttpMethod } from "@/shared/types";
+import { AppSettings, HttpMethod } from "@/shared/types";
 
 export default
 withErrorHandling(
   withEndpoints({
-    [HttpMethod.get]: (_, res) => res.send({})
+    [HttpMethod.get]: (_, res) => res.send({} as AppSettings)
   })
 )

@@ -1,3 +1,3 @@
 export * from './ApiService'
-export * from './Settings'
+export * from './SettingsProvider'
 export * from './SimpleFormValidation'

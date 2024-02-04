@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, HttpStatusCode } from "axios";
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from "../dtos";
-import settings from "@/settings";
+import settings from "@/Settings";
 
 class AwesomeApiService {
   constructor(private readonly axiosClient: AxiosInstance) { }

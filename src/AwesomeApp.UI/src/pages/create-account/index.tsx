@@ -15,7 +15,7 @@ import {
   apiService,
   fieldEqualityValidator, 
 } from "@/frontend/libs";
-import { CreateAccount } from "@/shared/types/CreateAccount";
+import { CreateAccount } from "@/shared/types/account/CreateAccount";
 import { useRouter } from "next/router";
 import { CustomerType } from "@/shared/types";
 

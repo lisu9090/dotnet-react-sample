@@ -7,7 +7,7 @@ export default async function initAppSettings(): Promise<void> {
   appSettings = await apiService.getConfig()
 }
 
-export function getConfig(): AppSettings {
+export function getAppSettings(): AppSettings {
   if (!appSettings) {
     throw new Error("Module Settigns has not been initialized")
   }
