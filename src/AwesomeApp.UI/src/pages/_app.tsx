@@ -5,7 +5,7 @@ import { useModulesInit } from '@/frontend/hooks'
 import initAppSettings from '@/frontend/libs/SettingsProvider'
 import { PageBox } from '@/frontend/components'
 import { ReactElement } from 'react'
-import { LoadingSpinner } from '@/frontend/components/loading-spinner'
+import { Spinner } from '@/frontend/components/spinner'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }: any): ReactElement {
       </Head>
       {isAppInited && <Component {...pageProps} />}
       {!isAppInited && <PageBox>AwesomeApp is loading...</PageBox>}
-      <LoadingSpinner />
+      <Spinner />
     </div>
   ) 
 }
