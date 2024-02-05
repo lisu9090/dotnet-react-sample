@@ -4,10 +4,10 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
-import { useFetchWithErrorHandling } from "../_hooks";
+import { useFetchWithErrorHandling } from "@/pages/_hooks";
 
 function useAuthenticateAccount() {
-  return useFetchWithErrorHandling(apiService.authenticateAccount)
+  return useFetchWithErrorHandling((data: any) => apiService.authenticateAccount(data))
 }
 
 export default function LogIn(): ReactElement {
@@ -29,7 +29,7 @@ export default function LogIn(): ReactElement {
       password: userPassword
     })
 
-    if (authenticationResult.authenticationSuccessful) {
+    if (authenticationResult?.authenticationSuccessful) {
       router.push('/account')
     }
   }

@@ -5,8 +5,7 @@ import { useModulesInit } from '@/frontend/hooks'
 import initAppSettings from '@/frontend/libs/SettingsProvider'
 import { PageBox } from '@/frontend/components'
 import { ReactElement } from 'react'
-import { SpinnerProvider } from '@/pages/_components'
-import { SnackbarProvider } from './_components/snackbar'
+import { SpinnerProvider, SnackbarProvider } from '@/pages/_components'
 
 const inter = Inter({ subsets: ['latin'] })
 

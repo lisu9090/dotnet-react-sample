@@ -17,7 +17,7 @@ import {
 import { CreateAccount } from "@/shared/types/account/CreateAccount";
 import { useRouter } from "next/router";
 import { CustomerType } from "@/shared/types";
-import { useFetchWithErrorHandling } from "../_hooks";
+import { useFetchWithErrorHandling } from "@/pages/_hooks";
 
 const redirecUrl = '/log-in'
 
@@ -74,7 +74,7 @@ function toCreateAccountDto(formValue: CreateAccountForm): CreateAccount {
 }
 
 function useCreateAccount() {
-  return useFetchWithErrorHandling(apiService.createAccount, 'Error while create account')
+  return useFetchWithErrorHandling((data: any) => apiService.createAccount(data), 'Error while create account')
 }
 
 export default function CreateAccount(): ReactElement {
