@@ -5,7 +5,7 @@ import { useModulesInit } from '@/frontend/hooks'
 import initAppSettings from '@/frontend/libs/SettingsProvider'
 import { PageBox } from '@/frontend/components'
 import { ReactElement } from 'react'
-import { Spinner } from '@/frontend/components/spinner'
+import { SpinnerProvider } from '@/pages/_components'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,9 +20,12 @@ export default function App({ Component, pageProps }: any): ReactElement {
         <link rel="icon" href="favicon.ico" />
         <title>AwesomeApp</title>
       </Head>
-      {isAppInited && <Component {...pageProps} />}
       {!isAppInited && <PageBox>AwesomeApp is loading...</PageBox>}
-      <Spinner />
+      {isAppInited && (
+        <SpinnerProvider>
+          <Component {...pageProps} />
+        </SpinnerProvider>
+      )}
     </div>
   ) 
 }
