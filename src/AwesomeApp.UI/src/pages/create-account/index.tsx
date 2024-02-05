@@ -5,7 +5,6 @@ import Link from "next/link";
 import { 
   FormValidators, 
   SimpleFormValidation, 
-  ValidatorFn, 
   emailValidator, 
   minLengthValidator, 
   requiredValidator, 
@@ -18,6 +17,9 @@ import {
 import { CreateAccount } from "@/shared/types/account/CreateAccount";
 import { useRouter } from "next/router";
 import { CustomerType } from "@/shared/types";
+import { useFetchWithErrorHandling } from "../_hooks";
+
+const redirecUrl = '/log-in'
 
 type CreateAccountForm = {
   email: string;
@@ -71,8 +73,13 @@ function toCreateAccountDto(formValue: CreateAccountForm): CreateAccount {
   }
 }
 
+function useCreateAccount() {
+  return useFetchWithErrorHandling(apiService.createAccount, 'Error while create account')
+}
+
 export default function CreateAccount(): ReactElement {
   const router = useRouter()
+  const createAccount = useCreateAccount()
 
   const { 
     formValue,
@@ -95,12 +102,10 @@ export default function CreateAccount(): ReactElement {
       return
     }
 
-    const accountId = await apiService.createAccount(toCreateAccountDto(formValue))
+    const accountId = await createAccount(toCreateAccountDto(formValue))
 
     if (accountId) {
-      router.push('/log-in')
-    } else {
-      window.alert('Error while create account')
+      router.push(redirecUrl)
     }
   }
 

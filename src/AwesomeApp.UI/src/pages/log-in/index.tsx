@@ -4,9 +4,15 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
+import { useFetchWithErrorHandling } from "../_hooks";
+
+function useAuthenticateAccount() {
+  return useFetchWithErrorHandling(apiService.authenticateAccount)
+}
 
 export default function LogIn(): ReactElement {
   const router = useRouter()
+  const authenticateAccount = useAuthenticateAccount()
 
   const [userEmail, setUserEmail] = useState<string>('')
   const [userPassword, setUserPassword] = useState<string>('')
@@ -18,15 +24,13 @@ export default function LogIn(): ReactElement {
       return
     }
 
-    const authenticationResult = await apiService.authenticateAccount({
+    const authenticationResult = await authenticateAccount({
       email: userEmail,
       password: userPassword
     })
 
     if (authenticationResult.authenticationSuccessful) {
       router.push('/account')
-    } {
-      console.log(`Log in error - ${authenticationResult.authenticationErrorMessage}`)
     }
   }
 
