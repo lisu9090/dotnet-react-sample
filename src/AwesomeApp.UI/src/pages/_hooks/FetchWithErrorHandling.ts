@@ -1,16 +1,17 @@
 import { useSpinner } from "@/pages/_components/spinner"
+import { useSnackbar } from "."
 
-export function useFetcher() {
+export function useFetchWithErrorHandling() {
   const { show, hide } = useSpinner()
+  const { error } = useSnackbar()
 
   return (fetcher: any, errorMessage?: string) => (data: any) => {
     show()
 
     try {
       return fetcher(data)
-    } catch (e) {
-      console.error(errorMessage ? errorMessage : e)
-      // TODO snackbar.error(e)
+    } catch (e: any) {
+      error(errorMessage ? errorMessage : e)
     } finally {
       hide()
     }

@@ -6,6 +6,7 @@ import initAppSettings from '@/frontend/libs/SettingsProvider'
 import { PageBox } from '@/frontend/components'
 import { ReactElement } from 'react'
 import { SpinnerProvider } from '@/pages/_components'
+import { SnackbarProvider } from './_components/snackbar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,7 +24,9 @@ export default function App({ Component, pageProps }: any): ReactElement {
       {!isAppInited && <PageBox>AwesomeApp is loading...</PageBox>}
       {isAppInited && (
         <SpinnerProvider>
-          <Component {...pageProps} />
+          <SnackbarProvider>
+            <Component {...pageProps} />
+          </SnackbarProvider>
         </SpinnerProvider>
       )}
     </div>
