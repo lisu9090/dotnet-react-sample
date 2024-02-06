@@ -4,7 +4,7 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
-import { useFetchWithErrorHandling } from "@/pages/_hooks";
+import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks";
 
 function useAuthenticateAccount() {
   return useFetchWithErrorHandling(authenticateAccount)
@@ -13,6 +13,7 @@ function useAuthenticateAccount() {
 export default function LogIn(): ReactElement {
   const router = useRouter()
   const authenticateAccount = useAuthenticateAccount()
+  const {} = useSnackbar()
 
   const [userEmail, setUserEmail] = useState<string>('')
   const [userPassword, setUserPassword] = useState<string>('')
