@@ -1,63 +1,48 @@
-import { createContext, useContext, useMemo, useState } from "react"
-import { Snackbar } from "./Snackbar";
+import { 
+  SnackbarOrigin, 
+  SnackbarProvider as SnackbarProviderNotistack,
+  useSnackbar as useSnackbarNotistack 
+} from "notistack";
+import { useMemo } from "react";
 
 type Props = {
   children: any
 }
 
-type ContextProps = {
+type SnackbarApi = {
+  success: (message: string) => void;
   info: (message: string) => void;
   warning: (message: string) => void;
   error: (message: string) => void;
 }
 
-const context = createContext<ContextProps>({
-  info: () => {},
-  warning: () => {},
-  error: () => {}
-})
+const autoHideDuration = 3000
+const anchor = {
+  vertical: 'bottom', 
+  horizontal: 'right'
+} as SnackbarOrigin
 
 export function SnackbarProvider({ children }: Props) {
-  const [isOpen, setIsOpen] = useState<boolean>(false)
-  const [message, setMessage] = useState<string>('')
-  const [color, setColor] = useState<string>()
-
-  const openSnackbar = (message: string, color: string) => {
-    if (message) {
-      setIsOpen(true)
-      setMessage(message)
-      setColor(color)
-    }
-  }
-
-  const reset = () => {
-    setIsOpen(false)
-    setMessage('')
-    setColor(undefined)
-  }
-
-  const value = useMemo<ContextProps>(
-    () => ({
-      info: (message) => openSnackbar(message, 'primary'),
-      warning: (message) => openSnackbar(message, 'yellow'),
-      error: (message) => openSnackbar(message, 'secondary')
-    }),
-    []
-  )
-
   return (
-    <context.Provider value={value}>
-      <Snackbar
-        open={isOpen}
-        message={message}
-        color={color}
-        handleClose={reset}
-      />
+    <SnackbarProviderNotistack
+      autoHideDuration={autoHideDuration}
+      anchorOrigin={anchor}
+    >
       {children}
-    </context.Provider>
+    </SnackbarProviderNotistack>
   )
 }
 
-export function useSnackbar() {
-  return useContext(context)
+export function useSnackbar(): SnackbarApi {
+  const { enqueueSnackbar } = useSnackbarNotistack()
+
+  return useMemo<SnackbarApi>(
+    () => ({
+      success: (message) => enqueueSnackbar(message, { variant: 'success' }),
+      info: (message) => enqueueSnackbar(message, { variant: 'info' }),
+      warning: (message) => enqueueSnackbar(message, { variant: 'warning' }),
+      error: (message) => enqueueSnackbar(message, { variant: 'error' })
+    }),
+    [enqueueSnackbar]
+  )
 }

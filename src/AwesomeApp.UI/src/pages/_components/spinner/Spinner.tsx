@@ -18,7 +18,7 @@ export function Spinner({ show }: Props): ReactElement | null {
       justifyContent="center"
       alignItems="center"
     >
-      <CircularProgress />
+      <CircularProgress size="4rem"/>
     </Grid>
   )
 }

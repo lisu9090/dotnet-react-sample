@@ -13,14 +13,14 @@ function useAuthenticateAccount() {
 export default function LogIn(): ReactElement {
   const router = useRouter()
   const authenticateAccount = useAuthenticateAccount()
-  const {} = useSnackbar()
+  const { warning } = useSnackbar()
 
   const [userEmail, setUserEmail] = useState<string>('')
   const [userPassword, setUserPassword] = useState<string>('')
 
   const logIn = async () => {
     if (!userEmail || !userPassword) {
-      console.log('Log in error - email and password cannot be empty')
+      warning('Log in error - email and password cannot be empty')
 
       return
     }

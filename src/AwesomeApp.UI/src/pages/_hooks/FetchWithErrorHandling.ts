@@ -1,5 +1,5 @@
-import { useSpinner } from "."
-import { useSnackbar } from "."
+import { useSnackbar } from '@/pages/_components/snackbar'
+import { useSpinner } from '@/pages/_components/spinner'
 
 export function useFetchWithErrorHandling(fetcher: any, errorMessage?: string) {
   const { show, hide } = useSpinner()
