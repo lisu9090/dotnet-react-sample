@@ -1,10 +1,10 @@
 import { AppSettings } from "@/shared/types"
-import { apiService } from "."
+import { fetchSettings } from "."
 
 let appSettings: AppSettings
 
 export default async function initAppSettings(): Promise<void> {
-  appSettings = await apiService.getConfig()
+  appSettings = await fetchSettings()
 }
 
 export function getAppSettings(): AppSettings {

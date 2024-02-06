@@ -1,5 +1,5 @@
 import { PageBox } from "@/frontend/components";
-import { apiService } from "@/frontend/libs";
+import { authenticateAccount } from "@/frontend/libs";
 import { Button, Grid, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -7,7 +7,7 @@ import { ReactElement, useState } from "react";
 import { useFetchWithErrorHandling } from "@/pages/_hooks";
 
 function useAuthenticateAccount() {
-  return useFetchWithErrorHandling((data: any) => apiService.authenticateAccount(data))
+  return useFetchWithErrorHandling(authenticateAccount)
 }
 
 export default function LogIn(): ReactElement {

@@ -11,7 +11,7 @@ import {
   positiveValueValidator, 
   strongPasswordValidator, 
   useSimpleFormValidation,
-  apiService,
+  createAccount,
   fieldEqualityValidator, 
 } from "@/frontend/libs";
 import { CreateAccount } from "@/shared/types/account/CreateAccount";
@@ -74,7 +74,7 @@ function toCreateAccountDto(formValue: CreateAccountForm): CreateAccount {
 }
 
 function useCreateAccount() {
-  return useFetchWithErrorHandling((data: any) => apiService.createAccount(data), 'Error while create account')
+  return useFetchWithErrorHandling(createAccount, 'Error while create account')
 }
 
 export default function CreateAccount(): ReactElement {
