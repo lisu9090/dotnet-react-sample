@@ -28,12 +28,20 @@ export async function fetchAccountsList(): Promise<Account[]> {
 }
 
 export async function createAccount(createAccountEntry: CreateAccount): Promise<number> {
+  if (!createAccountEntry) {
+    throw new Error('createAccountEntry cannot be falsy')
+  }
+
   const response = await axiosClient.post<number>(`/account/create`, createAccountEntry)
 
   return response.data
 }
 
 export async function authenticateAccount(authenticateAccountEntry: AuthenticateAccount): Promise<AuthenticationResult> {
+  if (!authenticateAccountEntry) {
+    throw new Error('authenticateAccountEntry cannot be falsy')
+  }
+  
   const response = await axiosClient.post<AuthenticationResult>(`/account/authenticate`, authenticateAccountEntry)
 
   return response.data

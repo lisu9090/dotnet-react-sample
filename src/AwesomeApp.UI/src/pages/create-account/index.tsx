@@ -74,7 +74,7 @@ function toCreateAccountDto(formValue: CreateAccountForm): CreateAccount {
 }
 
 function useCreateAccount() {
-  return useFetchWithErrorHandling(createAccount, 'Error while create account')
+  return useFetchWithErrorHandling(createAccount, 'Error while create an account')
 }
 
 export default function CreateAccount(): ReactElement {

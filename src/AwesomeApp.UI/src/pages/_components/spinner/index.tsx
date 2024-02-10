@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react"
+import { ReactElement, createContext, useContext, useMemo, useState } from "react"
 import { Spinner } from "@/pages/_components/spinner/Spinner"
 
 type Props = {
@@ -17,7 +17,7 @@ const context = createContext<ContextProps>({
 
 let callCounter = 0;
 
-export function SpinnerProvider({ children }: Props) {
+export function SpinnerProvider({ children }: Props): ReactElement {
   const [isShown, setIsShown] = useState<boolean>(false)
 
   const value = useMemo<ContextProps>(
@@ -44,6 +44,6 @@ export function SpinnerProvider({ children }: Props) {
   )
 }
 
-export function useSpinner() {
+export function useSpinner(): ContextProps {
   return useContext(context)
 }
