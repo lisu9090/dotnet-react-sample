@@ -7,7 +7,7 @@ class AwesomeApiService {
 
   public async getAccount(id: number): Promise<AccountDto | null> {
     if (!(id > 0)) {
-      throw new Error(`Parameter id must be greater than 0`)
+      throw new Error(`Parameter id must be positive intiger`)
     }
 
     const response = await this.axiosClient.get<AccountDto>(`/account/${id}`)

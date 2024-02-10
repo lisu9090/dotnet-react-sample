@@ -1,5 +1,5 @@
 export interface ActionResult<T> {
-  payload: T | null | undefined;
+  payload: T | null;
   success: boolean;
-  errorCode: string;
+  errorCode?: string;
 }
