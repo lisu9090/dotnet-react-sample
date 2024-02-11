@@ -62,7 +62,7 @@ const formValidators: FormValidators = {
   vechiclesNumber: [requiredValidator(), positiveValueValidator()]
 }
 
-function toCreateAccountDto(formValue: CreateAccountForm): CreateAccount {
+function toCreateAccountEntry(formValue: CreateAccountForm): CreateAccount {
   return {
     email: formValue.email,
     password: formValue.password,
@@ -77,7 +77,7 @@ function useCreateAccount() {
   return useFetchWithErrorHandling(createAccount, 'Error while create an account')
 }
 
-export default function CreateAccount(): ReactElement {
+export default function CreateAccountComponent(): ReactElement {
   const router = useRouter()
   const createAccount = useCreateAccount()
 
@@ -102,7 +102,7 @@ export default function CreateAccount(): ReactElement {
       return
     }
 
-    const accountId = await createAccount(toCreateAccountDto(formValue))
+    const accountId = await createAccount(toCreateAccountEntry(formValue))
 
     if (accountId) {
       router.push(redirecUrl)

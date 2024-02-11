@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Account, AuthenticateAccount, AuthenticationResult, CreateAccount } from "@/shared/types";
+import { Account, ActionResult, AuthenticateAccount, AuthenticationResult, CreateAccount } from "@/shared/types";
 import { AppSettings } from "@/shared/types";
 
 const axiosClient = axios.create({
@@ -15,34 +15,34 @@ export async function fetchSettings(): Promise<AppSettings> {
   return response.data
 }
 
-export async function fetchCurrentAccount(): Promise<Account> {
-  const response = await axiosClient.get<Account>(`/account/current`)
+export async function fetchCurrentAccount(): Promise<ActionResult<Account>> {
+  const response = await axiosClient.get<ActionResult<Account>>(`/account/current`)
 
   return response.data
 }
 
-export async function fetchAccountsList(): Promise<Account[]> {
-  const response = await axiosClient.get<Account[]>(`/account/list`)
+export async function fetchAccountsList(): Promise<ActionResult<Account[]>> {
+  const response = await axiosClient.get<ActionResult<Account[]>>(`/account/list`)
 
   return response.data
 }
 
-export async function createAccount(createAccountEntry: CreateAccount): Promise<number> {
+export async function createAccount(createAccountEntry: CreateAccount): Promise<ActionResult<number>> {
   if (!createAccountEntry) {
     throw new Error('createAccountEntry cannot be falsy')
   }
 
-  const response = await axiosClient.post<number>(`/account/create`, createAccountEntry)
+  const response = await axiosClient.post<ActionResult<number>>(`/account/create`, createAccountEntry)
 
   return response.data
 }
 
-export async function authenticateAccount(authenticateAccountEntry: AuthenticateAccount): Promise<AuthenticationResult> {
+export async function authenticateAccount(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResult<AuthenticationResult>> {
   if (!authenticateAccountEntry) {
     throw new Error('authenticateAccountEntry cannot be falsy')
   }
   
-  const response = await axiosClient.post<AuthenticationResult>(`/account/authenticate`, authenticateAccountEntry)
+  const response = await axiosClient.post<ActionResult<AuthenticationResult>>(`/account/authenticate`, authenticateAccountEntry)
 
   return response.data
 }

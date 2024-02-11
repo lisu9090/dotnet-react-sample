@@ -1,17 +1,31 @@
 import { useSnackbar } from '@/pages/_components/snackbar'
 import { useSpinner } from '@/pages/_components/spinner'
+import { ActionResult } from '@/shared/types'
 
-export function useFetchWithErrorHandling(fetcher: any, errorMessage?: string) {
-  const { show: showSpnner, hide: hideSpinner } = useSpinner()
-  const { error } = useSnackbar()
+export function useFetchWithErrorHandling<T extends any[], TResult>(
+  fetcher: (...params: T) => Promise<ActionResult<TResult>>, 
+  errorMessage?: string
+): (...params: T) => Promise<TResult | null> {
+  const { show: showSpinner, hide: hideSpinner } = useSpinner()
+  const { warning, error } = useSnackbar()
 
-  return async (data: any) => {
-    showSpnner()
+  return async (...params: T) => {
+    showSpinner()
 
     try {
-      return await fetcher(data)
+      const result = await fetcher(...params)
+
+      if (!result.success && result.errorCode) {
+        warning(result.errorCode)
+
+        return null
+      }
+
+      return result.payload
     } catch (e: any) {
       error(errorMessage ? errorMessage : e.message)
+
+      return null
     } finally {
       hideSpinner()
     }
