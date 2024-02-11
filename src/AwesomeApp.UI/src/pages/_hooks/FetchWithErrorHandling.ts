@@ -22,8 +22,10 @@ export function useFetchWithErrorHandling<T extends any[], TResult>(
       }
 
       return result.payload
-    } catch (e: any) {
-      error(errorMessage ? errorMessage : e.message)
+    } catch (e) {
+      error(errorMessage ? errorMessage : 'Something went wrong...')
+
+      console.error(e)
 
       return null
     } finally {

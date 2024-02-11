@@ -10,12 +10,12 @@ export interface EndpointHandlers {
 
 export function withEndpoints(endpointHandlers: EndpointHandlers): NextApiHandler {
   return async (req, res) => {
-    if (req.method && endpointHandlers[req.method!]) {
-      await endpointHandlers[req.method!](req, res)
+    if (req.method && endpointHandlers[req.method]) {
+      await endpointHandlers[req.method](req, res)
     } else {
       res
-        .status(HttpStatusCode.Gone)
-        .send(createFailedActionResult('Endpoint does not exist'))
+        .status(HttpStatusCode.MethodNotAllowed)
+        .send(createFailedActionResult('Method not allowed at this endpoint'))
     }
   }
 }

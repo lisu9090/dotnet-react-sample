@@ -42,7 +42,7 @@ export async function authenticateAccount(authenticateAccountEntry: Authenticate
     throw new Error('authenticateAccountEntry cannot be falsy')
   }
   
-  const response = await axiosClient.post<ActionResult<AuthenticationResult>>(`/account/authenticate`, authenticateAccountEntry)
+  const response = await axiosClient.put<ActionResult<AuthenticationResult>>(`/account/authenticate`, authenticateAccountEntry)
 
   return response.data
 }
