@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig, HttpStatusCode } from "axios";
 import { Account, ActionResult, AuthenticateAccount, AuthenticationResult, CreateAccount } from "@/shared/types";
 import { AppSettings } from "@/shared/types";
 
@@ -9,6 +9,12 @@ const axiosClient = axios.create({
   }
 })
 
+function acceptStatuses(statuses: HttpStatusCode[]): AxiosRequestConfig {
+  return {
+    validateStatus: (status) => statuses.includes(status)   
+  }
+}
+
 export async function fetchSettings(): Promise<AppSettings> {
   const response = await axiosClient.get<AppSettings>(`/settings`)
 
@@ -16,7 +22,10 @@ export async function fetchSettings(): Promise<AppSettings> {
 }
 
 export async function fetchCurrentAccount(): Promise<ActionResult<Account>> {
-  const response = await axiosClient.get<ActionResult<Account>>(`/account/current`)
+  const response = await axiosClient.get<ActionResult<Account>>(
+    `/account/current`,
+    acceptStatuses([HttpStatusCode.Ok, HttpStatusCode.NotFound])
+  )
 
   return response.data
 }
@@ -32,7 +41,11 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
     throw new Error('createAccountEntry cannot be falsy')
   }
 
-  const response = await axiosClient.post<ActionResult<number>>(`/account/create`, createAccountEntry)
+  const response = await axiosClient.post<ActionResult<number>>(
+    `/account/create`, 
+    createAccountEntry,
+    acceptStatuses([HttpStatusCode.Ok, HttpStatusCode.Conflict])
+  )
 
   return response.data
 }
@@ -42,7 +55,7 @@ export async function authenticateAccount(authenticateAccountEntry: Authenticate
     throw new Error('authenticateAccountEntry cannot be falsy')
   }
   
-  const response = await axiosClient.put<ActionResult<AuthenticationResult>>(`/account/authenticate`, authenticateAccountEntry)
+  const response = await axiosClient.post<ActionResult<AuthenticationResult>>(`/account/authenticate`, authenticateAccountEntry)
 
   return response.data
 }

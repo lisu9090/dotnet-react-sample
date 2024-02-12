@@ -14,8 +14,7 @@ export async function getCurrentAccount(req: NextApiRequest, res: NextApiRespons
   if (accountDto) {
     res.send(createSucessfulActionResult(accountDto))
   } else {
-    res
-      .status(HttpStatusCode.NotFound)
+    res.status(HttpStatusCode.NotFound)
       .send(createFailedActionResult("Account not found"))
   }
 } 
@@ -37,8 +36,7 @@ export async function postCreateAccount(req: NextApiRequest, res: NextApiRespons
   if (accountId) {
     res.send(createSucessfulActionResult(accountId))
   } else {
-    res
-      .status(HttpStatusCode.Conflict)
+    res.status(HttpStatusCode.Conflict)
       .send(createFailedActionResult('Conflict while creating account'))
   }
 } 

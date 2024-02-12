@@ -1,5 +1,6 @@
 import { useSnackbar } from '@/pages/_components/snackbar'
 import { useSpinner } from '@/pages/_components/spinner'
+import { isProdEnvironment } from '@/shared/libs'
 import { ActionResult } from '@/shared/types'
 
 export function useFetchWithErrorHandling<T extends any[], TResult>(
@@ -25,7 +26,9 @@ export function useFetchWithErrorHandling<T extends any[], TResult>(
     } catch (e) {
       error(errorMessage ? errorMessage : 'Something went wrong...')
 
-      console.error(e)
+      if (!isProdEnvironment()) {
+        console.error(e)
+      }
 
       return null
     } finally {

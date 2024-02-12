@@ -2,7 +2,6 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiHandler } from "next";
 import { sessionConfig } from ".";
 import { HttpStatusCode } from "axios";
-import { createFailedActionResult } from "./ActionResultFactories";
 
 export interface EndpointHandlers {
   [method: string]: NextApiHandler
@@ -13,9 +12,8 @@ export function withEndpoints(endpointHandlers: EndpointHandlers): NextApiHandle
     if (req.method && endpointHandlers[req.method]) {
       await endpointHandlers[req.method](req, res)
     } else {
-      res
-        .status(HttpStatusCode.MethodNotAllowed)
-        .send(createFailedActionResult('Method not allowed at this endpoint'))
+      res.status(HttpStatusCode.MethodNotAllowed)
+        .send('Method not allowed at this endpoint')
     }
   }
 }
@@ -30,9 +28,8 @@ export function withErrorHandling(handler: NextApiHandler): NextApiHandler {
       await handler(req, res)
     }
     catch (e) {
-      res
-        .status(HttpStatusCode.InternalServerError)
-        .send(createFailedActionResult("Internal server error - " + e))
+      res.status(HttpStatusCode.InternalServerError)
+        .send("Internal server error - " + e)
     }
   }
 }
