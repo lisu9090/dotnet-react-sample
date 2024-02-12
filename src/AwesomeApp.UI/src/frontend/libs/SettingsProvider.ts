@@ -1,5 +1,5 @@
 import { AppSettings } from "@/shared/types"
-import { fetchSettings } from "."
+import { fetchSettings } from "./ApiClient"
 
 let appSettings: AppSettings
 

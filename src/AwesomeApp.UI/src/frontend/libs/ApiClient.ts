@@ -1,6 +1,7 @@
-import axios, { AxiosRequestConfig, HttpStatusCode } from "axios";
+import axios, { HttpStatusCode } from "axios";
 import { Account, ActionResult, AuthenticateAccount, AuthenticationResult, CreateAccount } from "@/shared/types";
 import { AppSettings } from "@/shared/types";
+import { acceptStatusCodes } from "@/shared/libs";
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -8,12 +9,6 @@ const axiosClient = axios.create({
     'Content-Type': 'application/json'
   }
 })
-
-function acceptStatuses(statuses: HttpStatusCode[]): AxiosRequestConfig {
-  return {
-    validateStatus: (status) => statuses.includes(status)   
-  }
-}
 
 export async function fetchSettings(): Promise<AppSettings> {
   const response = await axiosClient.get<AppSettings>(`/settings`)
@@ -24,7 +19,7 @@ export async function fetchSettings(): Promise<AppSettings> {
 export async function fetchCurrentAccount(): Promise<ActionResult<Account>> {
   const response = await axiosClient.get<ActionResult<Account>>(
     `/account/current`,
-    acceptStatuses([HttpStatusCode.Ok, HttpStatusCode.NotFound])
+    acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.NotFound])
   )
 
   return response.data
@@ -44,7 +39,7 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   const response = await axiosClient.post<ActionResult<number>>(
     `/account/create`, 
     createAccountEntry,
-    acceptStatuses([HttpStatusCode.Ok, HttpStatusCode.Conflict])
+    acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.Conflict])
   )
 
   return response.data

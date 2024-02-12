@@ -1,6 +1,6 @@
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiHandler } from "next";
-import { sessionConfig } from ".";
+import { sessionConfig } from "./IronSessionConfig";
 import { HttpStatusCode } from "axios";
 
 export interface EndpointHandlers {

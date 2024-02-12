@@ -1,15 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { AccountDto, CreateAccountDto } from "../dtos";
 import { HttpStatusCode } from "axios";
-import { awesomeApiService } from "../libs";
-import { AccountRole, ActionResult } from "@/shared/types";
-import { AuthenticationResult } from "@/shared/types";
-import { createFailedActionResult, createSucessfulActionResult } from "../libs/ActionResultFactories";
+import { AccountRole, ActionResult, AuthenticationResult } from "@/shared/types";
+import { AccountDto, CreateAccountDto } from "@/backend/dtos";
+import { createFailedActionResult, createSucessfulActionResult } from "@/backend/libs/ActionResultFactories";
+import { getAccount, getAccounts, createAccount, authenticateAccount } from "@/backend/libs";
 
 export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto>>): Promise<void> {
   const currentAccountId =  req.session.user?.id!
 
-  const accountDto = await awesomeApiService.getAccount(currentAccountId)
+  const accountDto = await getAccount(currentAccountId)
 
   if (accountDto) {
     res.send(createSucessfulActionResult(accountDto))
@@ -20,7 +19,7 @@ export async function getCurrentAccount(req: NextApiRequest, res: NextApiRespons
 } 
 
 export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto[]>>): Promise<void> {
-  const accountDtos = await awesomeApiService.getAccounts()
+  const accountDtos = await getAccounts()
 
   res.send(createSucessfulActionResult(accountDtos))
 } 
@@ -31,7 +30,7 @@ export async function postCreateAccount(req: NextApiRequest, res: NextApiRespons
     accountRole: AccountRole.User
   } 
 
-  const accountId = await awesomeApiService.createAccount(payload)
+  const accountId = await createAccount(payload)
 
   if (accountId) {
     res.send(createSucessfulActionResult(accountId))
@@ -42,7 +41,7 @@ export async function postCreateAccount(req: NextApiRequest, res: NextApiRespons
 } 
 
 export async function postAuthenticate(req: NextApiRequest, res: NextApiResponse<ActionResult<AuthenticationResult>>): Promise<void> {
-  const authenticationResultDto = await awesomeApiService.authenticateAccount(req.body)
+  const authenticationResultDto = await authenticateAccount(req.body)
 
   if (authenticationResultDto.authenticationSuccessful) {
     req.session.user = { id: authenticationResultDto.accountId!, role: authenticationResultDto.accountRole! }
