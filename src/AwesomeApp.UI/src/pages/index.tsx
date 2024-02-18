@@ -69,8 +69,8 @@ export default function LandingPage(): ReactElement {
             direction="column"
             alignItems="stretch"
           >
-            <Link href="/log-in">
-              <Button className="w-full" variant="outlined">Log In</Button>
+            <Link href="/login">
+              <Button className="w-full" variant="outlined">Login</Button>
             </Link>
           </Grid>
         </Grid>

@@ -10,17 +10,17 @@ function useAuthenticateAccount() {
   return useFetchWithErrorHandling(authenticateAccount)
 }
 
-export default function LogIn(): ReactElement {
+export default function Login(): ReactElement {
   const router = useRouter()
-  const authenticateAccount = useAuthenticateAccount()
   const { warning } = useSnackbar()
+  const authenticateAccount = useAuthenticateAccount()
 
   const [userEmail, setUserEmail] = useState<string>('')
   const [userPassword, setUserPassword] = useState<string>('')
 
-  const logIn = async () => {
+  const login = async () => {
     if (!userEmail || !userPassword) {
-      warning('Log in error - email and password cannot be empty')
+      warning('Login failed. Email and password cannot be empty')
 
       return
     }
@@ -32,6 +32,8 @@ export default function LogIn(): ReactElement {
 
     if (authenticationResult?.authenticationSuccessful) {
       router.push('/account')
+    } else {
+      warning('Login failed. Email or password are incorrect')
     }
   }
 
@@ -40,7 +42,7 @@ export default function LogIn(): ReactElement {
       <form 
         onSubmit={(event: React.FormEvent) => {
           event.preventDefault()
-          logIn()
+          login()
         }}
       >
         <Grid
@@ -50,7 +52,7 @@ export default function LogIn(): ReactElement {
           spacing={4}
         >
           <Grid item>
-            <Typography variant="h5">Log in to AwesomeApp</Typography>
+            <Typography variant="h5">Login to AwesomeApp</Typography>
           </Grid>
           <Grid 
             item 
@@ -102,12 +104,11 @@ export default function LogIn(): ReactElement {
                 type="submit"
                 variant="outlined"
               >
-                Log in
+                Login
               </Button>
             </Grid>
           </Grid>
           </Grid>
-
         </Grid>
       </form>
     </PageBox>

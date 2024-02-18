@@ -1,4 +1,4 @@
-﻿namespace AwesomeApp.Domain.Enums
+﻿namespace AwesomeApp.Domain.Accounts.Enums
 {
     [Flags]
     public enum EAccountRole

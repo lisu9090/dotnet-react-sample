@@ -1,6 +1,6 @@
-﻿using AwesomeApp.Domain.Entities;
+﻿using AwesomeApp.Domain.Accounts.Entities;
 
-namespace AwesomeApp.Domain.Repositories
+namespace AwesomeApp.Domain.Accounts.Repositories
 {
     public interface IAccountRepository : IEntityRepository<Account>
     {

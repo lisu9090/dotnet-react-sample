@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
 import { CustomerType } from "@/shared/types";
 import { useFetchWithErrorHandling } from "@/pages/_hooks";
 
-const redirecUrl = '/log-in'
+const redirecUrl = '/login'
 
 type CreateAccountForm = {
   email: string;
@@ -222,7 +222,7 @@ export default function CreateAccountComponent(): ReactElement {
               variant="outlined" 
               color="warning"
             >
-              Go Back
+              Return to home
             </Button>
           </Link>
           <Button 

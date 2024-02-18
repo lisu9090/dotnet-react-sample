@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using AwesomeApp.Application.Security;
-using AwesomeApp.Domain.Entities;
-using AwesomeApp.Domain.Repositories;
+using AwesomeApp.Domain.Accounts.Entities;
+using AwesomeApp.Domain.Accounts.Exceptions;
+using AwesomeApp.Domain.Accounts.Repositories;
 using MediatR;
 
 namespace AwesomeApp.Application.Accounts.Commands
@@ -25,8 +26,7 @@ namespace AwesomeApp.Application.Accounts.Commands
 
             if (account != null)
             {
-                // TODO Add custom exception
-                throw new Exception("This email is already used");
+                throw new AccountCreationException("Email already used");
             }
 
             account = _mapper.Map<Account>(request);

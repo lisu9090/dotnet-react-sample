@@ -1,9 +1,9 @@
-﻿namespace AwesomeApp.Domain.Entities
+﻿namespace AwesomeApp.Domain
 {
     /// <summary>
     /// Entity
     /// </summary>
-    public class AwesomeEntity
+    public abstract class Entity
     {
         /// <summary>
         /// Entity identity

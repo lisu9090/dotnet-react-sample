@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using AwesomeApp.Application.Accounts.Commands;
 using AwesomeApp.Application.Accounts.Dtos;
-using AwesomeApp.Domain.Entities;
+using AwesomeApp.Domain.Accounts.Entities;
 
 namespace AwesomeApp.Application.Accounts
 {

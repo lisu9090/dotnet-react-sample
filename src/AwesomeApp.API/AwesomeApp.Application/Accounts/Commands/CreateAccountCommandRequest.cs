@@ -1,4 +1,4 @@
-﻿using AwesomeApp.Domain.Enums;
+﻿using AwesomeApp.Domain.Accounts.Enums;
 using MediatR;
 
 namespace AwesomeApp.Application.Accounts.Commands

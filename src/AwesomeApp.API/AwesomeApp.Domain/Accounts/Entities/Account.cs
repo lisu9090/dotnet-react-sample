@@ -1,11 +1,11 @@
-﻿using AwesomeApp.Domain.Enums;
+﻿using AwesomeApp.Domain.Accounts.Enums;
 
-namespace AwesomeApp.Domain.Entities
+namespace AwesomeApp.Domain.Accounts.Entities
 {
     /// <summary>
     /// Account
     /// </summary>
-    public class Account : AwesomeEntity
+    public class Account : Entity
     {
         /// <summary>
         /// Email
