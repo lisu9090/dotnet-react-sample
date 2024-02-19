@@ -1,5 +1,5 @@
-﻿using AwesomeApp.Application.Features.Accounts.Dtos;
-using AwesomeApp.Application.Middlewares.RequestValidations;
+﻿using AwesomeApp.Application.Attributes;
+using AwesomeApp.Application.Features.Accounts.Dtos;
 using MediatR;
 
 namespace AwesomeApp.Application.Features.Accounts.Queries

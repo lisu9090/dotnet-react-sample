@@ -24,12 +24,10 @@ namespace AwesomeApp.API.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetAccount([FromRoute] uint id)
         {
-            var request = new GetAccountQueryRequest
+            AccountDto? data = await _mediator.Send(new GetAccountQueryRequest
             {
                 Id = id
-            };
-
-            AccountDto? data = await _mediator.Send(request);
+            });
 
             if (data != null)
             {
@@ -47,9 +45,7 @@ namespace AwesomeApp.API.Controllers
         {
             try
             {
-                uint result = await _mediator.Send(request);
-                
-                return Ok(result);
+                return Ok(await _mediator.Send(request));
             }
             catch (RequestValidationException)
             {
@@ -63,13 +59,12 @@ namespace AwesomeApp.API.Controllers
 
         [HttpPost("authenticate")]
         [ProducesResponseType(typeof(AuthenticationResultDto), 200)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> AuthenticateAccount([FromBody] AuthenticateAccountQueryRequest request)
         {
             try
             {
-                AuthenticationResultDto result = await _mediator.Send(request);
-
-                return Ok(result);
+                return Ok(await _mediator.Send(request));
             }
             catch (RequestValidationException)
             {

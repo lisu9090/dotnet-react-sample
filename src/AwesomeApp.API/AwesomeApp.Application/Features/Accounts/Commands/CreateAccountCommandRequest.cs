@@ -1,4 +1,4 @@
-﻿using AwesomeApp.Application.Middlewares.RequestValidations;
+﻿using AwesomeApp.Application.Attributes;
 using AwesomeApp.Domain.Accounts.Enums;
 using MediatR;
 

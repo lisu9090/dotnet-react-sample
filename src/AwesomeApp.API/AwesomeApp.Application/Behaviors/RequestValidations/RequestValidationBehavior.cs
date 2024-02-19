@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using AwesomeApp.Application.Attributes;
 using MediatR;
 
 namespace AwesomeApp.Application.Middlewares.RequestValidations
@@ -7,27 +8,29 @@ namespace AwesomeApp.Application.Middlewares.RequestValidations
     {
         public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            IEnumerable<PropertyInfo> requestProps = request
+            bool isRequestValid = ValidateRequiredProps(request);
+
+            return isRequestValid ? next() : throw new RequestValidationException();
+        }
+
+        private bool ValidateRequiredProps(object objectToValidate) 
+        {
+            IEnumerable<PropertyInfo> propsToValidate = objectToValidate
                 .GetType()
-                .GetProperties();
+                .GetProperties()
+                .Where(prop => prop
+                    .GetCustomAttributes<RequiredAttribute>()
+                    .Any());
 
-            IEnumerable<PropertyInfo> propsToValidate = requestProps
-                .Where(prop => prop.GetCustomAttributes<RequiredAttribute>().Any());
 
-            // TODO use recurrence for deep validation
-            bool isRequestValid = propsToValidate.All(prop =>
+            return propsToValidate.All(prop =>
             {
                 Type propType = prop.PropertyType;
-                object? propValue = prop.GetValue(request);
+                object? propValue = prop.GetValue(objectToValidate);
 
-                return 
-                    (!propType.IsValueType && propValue != null) || 
-                    (propType.IsValueType && Activator.CreateInstance(propType) != propValue);
+                return (propType.IsValueType && Activator.CreateInstance(propType) != propValue) ||
+                    (!propType.IsValueType && propValue != null && ValidateRequiredProps(propValue));
             });
-
-            return isRequestValid
-                ? next()
-                : throw new RequestValidationException();
         }
     }
 }
