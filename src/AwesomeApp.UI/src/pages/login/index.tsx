@@ -30,11 +30,13 @@ export default function Login(): ReactElement {
       password: userPassword
     })
 
-    if (authenticationResult?.authenticationSuccessful) {
-      router.push('/account')
-    } else {
-      warning('Login failed. Email or password are incorrect')
-    }
+    if (authenticationResult) {
+      if (authenticationResult.authenticationSuccessful) {
+        router.push('/account')
+      } else {
+        warning(`Login failed. ${authenticationResult.authenticationErrorMessage}`)
+      }
+    } 
   }
 
   return (
