@@ -69,13 +69,14 @@ In order to run app you will need following software to be installed:
 - [x] Setup projects structure
 - [x] Setup communication between API and App Backend
 - [x] Setup communication between App Backend and App frontend
-- [ ] Setup error handling in API
-- [ ] Setup error handling mechanism in both App Backend and frontend
+- [x] Setup error handling in API
+- [x] Setup error handling mechanism in both App Backend and frontend
 - [ ] (Optional) Setup sample logging mechanism in API and App Backend
 - [ ] Secure communication between API and App Backend (simple subscription key)
 - [ ] Secure communication between App backend and App frontend (user authentication and authorization)
 - [ ] Secure App routing and enable role-based user authorization
 - [ ] Enable App localization (string translations)
+- [ ] Apply documentation comments across codebase
 - [x] Feature: Landing, Error and NotFound pages
 - [x] Feature: Create user account
 - [x] Feature: Authenticate user

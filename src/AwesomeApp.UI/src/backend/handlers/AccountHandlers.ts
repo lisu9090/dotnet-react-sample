@@ -1,45 +1,47 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { AccountDto, CreateAccountDto } from "../dtos";
 import { HttpStatusCode } from "axios";
-import { awesomeApiService } from "../libs";
-import { AccountRole } from "@/shared/types";
-import { AuthenticationResultDto } from "@/shared/dtos";
+import { AccountRole, ActionResult, AuthenticationResult } from "@/shared/types";
+import { AccountDto, CreateAccountDto } from "@/backend/dtos";
+import { createFailedActionResult, createSucessfulActionResult } from "@/backend/libs/ActionResultFactories";
+import { getAccount, getAccounts, createAccount, authenticateAccount } from "@/backend/libs";
 
-export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<AccountDto | string>): Promise<void> {
+export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto>>): Promise<void> {
   const currentAccountId =  req.session.user?.id!
 
-  const accountDto = await awesomeApiService.getAccount(currentAccountId)
+  const accountDto = await getAccount(currentAccountId)
 
   if (accountDto) {
-    res.send(accountDto)
+    res.send(createSucessfulActionResult(accountDto))
   } else {
-    res.status(HttpStatusCode.NotFound).send("Account not found")
+    res.status(HttpStatusCode.NotFound)
+      .send(createFailedActionResult("Account not found"))
   }
 } 
 
-export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<AccountDto[]>): Promise<void> {
-  const accountDtos = await awesomeApiService.getAccounts()
+export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto[]>>): Promise<void> {
+  const accountDtos = await getAccounts()
 
-  res.send(accountDtos)
+  res.send(createSucessfulActionResult(accountDtos))
 } 
 
-export async function postCreateAccount(req: NextApiRequest, res: NextApiResponse<number | string>): Promise<void> {
+export async function postCreateAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<number>>): Promise<void> {
   const payload: CreateAccountDto = {
     ...req.body,
     accountRole: AccountRole.User
   } 
 
-  const accountId = await awesomeApiService.createAccount(payload)
+  const accountId = await createAccount(payload)
 
   if (accountId) {
-    res.send(accountId)
+    res.send(createSucessfulActionResult(accountId))
   } else {
-    res.status(HttpStatusCode.Conflict).send('Conflict while creating account')
+    res.status(HttpStatusCode.Conflict)
+      .send(createFailedActionResult('Account with this email exists'))
   }
 } 
 
-export async function postAuthenticate(req: NextApiRequest, res: NextApiResponse<AuthenticationResultDto>): Promise<void> {
-  const authenticationResultDto = await awesomeApiService.authenticateAccount(req.body)
+export async function postAuthenticate(req: NextApiRequest, res: NextApiResponse<ActionResult<AuthenticationResult>>): Promise<void> {
+  const authenticationResultDto = await authenticateAccount(req.body)
 
   if (authenticationResultDto.authenticationSuccessful) {
     req.session.user = { id: authenticationResultDto.accountId!, role: authenticationResultDto.accountRole! }
@@ -47,5 +49,5 @@ export async function postAuthenticate(req: NextApiRequest, res: NextApiResponse
     await req.session.save()
   }
 
-  res.send(authenticationResultDto)
+  res.send(createSucessfulActionResult(authenticationResultDto))
 }
