@@ -1,10 +1,10 @@
-﻿using AwesomeApp.Application.Accounts.Dtos;
+﻿using AwesomeApp.Application.Features.Accounts.Dtos;
 using AwesomeApp.Application.Security;
 using AwesomeApp.Domain.Accounts.Entities;
 using AwesomeApp.Domain.Accounts.Repositories;
 using MediatR;
 
-namespace AwesomeApp.Application.Accounts.Queries
+namespace AwesomeApp.Application.Features.Accounts.Queries
 {
     internal class AuthenticateAccountQuery : IRequestHandler<AuthenticateAccountQueryRequest, AuthenticationResultDto>
     {
@@ -19,10 +19,10 @@ namespace AwesomeApp.Application.Accounts.Queries
 
         public async Task<AuthenticationResultDto> Handle(AuthenticateAccountQueryRequest request, CancellationToken cancellationToken)
         {
-            Account? account = await _accountRepository.GetByEmailAsync(request.Email);
-            string passwordHash = _hashService.GetHash(request.Password);
+            Account? account = await _accountRepository.GetByEmailAsync(request.Email!);
+            string passwordHash = _hashService.GetHash(request.Password!);
 
-            if (account == null || !_hashService.Compare(account.PasswordHash, passwordHash))
+            if (account == null || !_hashService.Compare(account.PasswordHash!, passwordHash))
             {
                 return AuthenticationResultDto.AuthenticationFailedResult();
             }

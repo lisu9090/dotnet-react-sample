@@ -5,7 +5,7 @@ using AwesomeApp.Domain.Accounts.Exceptions;
 using AwesomeApp.Domain.Accounts.Repositories;
 using MediatR;
 
-namespace AwesomeApp.Application.Accounts.Commands
+namespace AwesomeApp.Application.Features.Accounts.Commands
 {
     internal class CreateAccountCommand : IRequestHandler<CreateAccountCommandRequest, uint>
     {
@@ -22,7 +22,7 @@ namespace AwesomeApp.Application.Accounts.Commands
 
         public async Task<uint> Handle(CreateAccountCommandRequest request, CancellationToken cancellationToken)
         {
-            Account? account = await _accountRepository.GetByEmailAsync(request.Email);
+            Account? account = await _accountRepository.GetByEmailAsync(request.Email!);
 
             if (account != null)
             {
@@ -31,7 +31,7 @@ namespace AwesomeApp.Application.Accounts.Commands
 
             account = _mapper.Map<Account>(request);
 
-            account.PasswordHash = _hashService.GetHash(request.Password);
+            account.PasswordHash = _hashService.GetHash(request.Password!);
 
             account = await _accountRepository.UpsertAsync(account, cancellationToken);
 

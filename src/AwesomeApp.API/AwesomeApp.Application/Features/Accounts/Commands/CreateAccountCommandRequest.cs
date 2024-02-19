@@ -1,32 +1,33 @@
-﻿using AwesomeApp.Domain.Accounts.Enums;
+﻿using AwesomeApp.Application.Middlewares.RequestValidations;
+using AwesomeApp.Domain.Accounts.Enums;
+using MediatR;
 
-namespace AwesomeApp.Application.Accounts.Dtos
+namespace AwesomeApp.Application.Features.Accounts.Commands
 {
-    public class AccountDto
+    public class CreateAccountCommandRequest : IRequest<uint>
     {
-        /// <summary>
-        /// Entity identity
-        /// </summary>
-        public uint Id { get; set; }
-
-        /// <summary>
-        /// CreatedAt
-        /// </summary>
-        public DateTime CreatedAt { get; set; }
-
         /// <summary>
         /// Email
         /// </summary>
+        [Required]
         public string? Email { get; set; }
+
+        /// <summary>
+        /// Password
+        /// </summary>
+        [Required]
+        public string? Password { get; set; }
 
         /// <summary>
         /// FullName
         /// </summary>
+        [Required]
         public string? FullName { get; set; }
 
         /// <summary>
         /// DateOfBirth
         /// </summary>
+        [Required]
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>

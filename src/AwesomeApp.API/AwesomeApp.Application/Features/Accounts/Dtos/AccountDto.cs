@@ -1,19 +1,23 @@
 ﻿using AwesomeApp.Domain.Accounts.Enums;
-using MediatR;
 
-namespace AwesomeApp.Application.Accounts.Commands
+namespace AwesomeApp.Application.Features.Accounts.Dtos
 {
-    public class CreateAccountCommandRequest : IRequest<uint>
+    public class AccountDto
     {
+        /// <summary>
+        /// Entity identity
+        /// </summary>
+        public uint Id { get; set; }
+
+        /// <summary>
+        /// CreatedAt
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
+
         /// <summary>
         /// Email
         /// </summary>
         public string? Email { get; set; }
-
-        /// <summary>
-        /// Password
-        /// </summary>
-        public string? Password { get; set; }
 
         /// <summary>
         /// FullName

@@ -1,13 +1,13 @@
 ﻿using AwesomeApp.Domain.Accounts.Enums;
 
-namespace AwesomeApp.Application.Accounts.Dtos
+namespace AwesomeApp.Application.Features.Accounts.Dtos
 {
     public class AuthenticationResultDto
     {
         public uint? AccountId { get; set; }
 
         public EAccountRole? AccountRole { get; set; }
-        
+
         public bool AuthenticationSuccessful { get; set; }
 
         public string? AuthenticationErrorMessage { get; set; }

@@ -1,6 +1,7 @@
-﻿using AwesomeApp.Application.Accounts.Commands;
-using AwesomeApp.Application.Accounts.Dtos;
-using AwesomeApp.Application.Accounts.Queries;
+﻿using AwesomeApp.Application.Features.Accounts.Commands;
+using AwesomeApp.Application.Features.Accounts.Dtos;
+using AwesomeApp.Application.Features.Accounts.Queries;
+using AwesomeApp.Application.Middlewares.RequestValidations;
 using AwesomeApp.Domain.Accounts.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -40,14 +41,19 @@ namespace AwesomeApp.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(uint), 200)]
+        [ProducesResponseType(400)]
         [ProducesResponseType(409)]
         public async Task<IActionResult> CreateAccount([FromBody] CreateAccountCommandRequest request)
         {
             try
             {
-                var result = await _mediator.Send(request);
+                uint result = await _mediator.Send(request);
                 
                 return Ok(result);
+            }
+            catch (RequestValidationException)
+            {
+                return BadRequest();
             }
             catch (AccountCreationException)
             {
@@ -59,7 +65,16 @@ namespace AwesomeApp.API.Controllers
         [ProducesResponseType(typeof(AuthenticationResultDto), 200)]
         public async Task<IActionResult> AuthenticateAccount([FromBody] AuthenticateAccountQueryRequest request)
         {
-            return Ok(await _mediator.Send(request));
+            try
+            {
+                AuthenticationResultDto result = await _mediator.Send(request);
+
+                return Ok(result);
+            }
+            catch (RequestValidationException)
+            {
+                return BadRequest();
+            }
         }
     }
 }

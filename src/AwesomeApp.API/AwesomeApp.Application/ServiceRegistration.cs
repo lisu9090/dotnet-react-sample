@@ -1,4 +1,6 @@
-﻿using AwesomeApp.Application.Security;
+﻿using AwesomeApp.Application.Middlewares.RequestValidations;
+using AwesomeApp.Application.Security;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AwesomeApp.Application
@@ -15,7 +17,12 @@ namespace AwesomeApp.Application
         /// <returns>service collection</returns>
         public static IServiceCollection RegisterApplication(this IServiceCollection services)
         {
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ServiceRegistration).Assembly));
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssembly(typeof(ServiceRegistration).Assembly);
+
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+            });
 
             services.AddAutoMapper(typeof(ServiceRegistration).Assembly);
 

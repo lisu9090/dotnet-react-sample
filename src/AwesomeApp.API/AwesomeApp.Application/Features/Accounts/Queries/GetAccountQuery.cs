@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using AwesomeApp.Application.Accounts.Dtos;
+using AwesomeApp.Application.Features.Accounts.Dtos;
 using AwesomeApp.Domain.Accounts.Entities;
 using AwesomeApp.Domain.Accounts.Repositories;
 using MediatR;
 
-namespace AwesomeApp.Application.Accounts.Queries
+namespace AwesomeApp.Application.Features.Accounts.Queries
 {
     internal class GetAccountQuery : IRequestHandler<GetAccountQueryRequest, AccountDto?>
     {
@@ -19,9 +19,9 @@ namespace AwesomeApp.Application.Accounts.Queries
 
         public async Task<AccountDto?> Handle(GetAccountQueryRequest request, CancellationToken cancellationToken)
         {
-            Account account = await _accountRepository.GetAsync(request.Id, cancellationToken);
+            Account? account = await _accountRepository.GetAsync(request.Id, cancellationToken);
 
-            return _mapper.Map<AccountDto>(account);
+            return _mapper.Map<AccountDto?>(account);
         }
     }
 }
