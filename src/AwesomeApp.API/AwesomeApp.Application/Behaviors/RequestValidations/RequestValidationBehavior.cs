@@ -20,7 +20,9 @@ namespace AwesomeApp.Application.Middlewares.RequestValidations
                 Type propType = prop.PropertyType;
                 object? propValue = prop.GetValue(request);
 
-                return (propType.IsValueType && Activator.CreateInstance(propType) != propValue) || propValue != null;
+                return 
+                    (!propType.IsValueType && propValue != null) || 
+                    (propType.IsValueType && Activator.CreateInstance(propType) != propValue);
             });
 
             return isRequestValid
