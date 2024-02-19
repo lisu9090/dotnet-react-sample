@@ -1,8 +1,6 @@
-﻿using AwesomeApp.Application.Exceptions;
-
-namespace AwesomeApp.Domain.Accounts.Exceptions
+﻿namespace AwesomeApp.Application.Features.Accounts.Exceptions
 {
-    public class AccountCreationException : ApplicationException
+    public class AccountCreationException : Application.Exceptions.ApplicationException
     {
         public AccountCreationException()
         {

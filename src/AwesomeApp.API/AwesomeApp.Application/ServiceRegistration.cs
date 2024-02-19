@@ -1,4 +1,4 @@
-﻿using AwesomeApp.Application.Middlewares.RequestValidations;
+﻿using AwesomeApp.Application.Behaviors.RequestValidations;
 using AwesomeApp.Application.Security;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

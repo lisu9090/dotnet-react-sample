@@ -2,7 +2,7 @@
 using AwesomeApp.Application.Attributes;
 using MediatR;
 
-namespace AwesomeApp.Application.Middlewares.RequestValidations
+namespace AwesomeApp.Application.Behaviors.RequestValidations
 {
     internal class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
     {
