@@ -1,6 +1,8 @@
-﻿using AwesomeApp.Application.Accounts.Commands;
-using AwesomeApp.Application.Accounts.Dtos;
-using AwesomeApp.Application.Accounts.Queries;
+﻿using AwesomeApp.Application.Behaviors.RequestValidations;
+using AwesomeApp.Application.Features.Accounts.Commands;
+using AwesomeApp.Application.Features.Accounts.Dtos;
+using AwesomeApp.Application.Features.Accounts.Exceptions;
+using AwesomeApp.Application.Features.Accounts.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,16 +21,13 @@ namespace AwesomeApp.API.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(AccountDto), 200)]
-        [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetAccount([FromRoute] uint id)
         {
-            var request = new GetAccountQueryRequest
+            AccountDto? data = await _mediator.Send(new GetAccountQueryRequest
             {
                 Id = id
-            };
-
-            AccountDto? data = await _mediator.Send(request);
+            });
 
             if (data != null)
             {
@@ -41,9 +40,21 @@ namespace AwesomeApp.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(uint), 200)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(409)]
         public async Task<IActionResult> CreateAccount([FromBody] CreateAccountCommandRequest request)
         {
-            return Ok(await _mediator.Send(request));
+            try
+            {
+                return Ok(await _mediator.Send(request));
+            }
+            catch (RequestValidationException)
+            {
+                return BadRequest();
+            }
+            catch (AccountCreationException)
+            {
+                return Conflict();
+            }
         }
 
         [HttpPost("authenticate")]
@@ -51,7 +62,14 @@ namespace AwesomeApp.API.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> AuthenticateAccount([FromBody] AuthenticateAccountQueryRequest request)
         {
-            return Ok(await _mediator.Send(request));
+            try
+            {
+                return Ok(await _mediator.Send(request));
+            }
+            catch (RequestValidationException)
+            {
+                return BadRequest();
+            }
         }
     }
 }

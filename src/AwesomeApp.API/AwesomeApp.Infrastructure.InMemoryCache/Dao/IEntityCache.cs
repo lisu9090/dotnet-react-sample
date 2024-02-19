@@ -1,8 +1,8 @@
-﻿using AwesomeApp.Domain.Entities;
+﻿using AwesomeApp.Domain;
 
 namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
-    internal interface IEntityCache<T> where T : AwesomeEntity
+    internal interface IEntityCache<T> where T : Entity
     {
         T? GetEntity(uint id);
 

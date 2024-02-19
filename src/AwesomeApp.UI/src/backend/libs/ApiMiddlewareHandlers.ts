@@ -1,6 +1,6 @@
 import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiHandler } from "next";
-import { sessionConfig } from ".";
+import { sessionConfig } from "./IronSessionConfig";
 import { HttpStatusCode } from "axios";
 
 export interface EndpointHandlers {
@@ -9,10 +9,11 @@ export interface EndpointHandlers {
 
 export function withEndpoints(endpointHandlers: EndpointHandlers): NextApiHandler {
   return async (req, res) => {
-    if (req.method && endpointHandlers[req.method!]) {
-      await endpointHandlers[req.method!](req, res)
+    if (req.method && endpointHandlers[req.method]) {
+      await endpointHandlers[req.method](req, res)
     } else {
-      res.status(HttpStatusCode.NotFound).send('Not found')
+      res.status(HttpStatusCode.MethodNotAllowed)
+        .send('Method not allowed at this endpoint')
     }
   }
 }
@@ -27,7 +28,8 @@ export function withErrorHandling(handler: NextApiHandler): NextApiHandler {
       await handler(req, res)
     }
     catch (e) {
-      res.status(HttpStatusCode.InternalServerError).send("Internal server error - " + e)
+      res.status(HttpStatusCode.InternalServerError)
+        .send("Internal server error - " + e)
     }
   }
 }

@@ -5,19 +5,21 @@ import Link from "next/link";
 import { 
   FormValidators, 
   SimpleFormValidation, 
-  ValidatorFn, 
   emailValidator, 
   minLengthValidator, 
   requiredValidator, 
   positiveValueValidator, 
   strongPasswordValidator, 
   useSimpleFormValidation,
-  apiService,
+  createAccount,
   fieldEqualityValidator, 
 } from "@/frontend/libs";
-import { CreateAccountDto } from "@/shared/dtos/CreateAccountDto";
+import { CreateAccount } from "@/shared/types/account/CreateAccount";
 import { useRouter } from "next/router";
 import { CustomerType } from "@/shared/types";
+import { useFetchWithErrorHandling } from "@/pages/_hooks";
+
+const redirecUrl = '/login'
 
 type CreateAccountForm = {
   email: string;
@@ -60,7 +62,7 @@ const formValidators: FormValidators = {
   vechiclesNumber: [requiredValidator(), positiveValueValidator()]
 }
 
-function toCreateAccountDto(formValue: CreateAccountForm): CreateAccountDto {
+function toCreateAccountEntry(formValue: CreateAccountForm): CreateAccount {
   return {
     email: formValue.email,
     password: formValue.password,
@@ -71,8 +73,13 @@ function toCreateAccountDto(formValue: CreateAccountForm): CreateAccountDto {
   }
 }
 
-export default function CreateAccount(): ReactElement {
+function useCreateAccount() {
+  return useFetchWithErrorHandling(createAccount)
+}
+
+export default function CreateAccountComponent(): ReactElement {
   const router = useRouter()
+  const createAccount = useCreateAccount()
 
   const { 
     formValue,
@@ -95,12 +102,10 @@ export default function CreateAccount(): ReactElement {
       return
     }
 
-    const accountId = await apiService.createAccount(toCreateAccountDto(formValue))
+    const accountId = await createAccount(toCreateAccountEntry(formValue))
 
     if (accountId) {
-      router.push('/log-in')
-    } else {
-      window.alert('Error while create account')
+      router.push(redirecUrl)
     }
   }
 
@@ -213,9 +218,20 @@ export default function CreateAccount(): ReactElement {
           justifyContent="end"
         >
           <Link className="mr-2" href="/">
-            <Button color="warning">Go Back</Button>
+            <Button 
+              variant="outlined" 
+              color="warning"
+            >
+              Return to home
+            </Button>
           </Link>
-          <Button disabled={!formValidation.isValid} onClick={submitForm}>Submit</Button>
+          <Button 
+            variant="outlined" 
+            disabled={!formValidation.isValid} 
+            onClick={submitForm}
+          >
+            Submit
+          </Button>
         </Grid>
       </Grid>
     </PageBox>

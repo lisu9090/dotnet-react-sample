@@ -49,8 +49,8 @@ export default function LandingPage(): ReactElement {
             direction="column"
             alignItems="stretch"
           >
-            <Link href="/log-in">
-              <Button className="w-full" variant="outlined">Log In</Button>
+            <Link href="/create-account">
+              <Button className="w-full" variant="outlined">Create Account</Button>
             </Link>
           </Grid>
           <Grid
@@ -69,8 +69,8 @@ export default function LandingPage(): ReactElement {
             direction="column"
             alignItems="stretch"
           >
-            <Link href="/create-account">
-              <Button className="w-full" variant="outlined">Create Account</Button>
+            <Link href="/login">
+              <Button className="w-full" variant="outlined">Login</Button>
             </Link>
           </Grid>
         </Grid>

@@ -1,13 +1,13 @@
-﻿using AwesomeApp.Domain.Entities;
+﻿using AwesomeApp.Domain;
 using Microsoft.Extensions.Options;
 
 namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
-    internal class EntityCache<T> : IEntityCache<T> where T : AwesomeEntity
+    internal class EntityCache<T> : IEntityCache<T> where T : Entity
     {
         private readonly IMemoryCacheProxy _cache;
 
-        public EntityCache(IMemoryCacheProxy cache)
+        private EntityCache(IMemoryCacheProxy cache)
         {
             _cache = cache;
         }
@@ -44,7 +44,6 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
                 throw new ArgumentNullException(nameof(entry));
             }
 
-            // TODO this logic should be parametrized
             if (entry.Id == default)
             {
                 var id = GetNextId();

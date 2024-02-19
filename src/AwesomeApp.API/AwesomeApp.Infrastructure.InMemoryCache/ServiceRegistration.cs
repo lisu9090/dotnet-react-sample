@@ -1,5 +1,5 @@
-﻿using AwesomeApp.Domain.Entities;
-using AwesomeApp.Domain.Repositories;
+﻿using AwesomeApp.Domain.Accounts.Entities;
+using AwesomeApp.Domain.Accounts.Repositories;
 using AwesomeApp.Infrastructure.InMemoryCache.Dao;
 using AwesomeApp.Infrastructure.InMemoryCache.Repositories;
 using Microsoft.Extensions.Configuration;
