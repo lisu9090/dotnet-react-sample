@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using AwesomeApp.Application.Features.Accounts.Exceptions;
 using AwesomeApp.Application.Security;
 using AwesomeApp.Domain.Accounts.Entities;
-using AwesomeApp.Domain.Accounts.Exceptions;
 using AwesomeApp.Domain.Accounts.Repositories;
 using MediatR;
 

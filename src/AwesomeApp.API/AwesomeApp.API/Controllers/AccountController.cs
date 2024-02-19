@@ -1,8 +1,8 @@
-﻿using AwesomeApp.Application.Features.Accounts.Commands;
+﻿using AwesomeApp.Application.Behaviors.RequestValidations;
+using AwesomeApp.Application.Features.Accounts.Commands;
 using AwesomeApp.Application.Features.Accounts.Dtos;
 using AwesomeApp.Application.Features.Accounts.Exceptions;
 using AwesomeApp.Application.Features.Accounts.Queries;
-using AwesomeApp.Application.Behaviors.RequestValidations;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
