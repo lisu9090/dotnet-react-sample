@@ -36,7 +36,7 @@ export async function postCreateAccount(req: NextApiRequest, res: NextApiRespons
     res.send(createSucessfulActionResult(accountId))
   } else {
     res.status(HttpStatusCode.Conflict)
-      .send(createFailedActionResult('Conflict while creating account'))
+      .send(createFailedActionResult('Account with this email exists'))
   }
 } 
 
