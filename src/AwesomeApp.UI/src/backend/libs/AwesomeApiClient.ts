@@ -1,6 +1,6 @@
 import axios, { HttpStatusCode } from "axios";
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from "@/backend/dtos";
-import settings from "@/Settings";
+import settings from "@/settings";
 import { acceptStatusCodes, isOkResponse } from "@/shared/libs";
 
 const { awesomeApiConfig } = settings
@@ -8,7 +8,8 @@ const { awesomeApiConfig } = settings
 const axiosClient = axios.create({
   baseURL: awesomeApiConfig.baseUrl,
   headers: {
-    "Content-Type": "application/json"
+    "Content-Type": "application/json",
+    "X-Awesome-API-Key": process.env.AWESOME_API_KEY
   }
 })
 

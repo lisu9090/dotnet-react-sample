@@ -1,5 +1,8 @@
+using AwesomeApp.API.Securities;
 using AwesomeApp.Application;
 using AwesomeApp.Infrastructure.InMemoryCache;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 
 internal static class Program
 {
@@ -16,14 +19,17 @@ internal static class Program
     private static WebApplicationBuilder RegisterServices(this WebApplicationBuilder builder)
     {
         IServiceCollection services = builder.Services;
-        IConfiguration configuration = builder.Configuration;
+        IConfiguration config = builder.Configuration;
 
         services.RegisterApplication();
-        services.RegisterInMemoryCache(configuration);
+        services.RegisterInMemoryCache(config);
 
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        services.Configure<AllowedApiKeysOptions>(config.GetSection("AllowedApiKeys"));
+        services.AddSingleton<IAuthorizationMiddlewareResultHandler, ApiAuthorizationMiddleware>();
 
         return builder;
     }
