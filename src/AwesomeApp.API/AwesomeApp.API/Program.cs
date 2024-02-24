@@ -1,4 +1,4 @@
-using AwesomeApp.API.Securities;
+using AwesomeApp.API.Filters;
 using AwesomeApp.Application;
 using AwesomeApp.Infrastructure.InMemoryCache;
 using Microsoft.AspNetCore.Authorization;
@@ -24,12 +24,15 @@ internal static class Program
         services.RegisterApplication();
         services.RegisterInMemoryCache(config);
 
-        services.AddControllers();
-        services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddEndpointsApiExplorer();
+        services.AddControllers(opt =>
+        {
+            opt.Filters.Add<ApiKeyAuthorizationFilter>();
+            opt.Filters.Add<ExceptionFilter>();
+        });
 
-        services.Configure<AllowedApiKeysOptions>(config.GetSection("AllowedApiKeys"));
-        services.AddSingleton<IAuthorizationMiddlewareResultHandler, ApiAuthorizationMiddleware>();
+        services.Configure<ApiKeyAuthorizationFilterOptions>(config.GetSection("AllowedApiKeys"));
 
         return builder;
     }
@@ -43,8 +46,6 @@ internal static class Program
         }
 
         app.UseHttpsRedirection();
-
-        app.UseAuthorization();
 
         app.MapControllers();
 
