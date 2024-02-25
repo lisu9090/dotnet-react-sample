@@ -5,12 +5,24 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, useState } from "react";
 import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks";
+import { getCsrfToken } from "next-auth/react";
+import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
 function useAuthenticateAccount() {
   return useFetchWithErrorHandling(authenticateAccount)
 }
 
-export default function Login(): ReactElement {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return {
+    props: {
+      csrfToken: await getCsrfToken(context),
+    },
+  }
+}
+
+export default function Login({ 
+  csrfToken 
+}: InferGetServerSidePropsType<typeof getServerSideProps>): ReactElement {
   const router = useRouter()
   const { warning } = useSnackbar()
   const authenticateAccount = useAuthenticateAccount()
@@ -25,10 +37,13 @@ export default function Login(): ReactElement {
       return
     }
 
-    const authenticationResult = await authenticateAccount({
-      email: userEmail,
-      password: userPassword
-    })
+    const authenticationResult = await authenticateAccount(
+      {
+        email: userEmail,
+        password: userPassword
+      },
+      csrfToken
+    )
 
     if (authenticationResult) {
       if (authenticationResult.authenticationSuccessful) {

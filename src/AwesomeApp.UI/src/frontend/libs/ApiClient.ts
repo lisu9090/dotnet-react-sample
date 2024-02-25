@@ -45,12 +45,21 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   return response.data
 }
 
-export async function authenticateAccount(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResult<AuthenticationResult>> {
+export async function authenticateAccount(
+  authenticateAccountEntry: AuthenticateAccount, 
+  csfrToken?: string
+): Promise<ActionResult<AuthenticationResult>> {
   if (!authenticateAccountEntry) {
     throw new Error('authenticateAccountEntry cannot be falsy')
   }
   
-  const response = await axiosClient.post<ActionResult<AuthenticationResult>>(`/account/authenticate`, authenticateAccountEntry)
+  const response = await axiosClient.post<ActionResult<AuthenticationResult>>(
+    `/auth/callback/AwesomeAccountProvider`, 
+    {
+      ...authenticateAccountEntry,
+      csfrToken
+    }
+  )
 
   return response.data
 }
