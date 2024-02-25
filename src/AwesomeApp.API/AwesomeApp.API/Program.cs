@@ -1,8 +1,6 @@
 using AwesomeApp.API.Filters;
 using AwesomeApp.Application;
 using AwesomeApp.Infrastructure.InMemoryCache;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.DependencyInjection;
 
 internal static class Program
 {

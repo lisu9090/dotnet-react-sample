@@ -1,7 +1,7 @@
-import { withIronSessionApiRoute } from "iron-session/next";
 import { NextApiHandler } from "next";
-import { sessionConfig } from "./IronSessionConfig";
 import { HttpStatusCode } from "axios";
+import { getServerSession } from "next-auth";
+import { nextAuthOptions } from "@/shared/libs";
 
 export interface EndpointHandlers {
   [method: string]: NextApiHandler
@@ -19,7 +19,16 @@ export function withEndpoints(endpointHandlers: EndpointHandlers): NextApiHandle
 }
 
 export function withAuthentication(handler: NextApiHandler): NextApiHandler {
-  return withIronSessionApiRoute(handler, sessionConfig)
+  return async (req, res) => {
+    const session = await getServerSession(req, res, nextAuthOptions)
+    
+    if (session) {
+      await handler(req, res)
+    } else {
+      res.status(HttpStatusCode.Unauthorized)
+        .send("Not authorized, please login")
+    }
+  }
 }
 
 export function withErrorHandling(handler: NextApiHandler): NextApiHandler {

@@ -4,9 +4,11 @@ import { AccountRole, ActionResult, AuthenticationResult } from "@/shared/types"
 import { AccountDto, CreateAccountDto } from "@/backend/dtos";
 import { createFailedActionResult, createSucessfulActionResult } from "@/backend/libs/ActionResultFactories";
 import { getAccount, getAccounts, createAccount, authenticateAccount } from "@/backend/libs";
+import { getSession } from "@/shared/libs";
 
 export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto>>): Promise<void> {
-  const currentAccountId =  req.session.user?.id!
+  const session = await getSession(req, res)
+  const currentAccountId = 0 //session?.user?.id!
 
   const accountDto = await getAccount(currentAccountId)
 
@@ -43,11 +45,11 @@ export async function postCreateAccount(req: NextApiRequest, res: NextApiRespons
 export async function postAuthenticate(req: NextApiRequest, res: NextApiResponse<ActionResult<AuthenticationResult>>): Promise<void> {
   const authenticationResultDto = await authenticateAccount(req.body)
 
-  if (authenticationResultDto.authenticationSuccessful) {
-    req.session.user = { id: authenticationResultDto.accountId!, role: authenticationResultDto.accountRole! }
+  // if (authenticationResultDto.authenticationSuccessful) {
+  //   req.session.user = { id: authenticationResultDto.accountId!, role: authenticationResultDto.accountRole! }
     
-    await req.session.save()
-  }
+  //   await req.session.save()
+  // }
 
   res.send(createSucessfulActionResult(authenticationResultDto))
 }
