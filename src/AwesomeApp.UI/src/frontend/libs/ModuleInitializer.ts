@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react"
 
-export type ModuleInitializer = () => Promise<any>
+export type ModuleInitializer = () => Promise<void>
 
 export function useModulesInit(moduleInitializers: ModuleInitializer[]): boolean {
   const [modulesInitialized, setModulesInitialized] = useState<boolean>(false)

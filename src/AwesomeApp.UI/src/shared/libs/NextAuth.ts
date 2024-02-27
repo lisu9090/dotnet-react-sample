@@ -6,13 +6,13 @@ import { isProdEnvironment } from "./EnvironmentHelpers"
 
 export const nextAuthOptions: NextAuthOptions = {
   secret: process.env.SESSION_PASSWORD,
-  // useSecureCookies: isProdEnvironment(),
+  useSecureCookies: isProdEnvironment(),
   pages: {
     signIn: '/login'
   },
   providers: [
     CredentialsProvider({
-      id: 'AwesomeAccountProvider',
+      id: 'awesome-credentials',
       type: 'credentials',
       name: 'Credentials',
       credentials: {

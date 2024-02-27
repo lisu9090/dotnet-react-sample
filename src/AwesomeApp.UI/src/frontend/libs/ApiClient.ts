@@ -2,6 +2,9 @@ import axios, { HttpStatusCode } from "axios";
 import { Account, ActionResult, AuthenticateAccount, AuthenticationResult, CreateAccount } from "@/shared/types";
 import { AppSettings } from "@/shared/types";
 import { acceptStatusCodes } from "@/shared/libs";
+import { getCsrfToken } from "next-auth/react";
+
+let csrfToken: string = '';
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -9,6 +12,16 @@ const axiosClient = axios.create({
     'Content-Type': 'application/json'
   }
 })
+
+export async function initApiCient(): Promise<void> {
+  const token = await getCsrfToken()
+
+  if (!token) {
+    throw new Error('CSRF token is not defined')
+  }
+
+  csrfToken = token
+}
 
 export async function fetchSettings(): Promise<AppSettings> {
   const response = await axiosClient.get<AppSettings>(`/settings`)
@@ -45,22 +58,18 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   return response.data
 }
 
-export async function authenticateAccount(
-  authenticateAccountEntry: AuthenticateAccount, 
-  csrfToken?: string
-): Promise<ActionResult<AuthenticationResult>> {
+export async function authenticateAccount(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResult<AuthenticationResult>> {
   if (!authenticateAccountEntry) {
     throw new Error('authenticateAccountEntry cannot be falsy')
   }
   
   const response = await axiosClient.post<ActionResult<AuthenticationResult>>(
-    `/auth/callback/AwesomeAccountProvider`, 
+    `/auth/callback/awesome-credentials`, 
     {
       ...authenticateAccountEntry,
       csrfToken,
       redirect: false,
       json: true,
-      // callbackUrl: 'http://localhost:3000/login'
     },
     {
       headers: {

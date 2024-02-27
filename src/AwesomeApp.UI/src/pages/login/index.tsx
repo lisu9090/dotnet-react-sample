@@ -4,7 +4,7 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { ReactElement, useState } from "react";
 import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks";
-import { getCsrfToken, signIn } from "next-auth/react";
+import { getCsrfToken } from "next-auth/react";
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 
@@ -12,17 +12,7 @@ function useAuthenticateAccount() {
   return useFetchWithErrorHandling(authenticateAccount)
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return {
-    props: {
-      csrfToken: await getCsrfToken(context),
-    },
-  }
-}
-
-export default function Login({ 
-  csrfToken 
-}: InferGetServerSidePropsType<typeof getServerSideProps>): ReactElement {
+export default function Login(): ReactElement {
   const router = useRouter()
   const { warning } = useSnackbar()
   const authenticateAccount = useAuthenticateAccount()
@@ -37,22 +27,10 @@ export default function Login({
       return
     }
 
-    // await signIn(
-    //   'AwesomeAccountProvider',
-    //   {
-    //     redirect: false,
-    //     email: userEmail,
-    //     password: userPassword
-    //   }
-    // )
-
-    const authenticationResult = await authenticateAccount(
-      {
-        email: userEmail,
-        password: userPassword
-      },
-      csrfToken
-    )
+    const authenticationResult = await authenticateAccount({
+      email: userEmail,
+      password: userPassword
+    })
 
     if (authenticationResult) {
       if (authenticationResult.authenticationSuccessful) {
