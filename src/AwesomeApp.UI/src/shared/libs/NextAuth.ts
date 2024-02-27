@@ -10,6 +10,9 @@ export const nextAuthOptions: NextAuthOptions = {
   pages: {
     signIn: '/login'
   },
+  callbacks: {
+    redirect: ({ baseUrl }) => `${baseUrl}/account`
+  },
   providers: [
     CredentialsProvider({
       id: 'awesome-credentials',

@@ -1,8 +1,9 @@
-import axios, { HttpStatusCode } from "axios";
+import axios, { AxiosResponse, HttpStatusCode } from "axios";
 import { Account, ActionResult, AuthenticateAccount, AuthenticationResult, CreateAccount } from "@/shared/types";
 import { AppSettings } from "@/shared/types";
-import { acceptStatusCodes } from "@/shared/libs";
+import { acceptStatusCodes, isOkResponse, setContentType } from "@/shared/libs";
 import { getCsrfToken } from "next-auth/react";
+import { createFailedActionResult, createSucessfulActionResult } from "@/shared/libs";
 
 let csrfToken: string = '';
 
@@ -58,25 +59,26 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   return response.data
 }
 
-export async function authenticateAccount(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResult<AuthenticationResult>> {
+export async function authenticateAccount(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResult<string>> {
   if (!authenticateAccountEntry) {
     throw new Error('authenticateAccountEntry cannot be falsy')
   }
   
-  const response = await axiosClient.post<ActionResult<AuthenticationResult>>(
+  const response = await axiosClient.post<{url: string}>(
     `/auth/callback/awesome-credentials`, 
     {
       ...authenticateAccountEntry,
       csrfToken,
-      redirect: false,
+      redirect: true,
       json: true,
     },
     {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
+      ...acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.Unauthorized]),
+      ...setContentType('application/x-www-form-urlencoded')
     }
   )
 
-  return response.data
+  return isOkResponse(response) 
+    ? createSucessfulActionResult(response.data.url)
+    : createFailedActionResult('Authentication failed. Please try again.')
 }

@@ -6,6 +6,14 @@ export function acceptStatusCodes(statuses: HttpStatusCode[]): AxiosRequestConfi
   }
 }
 
+export function setContentType(contentType: string): AxiosRequestConfig {
+  return {
+    headers: {
+      'Content-Type': contentType
+    }
+  }
+}
+
 export function isOkResponse(response: AxiosResponse): boolean {
   return response.status >= 200 && response.status < 300
 }

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { HttpStatusCode } from "axios";
 import { AccountRole, ActionResult, AuthenticationResult } from "@/shared/types";
 import { AccountDto, CreateAccountDto } from "@/backend/dtos";
-import { createFailedActionResult, createSucessfulActionResult } from "@/backend/libs";
+import { createFailedActionResult, createSucessfulActionResult } from "@/shared/libs";
 import { getAccount, getAccounts, createAccount, authenticateAccount } from "@/backend/libs";
 import { getSession } from "@/shared/libs";
 
@@ -40,16 +40,4 @@ export async function postCreateAccount(req: NextApiRequest, res: NextApiRespons
     res.status(HttpStatusCode.Conflict)
       .send(createFailedActionResult('Account with this email exists'))
   }
-} 
-
-// export async function postAuthenticate(req: NextApiRequest, res: NextApiResponse<ActionResult<AuthenticationResult>>): Promise<void> {
-//   const authenticationResultDto = await authenticateAccount(req.body)
-
-//   if (authenticationResultDto.authenticationSuccessful) {
-//     req.session.user = { id: authenticationResultDto.accountId!, role: authenticationResultDto.accountRole! }
-    
-//     await req.session.save()
-//   }
-
-//   res.send(createSucessfulActionResult(authenticationResultDto))
-// }
+}

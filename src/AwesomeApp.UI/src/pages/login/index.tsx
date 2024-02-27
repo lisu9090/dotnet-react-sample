@@ -4,8 +4,6 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import Link from "next/link";
 import { ReactElement, useState } from "react";
 import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks";
-import { getCsrfToken } from "next-auth/react";
-import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 
 function useAuthenticateAccount() {
@@ -27,17 +25,13 @@ export default function Login(): ReactElement {
       return
     }
 
-    const authenticationResult = await authenticateAccount({
+    const redirectUrl = await authenticateAccount({
       email: userEmail,
       password: userPassword
     })
 
-    if (authenticationResult) {
-      if (authenticationResult.authenticationSuccessful) {
-        router.push('/account')
-      } else {
-        warning(`Login failed. ${authenticationResult.authenticationErrorMessage}`)
-      }
+    if (redirectUrl) {
+        router.push(redirectUrl)
     } 
   }
 
