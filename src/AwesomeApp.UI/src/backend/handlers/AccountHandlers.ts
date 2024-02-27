@@ -1,16 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { HttpStatusCode } from "axios";
-import { AccountRole, ActionResult, AuthenticationResult } from "@/shared/types";
+import { AccountRole, ActionResult } from "@/shared/types";
 import { AccountDto, CreateAccountDto } from "@/backend/dtos";
 import { createFailedActionResult, createSucessfulActionResult } from "@/shared/libs";
-import { getAccount, getAccounts, createAccount, authenticateAccount } from "@/backend/libs";
+import { getAccount, getAccounts, createAccount } from "@/backend/libs";
 import { getSession } from "@/shared/libs";
 
 export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto>>): Promise<void> {
   const session = await getSession(req, res)
-  const currentAccountId = 0 //session?.user?.id
-
-  const accountDto = await getAccount(currentAccountId)
+  const accountDto = await getAccount(session.user.id)
 
   if (accountDto) {
     res.send(createSucessfulActionResult(accountDto))

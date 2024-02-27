@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { NextAuthOptions, User, getServerSession } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { isProdEnvironment } from "./EnvironmentHelpers"
+import { AccountRole } from "@/shared/types"
 
 export const nextAuthOptions: NextAuthOptions = {
   secret: process.env.SESSION_PASSWORD,
@@ -11,7 +12,23 @@ export const nextAuthOptions: NextAuthOptions = {
     signIn: '/login'
   },
   callbacks: {
-    redirect: ({ baseUrl }) => `${baseUrl}/account`
+    redirect: ({ baseUrl }) => `${baseUrl}/account`,
+    jwt({ token, user }) {
+      if (user) {
+        token.id = user.id as number
+        token.role = user.role
+      }
+
+      return token
+    },
+    session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.id as number
+        session.user.role = token.role as AccountRole
+      }
+
+      return session
+    }
   },
   providers: [
     CredentialsProvider({
@@ -42,9 +59,10 @@ export const nextAuthOptions: NextAuthOptions = {
         }
 
         return {
-          id: account.id.toString(),
+          id: account.id,
           email: account.email,
           name: account.fullName,
+          role: account.accountRole,
         } as User
       },
     })
@@ -54,9 +72,12 @@ export const nextAuthOptions: NextAuthOptions = {
 export async function getSession(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, nextAuthOptions)
 
-  if (!session) {
+  if (!session || !session.user) {
     throw new Error("Not authorized")
   }
 
-  return session
+  return {
+    ...session,
+    user: session.user!
+  }
 }
