@@ -47,7 +47,7 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
 
 export async function authenticateAccount(
   authenticateAccountEntry: AuthenticateAccount, 
-  csfrToken?: string
+  csrfToken?: string
 ): Promise<ActionResult<AuthenticationResult>> {
   if (!authenticateAccountEntry) {
     throw new Error('authenticateAccountEntry cannot be falsy')
@@ -57,7 +57,15 @@ export async function authenticateAccount(
     `/auth/callback/AwesomeAccountProvider`, 
     {
       ...authenticateAccountEntry,
-      csfrToken
+      csrfToken,
+      redirect: false,
+      json: true,
+      // callbackUrl: 'http://localhost:3000/login'
+    },
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     }
   )
 

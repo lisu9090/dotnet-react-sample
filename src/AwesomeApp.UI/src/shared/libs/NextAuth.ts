@@ -6,7 +6,7 @@ import { isProdEnvironment } from "./EnvironmentHelpers"
 
 export const nextAuthOptions: NextAuthOptions = {
   secret: process.env.SESSION_PASSWORD,
-  useSecureCookies: isProdEnvironment(),
+  // useSecureCookies: isProdEnvironment(),
   pages: {
     signIn: '/login'
   },
@@ -20,6 +20,8 @@ export const nextAuthOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       authorize: async (credentials) => {
+        console.log(credentials)
+
         if (!credentials || !credentials.email || !credentials.password) {
           return null
         }
