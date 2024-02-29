@@ -1,4 +1,4 @@
-import { authenticateAccount, getAccount } from "@/backend/libs"
+import { authenticateAccount } from "@/backend/libs"
 import { isProdEnvironment } from "@/shared/libs"
 import { NextAuthOptions, User } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"

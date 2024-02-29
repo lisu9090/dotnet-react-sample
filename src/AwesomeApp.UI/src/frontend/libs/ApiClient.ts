@@ -1,5 +1,5 @@
-import axios, { AxiosResponse, HttpStatusCode } from "axios";
-import { Account, ActionResult, AuthenticateAccount, AuthenticationResult, CreateAccount } from "@/shared/types";
+import axios, { HttpStatusCode } from "axios";
+import { Account, ActionResult, AuthenticateAccount, CreateAccount } from "@/shared/types";
 import { AppSettings } from "@/shared/types";
 import { acceptStatusCodes, isOkResponse, setContentType } from "@/shared/libs";
 import { getCsrfToken } from "next-auth/react";
