@@ -1,4 +1,5 @@
 export * from './AccountDto'
+export * from './AccountSessionDto'
 export * from './AuthenticationResultDto'
 export * from './CreateAccountDto'
 export * from './AuthenticateAccountDto'

@@ -1,8 +1,7 @@
-import { AccountRole } from "@/shared/types";
+import { AccountSessionDto } from "./AccountSessionDto";
 
 export interface AuthenticationResultDto {
-  accountId?: number;
-  accountRole?: AccountRole;
+  account?: AccountSessionDto;
   authenticationSuccessful: boolean;
   authenticationErrorMessage?: string; 
 }

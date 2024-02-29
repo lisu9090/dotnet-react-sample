@@ -13,6 +13,7 @@ namespace AwesomeApp.Application.Features.Accounts
                 .ForSourceMember(src => src.Password, opt => opt.DoNotValidate());
 
             CreateMap<Account, AccountDto>(MemberList.Destination);
+            CreateMap<Account, AccountSessionDto>(MemberList.Destination);
         }
     }
 }

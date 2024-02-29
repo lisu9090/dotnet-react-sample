@@ -4,19 +4,22 @@ namespace AwesomeApp.Application.Features.Accounts.Dtos
 {
     public class AuthenticationResultDto
     {
-        public uint? AccountId { get; set; }
+        public AccountSessionDto? Account { get; set; }
 
-        public EAccountRole? AccountRole { get; set; }
-
+        /// <summary>
+        /// AuthenticationSuccessful
+        /// </summary>
         public bool AuthenticationSuccessful { get; set; }
 
+        /// <summary>
+        /// AuthenticationErrorMessage
+        /// </summary>
         public string? AuthenticationErrorMessage { get; set; }
 
-        public static AuthenticationResultDto AuthenticationSucessfulResult(uint accountId, EAccountRole accountRole) =>
+        public static AuthenticationResultDto AuthenticationSucessfulResult(AccountSessionDto account) =>
             new AuthenticationResultDto
             {
-                AccountId = accountId,
-                AccountRole = accountRole,
+                Account = account,
                 AuthenticationSuccessful = true
             };
 

@@ -2,6 +2,9 @@
 
 namespace AwesomeApp.Application.Features.Accounts.Dtos
 {
+    /// <summary>
+    /// AccountDto
+    /// </summary>
     public class AccountDto
     {
         /// <summary>

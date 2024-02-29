@@ -1,7 +1,7 @@
 import { NextApiHandler } from "next";
 import { HttpStatusCode } from "axios";
 import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "@/shared/libs";
+import { nextAuthOptions } from "./NextAuthOptions";
 
 export interface EndpointHandlers {
   [method: string]: NextApiHandler
