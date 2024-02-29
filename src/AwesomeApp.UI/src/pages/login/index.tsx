@@ -5,9 +5,28 @@ import Link from "next/link";
 import { ReactElement, useState } from "react";
 import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks";
 import { useRouter } from "next/router";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
+import { getSession } from "next-auth/react";
 
 function useAuthenticateAccount() {
   return useFetchWithErrorHandling(authenticateAccount)
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<{ }>> {
+  const session = await getSession(context)
+
+  if (session) {
+    return {
+      redirect: {
+        destination: '/account',
+        permanent: false,
+      }
+    }
+  }
+
+  return {
+    props: { }
+  }
 }
 
 export default function Login(): ReactElement {
