@@ -1,6 +1,7 @@
 import { authenticateAccount } from "@/backend/libs"
 import { isProdEnvironment } from "@/shared/libs"
-import { NextAuthOptions, User } from "next-auth"
+import { NextApiRequest, NextApiResponse } from "next"
+import { NextAuthOptions, User, getServerSession } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
 export const nextAuthOptions: NextAuthOptions = {
@@ -61,4 +62,17 @@ export const nextAuthOptions: NextAuthOptions = {
       },
     })
   ]
+}
+
+export async function getSession(req: NextApiRequest, res: NextApiResponse) {
+  const session = await getServerSession(req, res, nextAuthOptions)
+
+  if (!session || !session.user) {
+    throw new Error("Not authorized")
+  }
+
+  return {
+    ...session,
+    user: session.user!
+  }
 }

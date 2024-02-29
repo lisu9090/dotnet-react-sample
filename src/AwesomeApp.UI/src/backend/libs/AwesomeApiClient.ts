@@ -1,7 +1,7 @@
 import axios, { HttpStatusCode } from "axios";
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from "@/backend/dtos";
 import settings from "@/settings";
-import { acceptStatusCodes, isOkResponse } from "@/shared/libs";
+import { acceptStatusCodes, getDataIfOk } from "@/shared/libs";
 
 const { awesomeApiConfig } = settings
 
@@ -23,7 +23,7 @@ export async function getAccount(id: number): Promise<AccountDto | null> {
     acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.NotFound])
   )
 
-  return isOkResponse(response) ? response.data : null
+  return getDataIfOk(response)
 }
 
 export async function getAccounts(): Promise<AccountDto[]> {
@@ -43,7 +43,7 @@ export async function createAccount(createAccountDto: CreateAccountDto): Promise
     acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.Conflict])
   )
 
-  return isOkResponse(response) ? response.data : null
+  return getDataIfOk(response)
 }
 
 export async function authenticateAccount(authenticateAccountDto: AuthenticateAccountDto): Promise<AuthenticationResultDto> {

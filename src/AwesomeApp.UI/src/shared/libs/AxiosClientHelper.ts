@@ -17,3 +17,7 @@ export function setContentType(contentType: string): AxiosRequestConfig {
 export function isOkResponse(response: AxiosResponse): boolean {
   return response.status >= 200 && response.status < 300
 }
+
+export function getDataIfOk<T>(response: AxiosResponse<T>): T | null {
+  return isOkResponse(response) ? response.data : null
+}

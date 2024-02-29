@@ -3,8 +3,7 @@ import { HttpStatusCode } from "axios";
 import { AccountRole, ActionResult } from "@/shared/types";
 import { AccountDto, CreateAccountDto } from "@/backend/dtos";
 import { createFailedActionResult, createSucessfulActionResult } from "@/shared/libs";
-import { getAccount, getAccounts, createAccount } from "@/backend/libs";
-import { getSession } from "@/shared/libs";
+import { getAccount, getAccounts, createAccount, getSession } from "@/backend/libs";
 
 export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto>>): Promise<void> {
   const session = await getSession(req, res)

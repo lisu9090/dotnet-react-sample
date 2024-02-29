@@ -1,3 +1,3 @@
 export * from './ApiMiddlewareHandlers'
 export * from './AwesomeApiClient' 
-export * from './NextAuthOptions' 
+export * from './NextAuth' 
