@@ -4,7 +4,4 @@ const settings = await import(`./${process.env.NEXT_PUBLIC_ENVIRONMENT}.settings
 export default settings
 
 export interface Settings {
-  awesomeApiConfig: {
-    baseUrl: string;
-  };
 }
