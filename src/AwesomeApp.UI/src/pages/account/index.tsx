@@ -14,6 +14,8 @@ export const getServerSideProps = ensureAuthorized<Props>(
 )
 
 export default function Account({ user }: Props): ReactElement {
+  
+
   const roleName = AccountRole[user.role]
   
   return (
