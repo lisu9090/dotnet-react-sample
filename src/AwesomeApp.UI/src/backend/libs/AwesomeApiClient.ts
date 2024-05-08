@@ -1,6 +1,6 @@
 import axios, { HttpStatusCode } from "axios";
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from "@/backend/dtos";
-import { acceptStatusCodes, getDataIfOk } from "@/shared/libs";
+import { acceptStatusCodes, getDataIfOk } from "@/common/libs";
 
 const axiosClient = axios.create({
   baseURL: process.env.AWESOME_API_URL,

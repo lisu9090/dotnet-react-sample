@@ -1,4 +1,4 @@
-import { CustomerType } from "@/shared/types";
+import { CustomerType } from "@/common/types";
 
 export interface CreateAccount {
   email: string;

@@ -1,4 +1,4 @@
-import { AccountRole, CustomerType } from "@/shared/types";
+import { AccountRole, CustomerType } from "@/common/types";
 
 export interface CreateAccountDto {
   email: string;

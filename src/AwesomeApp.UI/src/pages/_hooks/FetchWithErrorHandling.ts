@@ -1,7 +1,7 @@
 import { useSnackbar } from '@/pages/_components/snackbar'
 import { useSpinner } from '@/pages/_components/spinner'
-import { isProdEnvironment } from '@/shared/libs'
-import { ActionResult } from '@/shared/types'
+import { isProdEnvironment } from '@/common/libs'
+import { ActionResult } from '@/common/types'
 
 export function useFetchWithErrorHandling<T extends any[], TResult>(
   fetcher: (...params: T) => Promise<ActionResult<TResult>>, 

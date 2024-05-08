@@ -1,5 +1,5 @@
 import { withEndpoints, withErrorHandling } from "@/backend/libs";
-import { AppSettings, HttpMethod } from "@/shared/types";
+import { AppSettings, HttpMethod } from "@/common/types";
 import { NextApiResponse } from "next";
 
 export default

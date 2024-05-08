@@ -1,4 +1,4 @@
-import { AccountRole } from "@/shared/types";
+import { AccountRole } from "@/common/types";
 
 export interface AccountSessionDto {
   id: number;

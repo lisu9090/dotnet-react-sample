@@ -1,21 +1,10 @@
 import { PageBox } from "@/frontend/components";
-import { ensureAuthorized } from "@/frontend/libs";
-import { AccountRole } from "@/shared/types";
+import { AccountRole } from "@/common/types";
 import { Grid, TextField, Typography } from "@mui/material";
 import { User } from "next-auth";
 import { ReactElement } from "react";
 
-type Props = {
-  user: User;
-}
-
-export const getServerSideProps = ensureAuthorized<Props>(
-  (_, session) => ({ props: { user: session.user! } })
-)
-
-export default function Account({ user }: Props): ReactElement {
-  
-
+export default function Account({ user }: { user: User }): ReactElement {
   const roleName = AccountRole[user.role]
   
   return (

@@ -14,9 +14,9 @@ import {
   createAccount,
   fieldEqualityValidator, 
 } from "@/frontend/libs";
-import { CreateAccount } from "@/shared/types/account/CreateAccount";
+import { CreateAccount } from "@/common/types/account/CreateAccount";
 import { useRouter } from "next/router";
-import { CustomerType } from "@/shared/types";
+import { CustomerType } from "@/common/types";
 import { useFetchWithErrorHandling } from "@/pages/_hooks";
 
 const redirecUrl = '/login'

@@ -1,5 +1,5 @@
 import { authenticateAccount } from "@/backend/libs"
-import { isProdEnvironment } from "@/shared/libs"
+import { isProdEnvironment } from "@/common/libs"
 import { NextApiRequest, NextApiResponse } from "next"
 import { NextAuthOptions, User, getServerSession } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"

@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { HttpStatusCode } from "axios";
-import { AccountRole, ActionResult } from "@/shared/types";
+import { AccountRole, ActionResult } from "@/common/types";
 import { AccountDto, CreateAccountDto } from "@/backend/dtos";
-import { createFailedActionResult, createSucessfulActionResult } from "@/shared/libs";
+import { createFailedActionResult, createSucessfulActionResult } from "@/common/libs";
 import { getAccount, getAccounts, createAccount, getSession } from "@/backend/libs";
 
 export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto>>): Promise<void> {
