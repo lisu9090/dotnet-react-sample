@@ -1,5 +1,5 @@
-import { ReactElement, createContext, useContext, useMemo, useState } from "react"
-import { Spinner } from "@/pages/_components/spinner/Spinner"
+import { ReactElement, createContext, useContext, useMemo, useState } from 'react'
+import { Spinner } from '@/pages/_components/spinner/Spinner'
 
 type Props = {
   children: any;

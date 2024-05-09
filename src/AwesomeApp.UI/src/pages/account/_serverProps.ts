@@ -1,6 +1,6 @@
-import { getAccount } from "@/backend/libs";
-import { toAccount } from "@/backend/mappings";
-import { ensureAuthorized } from "@/frontend/libs";
+import { getAccount } from '@/backend/libs';
+import { toAccount } from '@/backend/mappings';
+import { ensureAuthorized } from '@/frontend/libs';
 
 export const getServerSideProps = ensureAuthorized(async (_, session) => {
     const accountDto = await getAccount(session.user!.id)

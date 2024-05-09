@@ -1,5 +1,5 @@
-import { AppSettings } from "@/common/types"
-import { fetchSettings } from "./ApiClient"
+import { AppSettings } from '@/common/types'
+import { fetchSettings } from './ApiClient'
 
 let appSettings: AppSettings
 
@@ -9,7 +9,7 @@ export default async function initAppSettings(): Promise<void> {
 
 export function getAppSettings(): AppSettings {
   if (!appSettings) {
-    throw new Error("Module Settigns has not been initialized")
+    throw new Error('Module Settigns has not been initialized')
   }
 
   return { ...appSettings }

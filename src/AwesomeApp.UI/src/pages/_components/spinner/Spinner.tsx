@@ -1,6 +1,6 @@
-import { CircularProgress, Grid } from "@mui/material"
-import styles from "./styles.module.css"
-import { ReactElement } from "react"
+import { CircularProgress, Grid } from '@mui/material'
+import styles from './styles.module.css'
+import { ReactElement } from 'react'
 
 type Props = {
   show: boolean

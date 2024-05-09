@@ -1,8 +1,8 @@
-import { authenticateAccount } from "@/backend/libs"
-import { isProdEnvironment } from "@/common/libs"
-import { NextApiRequest, NextApiResponse } from "next"
-import { NextAuthOptions, User, getServerSession } from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
+import { authenticateAccount } from '@/backend/libs'
+import { isProdEnvironment } from '@/common/libs'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { NextAuthOptions, User, getServerSession } from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 export const nextAuthOptions: NextAuthOptions = {
   secret: process.env.SESSION_PASSWORD,
@@ -39,8 +39,8 @@ export const nextAuthOptions: NextAuthOptions = {
       type: 'credentials',
       name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "you@inbox.com" },
-        password: { label: "Password", type: "password" }
+        email: { label: 'Email', type: 'text', placeholder: 'you@inbox.com' },
+        password: { label: 'Password', type: 'password' }
       },
       authorize: async (credentials) => {
         if (!credentials || !credentials.email || !credentials.password) {
@@ -68,7 +68,7 @@ export async function getSession(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, nextAuthOptions)
 
   if (!session || !session.user) {
-    throw new Error("Not authorized")
+    throw new Error('Not authorized')
   }
 
   return {

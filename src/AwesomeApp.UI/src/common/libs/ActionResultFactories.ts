@@ -1,4 +1,4 @@
-import { ActionResult } from "@/common/types";
+import { ActionResult } from '@/common/types';
 
 export function createSucessfulActionResult<T>(payload: T): ActionResult<T> {
   return {

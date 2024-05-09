@@ -1,1 +1,1 @@
-export * from "./_createAccount"
+export { default } from './_createAccount'

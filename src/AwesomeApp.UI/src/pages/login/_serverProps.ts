@@ -1,5 +1,5 @@
-import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
-import { getSession } from "next-auth/react";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { getSession } from 'next-auth/react';
 
 export async function getServerSideProps(context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<{ }>> {
     const session = await getSession(context)

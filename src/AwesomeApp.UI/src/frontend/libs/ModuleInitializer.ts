@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react'
 
 export type ModuleInitializer = () => Promise<void>
 

@@ -1,1 +1,1 @@
-export * from "./AccountMappings" 
+export * from './AccountMappings'

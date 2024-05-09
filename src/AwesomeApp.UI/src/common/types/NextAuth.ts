@@ -1,7 +1,7 @@
-import { DefaultSession } from "next-auth";
-import { AccountRole } from "./account/AccountRole";
+import { DefaultSession } from 'next-auth';
+import { AccountRole } from './account/AccountRole';
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface User {
     id: number;
     role: AccountRole;
@@ -12,7 +12,7 @@ declare module "next-auth" {
   }
 }
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   interface JWT {
     id: number;
     role: AccountRole;

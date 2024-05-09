@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react';
 
 const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const strongPasswordRegExp = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,20})/
@@ -18,27 +18,27 @@ export interface FormValidators {
 }
 
 export const requiredValidator: (message?: string) => ValidatorFn = 
-  (message: string = "Value is required") => 
+  (message: string = 'Value is required') => 
     (fieldValue: string) => fieldValue?.trim().length > 0 ? '' : message
 
 export const minLengthValidator: (message?: string, minLength?: number) => ValidatorFn = 
-  (message: string = "Value must have more then 3 characters", minLength: number = 3) => 
+  (message: string = 'Value must have more then 3 characters', minLength: number = 3) => 
     (fieldValue: string) => fieldValue?.trim().length >= minLength ? '' : message
 
 export const positiveValueValidator: (message?: string) => ValidatorFn = 
-  (message: string = "Value must be positive number") => 
+  (message: string = 'Value must be positive number') => 
     (fieldValue: string) => Number.parseFloat(fieldValue) >= 0 ? '' : message
 
 export const emailValidator: (message?: string) => ValidatorFn = 
-  (message: string = "Value must be valid email") => 
+  (message: string = 'Value must be valid email') => 
     (fieldValue: string) => emailRegExp.test(fieldValue) ? '' : message
 
 export const strongPasswordValidator: (message?: string) => ValidatorFn = 
-  (message: string = "Value must contain capital letter, small letter, number, special character and be between 8 and 20 characters long") => 
+  (message: string = 'Value must contain capital letter, small letter, number, special character and be between 8 and 20 characters long') => 
     (fieldValue: string) => strongPasswordRegExp.test(fieldValue) ? '' : message
 
 export const fieldEqualityValidator: (otherFieldName: string, message?: string) => ValidatorFn = 
-  (otherFieldName: string, message: string = "Value must be equal to value in field " + otherFieldName) => 
+  (otherFieldName: string, message: string = 'Value must be equal to value in field ' + otherFieldName) => 
     (fieldValue: string, formValue: any) => fieldValue === formValue[otherFieldName] ? '' : message
 
 export function useSimpleFormValidation<T> (

@@ -1,12 +1,12 @@
-import axios, { HttpStatusCode } from "axios";
-import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from "@/backend/dtos";
-import { acceptStatusCodes, getDataIfOk } from "@/common/libs";
+import axios, { HttpStatusCode } from 'axios';
+import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from '@/backend/dtos';
+import { acceptStatusCodes, getDataIfOk } from '@/common/libs';
 
 const axiosClient = axios.create({
   baseURL: process.env.AWESOME_API_URL,
   headers: {
-    "Content-Type": "application/json",
-    "X-Awesome-API-Key": process.env.AWESOME_API_KEY
+    'Content-Type': 'application/json',
+    'X-Awesome-API-Key': process.env.AWESOME_API_KEY
   }
 })
 

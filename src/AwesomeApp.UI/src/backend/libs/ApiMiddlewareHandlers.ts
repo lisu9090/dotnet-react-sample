@@ -1,7 +1,7 @@
-import { NextApiHandler } from "next";
-import { HttpStatusCode } from "axios";
-import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "./NextAuth";
+import { NextApiHandler } from 'next';
+import { HttpStatusCode } from 'axios';
+import { getServerSession } from 'next-auth';
+import { nextAuthOptions } from './NextAuth';
 
 export interface EndpointHandlers {
   [method: string]: NextApiHandler
@@ -26,7 +26,7 @@ export function withAuthentication(handler: NextApiHandler): NextApiHandler {
       await handler(req, res)
     } else {
       res.status(HttpStatusCode.Unauthorized)
-        .send("Not authorized, please login")
+        .send('Not authorized, please login')
     }
   }
 }
@@ -38,7 +38,7 @@ export function withErrorHandling(handler: NextApiHandler): NextApiHandler {
     }
     catch (e) {
       res.status(HttpStatusCode.InternalServerError)
-        .send("Internal server error - " + e)
+        .send('Internal server error - ' + e)
     }
   }
 }

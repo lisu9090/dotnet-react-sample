@@ -1,6 +1,6 @@
-import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
-import { Session } from "next-auth";
-import { getSession } from "next-auth/react";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
+import { Session } from 'next-auth';
+import { getSession } from 'next-auth/react';
 
 export function ensureAuthorized<T>(
   getServerSideProps?: (context: GetServerSidePropsContext, session: Session) => GetServerSidePropsResult<T> | Promise< GetServerSidePropsResult<T>>

@@ -1,7 +1,7 @@
-import { ReactElement } from "react";
-import { PageBox } from "@/frontend/components";
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
-import Link from "next/link";
+import { ReactElement } from 'react';
+import { PageBox } from '@/frontend/components';
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material';
+import Link from 'next/link';
 import { 
   FormValidators, 
   SimpleFormValidation, 
@@ -13,11 +13,11 @@ import {
   useSimpleFormValidation,
   createAccount,
   fieldEqualityValidator, 
-} from "@/frontend/libs";
-import { CreateAccount } from "@/common/types/account/CreateAccount";
-import { useRouter } from "next/router";
-import { CustomerType } from "@/common/types";
-import { useFetchWithErrorHandling } from "@/pages/_hooks";
+} from '@/frontend/libs';
+import { CreateAccount } from '@/common/types/account/CreateAccount';
+import { useRouter } from 'next/router';
+import { useFetchWithErrorHandling } from '@/pages/_hooks';
+import { CustomerType } from '@/common/types/account';
 
 const redirecUrl = '/login'
 
@@ -38,7 +38,7 @@ const initialFormValue: CreateAccountForm = {
   fullName: '',
   dateOfBirth: '',
   vechiclesNumber: '',
-  customerType: CustomerType.private
+  customerType: CustomerType.Private
 }
 
 const initialFormValidation: SimpleFormValidation = {
@@ -206,8 +206,8 @@ export default function CreateAccountComponent(): ReactElement {
               value={formValue.customerType}
               onChange={createFormFieldChangeHandler("customerType")}
             >
-              <FormControlLabel value={CustomerType.private} control={<Radio />} label="Private" />
-              <FormControlLabel value={CustomerType.company} control={<Radio />} label="Company" />
+              <FormControlLabel value={CustomerType.Private} control={<Radio />} label="Private" />
+              <FormControlLabel value={CustomerType.Company} control={<Radio />} label="Company" />
             </RadioGroup>
           </FormControl>
         </Grid>

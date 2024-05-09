@@ -1,2 +1,2 @@
-export * from "./_serverProps"
-export * from "./_account"
+export { getServerSideProps } from './_serverProps'
+export { default } from './_account'

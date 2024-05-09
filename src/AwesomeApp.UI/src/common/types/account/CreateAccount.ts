@@ -1,4 +1,4 @@
-import { CustomerType } from "@/common/types";
+import { CustomerType } from './CustomerType';
 
 export interface CreateAccount {
   email: string;

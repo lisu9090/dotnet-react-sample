@@ -1,9 +1,9 @@
-import axios, { HttpStatusCode } from "axios";
-import { Account, ActionResult, AuthenticateAccount, CreateAccount } from "@/common/types";
-import { AppSettings } from "@/common/types";
-import { acceptStatusCodes, isOkResponse, setContentType } from "@/common/libs";
-import { getCsrfToken } from "next-auth/react";
-import { createFailedActionResult, createSucessfulActionResult } from "@/common/libs";
+import axios, { HttpStatusCode } from 'axios';
+import { ActionResult, AppSettings } from '@/common/types';
+import { acceptStatusCodes, isOkResponse, setContentType } from '@/common/libs';
+import { getCsrfToken } from 'next-auth/react';
+import { createFailedActionResult, createSucessfulActionResult } from '@/common/libs';
+import { Account, AuthenticateAccount, CreateAccount } from '@/common/types/account';
 
 let csrfToken: string = '';
 

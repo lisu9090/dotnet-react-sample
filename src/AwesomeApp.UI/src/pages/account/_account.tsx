@@ -1,15 +1,16 @@
-import { PageBox } from "@/frontend/components";
-import { Account, AccountRole } from "@/common/types";
-import { Grid, TextField, Typography } from "@mui/material";
-import { ReactElement } from "react";
+import { Account, AccountRole, CustomerType } from '@/common/types/account';
+import { PageBox } from '@/frontend/components';
+import { Grid, TextField, Typography } from '@mui/material';
+import { ReactElement } from 'react';
 
 export default function AccountComponent({ account }: { account: Account }): ReactElement {
   const roleName = AccountRole[account.accountRole]
-  
+  const customerTypeName = CustomerType[account.customerType]
+
   return (
     <PageBox>
-      <Typography 
-        variant="h5" 
+      <Typography
+        variant="h5"
         className="mb-2"
       >
         Account Details
@@ -26,7 +27,6 @@ export default function AccountComponent({ account }: { account: Account }): Rea
           className="mb-2"
           type="email"
           label="Email"
-          placeholder="you@inbox.com"
           variant="standard"
           value={account.email}
         />
@@ -35,9 +35,32 @@ export default function AccountComponent({ account }: { account: Account }): Rea
           className="mb-2"
           type="text"
           label="Full name"
-          placeholder="Jane Doe"
           variant="standard"
           value={account.fullName}
+        />
+        <TextField
+          disabled
+          className="mb-2"
+          type="text"
+          label="Date of birth"
+          variant="standard"
+          value={account.dateOfBirth}
+        />
+        <TextField
+          disabled
+          className="mb-2"
+          type="text"
+          label="Number of vechicles"
+          variant="standard"
+          value={account.vechiclesNumber}
+        />
+        <TextField
+          disabled
+          className="mb-2"
+          type="text"
+          label="Customer type"
+          variant="standard"
+          value={customerTypeName}
         />
         <TextField
           disabled
