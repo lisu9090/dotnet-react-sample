@@ -1,5 +1,5 @@
 export * from './ApiClient'
-export * from './Authorization'
+export * from '../../backend/libs/Authorization'
 export * from './ModuleInitializer'
 export * from './SettingsProvider'
 export * from './SimpleFormValidation'

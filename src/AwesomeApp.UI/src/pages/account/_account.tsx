@@ -1,11 +1,10 @@
 import { PageBox } from "@/frontend/components";
-import { AccountRole } from "@/common/types";
+import { Account, AccountRole } from "@/common/types";
 import { Grid, TextField, Typography } from "@mui/material";
-import { User } from "next-auth";
 import { ReactElement } from "react";
 
-export default function Account({ user }: { user: User }): ReactElement {
-  const roleName = AccountRole[user.role]
+export default function AccountComponent({ account }: { account: Account }): ReactElement {
+  const roleName = AccountRole[account.accountRole]
   
   return (
     <PageBox>
@@ -29,7 +28,7 @@ export default function Account({ user }: { user: User }): ReactElement {
           label="Email"
           placeholder="you@inbox.com"
           variant="standard"
-          value={user.email}
+          value={account.email}
         />
         <TextField
           disabled
@@ -38,7 +37,7 @@ export default function Account({ user }: { user: User }): ReactElement {
           label="Full name"
           placeholder="Jane Doe"
           variant="standard"
-          value={user.name}
+          value={account.fullName}
         />
         <TextField
           disabled

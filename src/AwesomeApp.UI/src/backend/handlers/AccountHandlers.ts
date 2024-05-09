@@ -1,26 +1,15 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { HttpStatusCode } from "axios";
-import { AccountRole, ActionResult } from "@/common/types";
-import { AccountDto, CreateAccountDto } from "@/backend/dtos";
+import { Account, AccountRole, ActionResult } from "@/common/types";
+import { CreateAccountDto } from "@/backend/dtos";
 import { createFailedActionResult, createSucessfulActionResult } from "@/common/libs";
-import { getAccount, getAccounts, createAccount, getSession } from "@/backend/libs";
+import { getAccounts, createAccount } from "@/backend/libs";
+import { toAccounts } from "../mappings";
 
-export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto>>): Promise<void> {
-  const session = await getSession(req, res)
-  const accountDto = await getAccount(session.user.id)
-
-  if (accountDto) {
-    res.send(createSucessfulActionResult(accountDto))
-  } else {
-    res.status(HttpStatusCode.NotFound)
-      .send(createFailedActionResult("Account not found"))
-  }
-} 
-
-export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto[]>>): Promise<void> {
+export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<ActionResult<Account[]>>): Promise<void> {
   const accountDtos = await getAccounts()
 
-  res.send(createSucessfulActionResult(accountDtos))
+  res.send(createSucessfulActionResult(toAccounts(accountDtos)))
 } 
 
 export async function postCreateAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<number>>): Promise<void> {
