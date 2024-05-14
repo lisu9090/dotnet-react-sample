@@ -1,6 +1,6 @@
 import { Account, AccountRole, CustomerType } from '@/common/types/account';
 import { PageBox } from '@/frontend/components';
-import { Grid, TextField, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { ReactElement } from 'react';
 
 export default function AccountComponent({ account }: { account: Account }): ReactElement {
@@ -22,55 +22,18 @@ export default function AccountComponent({ account }: { account: Account }): Rea
         justifyContent="space-between"
         alignItems="stretch"
       >
-        <TextField
-          disabled
-          className="mb-2"
-          type="email"
-          label="Email"
-          variant="standard"
-          value={account.email}
-        />
-        <TextField
-          disabled
-          className="mb-2"
-          type="text"
-          label="Full name"
-          variant="standard"
-          value={account.fullName}
-        />
-        <TextField
-          disabled
-          className="mb-2"
-          type="text"
-          label="Date of birth"
-          variant="standard"
-          value={account.dateOfBirth}
-        />
-        <TextField
-          disabled
-          className="mb-2"
-          type="text"
-          label="Number of vechicles"
-          variant="standard"
-          value={account.vechiclesNumber}
-        />
-        <TextField
-          disabled
-          className="mb-2"
-          type="text"
-          label="Customer type"
-          variant="standard"
-          value={customerTypeName}
-        />
-        <TextField
-          disabled
-          className="mb-2"
-          type="text"
-          label="Role"
-          variant="standard"
-          InputLabelProps={{ shrink: true }}
-          value={roleName}
-        />
+        <Typography variant="h6">Email</Typography>
+        <span className="mb-2">{account.email}</span>
+        <Typography variant="h6">Full name</Typography>
+        <span className="mb-2">{account.fullName}</span>
+        <Typography variant="h6">Date of birth</Typography>
+        <span className="mb-2">account.dateOfBirth</span>
+        <Typography variant="h6">Number of vechicles</Typography>
+        <span className="mb-2">{account.vehiclesNumber}</span>
+        <Typography variant="h6">Customer type</Typography>
+        <span className="mb-2">{customerTypeName}</span>
+        <Typography variant="h6">Account role</Typography>
+        <span className="mb-2">{roleName}</span>
       </Grid>
     </PageBox>
   )

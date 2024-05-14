@@ -1,6 +1,4 @@
-﻿using AwesomeApp.Domain.Accounts.Enums;
-
-namespace AwesomeApp.Application.Features.Accounts.Dtos
+﻿namespace AwesomeApp.Application.Features.Accounts.Dtos
 {
     public class AuthenticationResultDto
     {
@@ -16,7 +14,7 @@ namespace AwesomeApp.Application.Features.Accounts.Dtos
         /// </summary>
         public string? AuthenticationErrorMessage { get; set; }
 
-        public static AuthenticationResultDto AuthenticationSucessfulResult(AccountSessionDto account) =>
+        public static AuthenticationResultDto AuthenticationSuccessfulResult(AccountSessionDto account) =>
             new AuthenticationResultDto
             {
                 Account = account,

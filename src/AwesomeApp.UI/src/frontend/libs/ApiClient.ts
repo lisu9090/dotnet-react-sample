@@ -1,9 +1,10 @@
 import axios, { HttpStatusCode } from 'axios';
 import { ActionResult, AppSettings } from '@/common/types';
-import { acceptStatusCodes, isOkResponse, setContentType } from '@/common/libs';
+import { AxiosRequestConfigBuilder, acceptStatusCodes, isOkResponse, setContentType } from '@/common/libs';
 import { getCsrfToken } from 'next-auth/react';
 import { createFailedActionResult, createSucessfulActionResult } from '@/common/libs';
 import { Account, AuthenticateAccount, CreateAccount } from '@/common/types/account';
+import { responseDataToAccountsResult } from '../mappings';
 
 let csrfToken: string = '';
 
@@ -11,7 +12,7 @@ const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     'Content-Type': 'application/json'
-  }
+  },
 })
 
 export async function initApiCient(): Promise<void> {
@@ -30,17 +31,14 @@ export async function fetchSettings(): Promise<AppSettings> {
   return response.data
 }
 
-export async function fetchCurrentAccount(): Promise<ActionResult<Account>> {
-  const response = await axiosClient.get<ActionResult<Account>>(
-    `/account/current`,
-    acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.NotFound])
-  )
-
-  return response.data
-}
-
 export async function fetchAccountsList(): Promise<ActionResult<Account[]>> {
-  const response = await axiosClient.get<ActionResult<Account[]>>(`/account/list`)
+  const response = await axiosClient.get<ActionResult<Account[]>>(
+    `/account/list`,
+    AxiosRequestConfigBuilder
+      .create()
+      .addResponseTransformers(responseDataToAccountsResult)
+      .build()
+  )
 
   return response.data
 }
@@ -53,7 +51,10 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   const response = await axiosClient.post<ActionResult<number>>(
     `/account/create`, 
     createAccountEntry,
-    acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.Conflict])
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
+      .build()
   )
 
   return response.data
@@ -63,19 +64,22 @@ export async function authenticateAccount(authenticateAccountEntry: Authenticate
   if (!authenticateAccountEntry) {
     throw new Error('authenticateAccountEntry cannot be falsy')
   }
+
+  const payload = {
+    ...authenticateAccountEntry,
+    csrfToken,
+    redirect: true,
+    json: true,
+  };
   
-  const response = await axiosClient.post<{url: string}>(
+  const response = await axiosClient.post<{ url: string }>(
     `/auth/callback/awesome-credentials`, 
-    {
-      ...authenticateAccountEntry,
-      csrfToken,
-      redirect: true,
-      json: true,
-    },
-    {
-      ...acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.Unauthorized]),
-      ...setContentType('application/x-www-form-urlencoded')
-    }
+    payload,
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Unauthorized)
+      .addContentTypeHeader('application/x-www-form-urlencoded')
+      .build()
   )
 
   return isOkResponse(response) 

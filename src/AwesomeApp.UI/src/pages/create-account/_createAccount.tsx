@@ -27,7 +27,7 @@ type CreateAccountForm = {
   passwordRepeated: string;
   fullName: string;
   dateOfBirth: string;
-  vechiclesNumber: string;
+  vehiclesNumber: string;
   customerType: CustomerType;
 }
 
@@ -37,7 +37,7 @@ const initialFormValue: CreateAccountForm = {
   passwordRepeated: '',
   fullName: '',
   dateOfBirth: '',
-  vechiclesNumber: '',
+  vehiclesNumber: '',
   customerType: CustomerType.Private
 }
 
@@ -49,7 +49,7 @@ const initialFormValidation: SimpleFormValidation = {
     passwordRepeated: null,
     fullName: null,
     dateOfBirth: null,
-    vechiclesNumber: null,
+    vehiclesNumber: null,
   }
 }
 
@@ -59,7 +59,7 @@ const formValidators: FormValidators = {
   passwordRepeated: [requiredValidator(), fieldEqualityValidator('password', 'Password does not match')],
   fullName: [requiredValidator(), minLengthValidator()],
   dateOfBirth: [requiredValidator()],
-  vechiclesNumber: [requiredValidator(), positiveValueValidator()]
+  vehiclesNumber: [requiredValidator(), positiveValueValidator()]
 }
 
 function toCreateAccountEntry(formValue: CreateAccountForm): CreateAccount {
@@ -68,7 +68,7 @@ function toCreateAccountEntry(formValue: CreateAccountForm): CreateAccount {
     password: formValue.password,
     fullName: formValue.fullName,
     dateOfBirth: new Date(formValue.dateOfBirth),
-    vechiclesNumber: Number.parseInt(formValue.vechiclesNumber),
+    vehiclesNumber: Number.parseInt(formValue.vehiclesNumber),
     customerType: formValue.customerType
   }
 }
@@ -192,11 +192,11 @@ export default function CreateAccountComponent(): ReactElement {
             label="Number of owned vechicles" 
             placeholder="1"
             variant="standard"
-            value={formValue.vechiclesNumber}
-            error={!!formValidation.fieldErrors.vechiclesNumber}
-            helperText={formValidation.fieldErrors.vechiclesNumber}
-            onBlur={createBlurHandler("vechiclesNumber", formValue.vechiclesNumber)}
-            onChange={createFormFieldChangeHandler("vechiclesNumber")}
+            value={formValue.vehiclesNumber}
+            error={!!formValidation.fieldErrors.vehiclesNumber}
+            helperText={formValidation.fieldErrors.vehiclesNumber}
+            onBlur={createBlurHandler("vehiclesNumber", formValue.vehiclesNumber)}
+            onChange={createFormFieldChangeHandler("vehiclesNumber")}
           />
           <FormControl>
             <FormLabel id="customer-type">Customer type</FormLabel>

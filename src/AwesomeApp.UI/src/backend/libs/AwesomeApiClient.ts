@@ -1,13 +1,15 @@
 import axios, { HttpStatusCode } from 'axios';
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from '@/backend/dtos';
-import { acceptStatusCodes, getDataIfOk } from '@/common/libs';
+import { AxiosRequestConfigBuilder, getDataOrNullTransformer } from '@/common/libs';
+import { responseDataToAccountDto } from '../mappings';
 
 const axiosClient = axios.create({
   baseURL: process.env.AWESOME_API_URL,
   headers: {
     'Content-Type': 'application/json',
     'X-Awesome-API-Key': process.env.AWESOME_API_KEY
-  }
+  },
+  transformResponse: [ getDataOrNullTransformer ]
 })
 
 export async function getAccount(id: number): Promise<AccountDto | null> {
@@ -15,16 +17,26 @@ export async function getAccount(id: number): Promise<AccountDto | null> {
     throw new Error(`Parameter id must be positive intiger`)
   }
 
-  const response = await axiosClient.get<AccountDto>(
+  const response = await axiosClient.get<AccountDto | null>(
     `/account/${id}`,
-    acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.NotFound])
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.NotFound)
+      .addResponseTransformers(responseDataToAccountDto)
+      .build()
   )
 
-  return getDataIfOk(response)
+  return response.data
 }
 
 export async function getAccounts(): Promise<AccountDto[]> {
-  const response = await axiosClient.get<AccountDto[]>(`/account/list`)
+  const response = await axiosClient.get<AccountDto[]>(
+    `/account/list`,
+    AxiosRequestConfigBuilder
+      .create()
+      .addResponseTransformers(data => data.map((item: any) => responseDataToAccountDto(item)!))
+      .build()
+    )
 
   return response.data
 }
@@ -37,10 +49,13 @@ export async function createAccount(createAccountDto: CreateAccountDto): Promise
   const response = await axiosClient.post<number>(
     `/account`, 
     createAccountDto,
-    acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.Conflict])
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
+      .build()
   )
 
-  return getDataIfOk(response)
+  return response.data
 }
 
 export async function authenticateAccount(authenticateAccountDto: AuthenticateAccountDto): Promise<AuthenticationResultDto> {

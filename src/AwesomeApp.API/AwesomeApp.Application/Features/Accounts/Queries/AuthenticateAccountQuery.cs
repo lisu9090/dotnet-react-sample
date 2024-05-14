@@ -32,7 +32,7 @@ namespace AwesomeApp.Application.Features.Accounts.Queries
 
             AccountSessionDto accountDto = _mapper.Map<AccountSessionDto>(account);
 
-            return AuthenticationResultDto.AuthenticationSucessfulResult(accountDto);
+            return AuthenticationResultDto.AuthenticationSuccessfulResult(accountDto);
         }
     }
 }

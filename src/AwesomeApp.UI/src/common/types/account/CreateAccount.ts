@@ -5,6 +5,6 @@ export interface CreateAccount {
   password: string;
   fullName: string;
   dateOfBirth: Date;
-  vechiclesNumber: number;
+  vehiclesNumber: number;
   customerType: CustomerType;
 }

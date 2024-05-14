@@ -9,18 +9,19 @@ export const toAccount = (dto: AccountDto) => ({
   email: dto.email,
   fullName: dto.fullName,
   id: dto.id,
-  vechiclesNumber: dto.vechiclesNumber,
+  vehiclesNumber: dto.vehiclesNumber,
 } as Account)
 
-export const toAccountDto = (model: Account) => ({
-  accountRole: model.accountRole,
-  createdAt: model.createdAt,
-  customerType: model.customerType,
-  dateOfBirth: model.dateOfBirth,
-  email: model.email,
-  fullName: model.fullName,
-  id: model.id,
-  vechiclesNumber: model.vechiclesNumber,
-} as AccountDto)
+export const toAccounts = (dtos: AccountDto[]) => dtos?.map(toAccount)
 
-export const toAccounts = (dtos: AccountDto[]) => dtos?.map(toAccount) 
+export const responseDataToAccountDto = (data: any) => data 
+  ? {
+    ...data,
+    createdAt: new Date(data.createdAt), 
+    dateOfBirth: new Date(data.dateOfBirth), 
+  } as AccountDto
+  : null
+
+export const responseDataToAccountDtos = (data: any) => data
+ ? data.map(responseDataToAccountDto) as AccountDto[]
+ : null

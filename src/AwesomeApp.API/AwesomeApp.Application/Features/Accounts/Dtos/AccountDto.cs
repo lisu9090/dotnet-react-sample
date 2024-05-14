@@ -35,7 +35,7 @@ namespace AwesomeApp.Application.Features.Accounts.Dtos
         /// <summary>
         /// NumberOfCars
         /// </summary>
-        public uint VechiclesNumber { get; set; }
+        public uint VehiclesNumber { get; set; }
 
         /// <summary>
         /// ECustomerType

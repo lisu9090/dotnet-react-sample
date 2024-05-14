@@ -6,7 +6,7 @@ export interface AccountDto {
   email: string;
   fullName: string;
   dateOfBirth: Date;
-  vechiclesNumber: number;
+  vehiclesNumber: number;
   customerType: CustomerType;
   accountRole: AccountRole;
 }
