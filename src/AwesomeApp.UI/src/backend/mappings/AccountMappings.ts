@@ -12,16 +12,4 @@ export const toAccount = (dto: AccountDto) => ({
   vehiclesNumber: dto.vehiclesNumber,
 } as Account)
 
-export const toAccounts = (dtos: AccountDto[]) => dtos?.map(toAccount)
-
-export const responseDataToAccountDto = (data: any) => data 
-  ? {
-    ...data,
-    createdAt: new Date(data.createdAt), 
-    dateOfBirth: new Date(data.dateOfBirth), 
-  } as AccountDto
-  : null
-
-export const responseDataToAccountDtos = (data: any) => data
- ? data.map(responseDataToAccountDto) as AccountDto[]
- : null
+export const toAccounts = (dtos: AccountDto[]) => dtos.map(toAccount)

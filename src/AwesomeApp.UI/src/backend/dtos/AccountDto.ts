@@ -2,10 +2,10 @@ import { CustomerType, AccountRole } from '@/common/types/account';
 
 export interface AccountDto {
   id: number;
-  createdAt: Date,
+  createdAt: string,
   email: string;
   fullName: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   vehiclesNumber: number;
   customerType: CustomerType;
   accountRole: AccountRole;

@@ -1,7 +1,6 @@
 import axios, { HttpStatusCode } from 'axios';
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from '@/backend/dtos';
 import { AxiosRequestConfigBuilder, getDataOrNullTransformer } from '@/common/libs';
-import { responseDataToAccountDto } from '../mappings';
 
 const axiosClient = axios.create({
   baseURL: process.env.AWESOME_API_URL,
@@ -9,11 +8,10 @@ const axiosClient = axios.create({
     'Content-Type': 'application/json',
     'X-Awesome-API-Key': process.env.AWESOME_API_KEY
   },
-  transformResponse: [ getDataOrNullTransformer ]
 })
 
 export async function getAccount(id: number): Promise<AccountDto | null> {
-  if (!(id > 0)) {
+  if (id <= 0) {
     throw new Error(`Parameter id must be positive intiger`)
   }
 
@@ -22,7 +20,7 @@ export async function getAccount(id: number): Promise<AccountDto | null> {
     AxiosRequestConfigBuilder
       .create()
       .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.NotFound)
-      .addResponseTransformers(responseDataToAccountDto)
+      .addResponseTransformers(getDataOrNullTransformer)
       .build()
   )
 
@@ -30,13 +28,7 @@ export async function getAccount(id: number): Promise<AccountDto | null> {
 }
 
 export async function getAccounts(): Promise<AccountDto[]> {
-  const response = await axiosClient.get<AccountDto[]>(
-    `/account/list`,
-    AxiosRequestConfigBuilder
-      .create()
-      .addResponseTransformers(data => data.map((item: any) => responseDataToAccountDto(item)!))
-      .build()
-    )
+  const response = await axiosClient.get<AccountDto[]>(`/account/list`)
 
   return response.data
 }
@@ -52,6 +44,7 @@ export async function createAccount(createAccountDto: CreateAccountDto): Promise
     AxiosRequestConfigBuilder
       .create()
       .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
+      .addResponseTransformers(getDataOrNullTransformer)
       .build()
   )
 

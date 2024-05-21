@@ -1,10 +1,8 @@
 import axios, { HttpStatusCode } from 'axios';
 import { ActionResult, AppSettings } from '@/common/types';
-import { AxiosRequestConfigBuilder, acceptStatusCodes, isOkResponse, setContentType } from '@/common/libs';
+import { AxiosRequestConfigBuilder, isOkResponse, createFailedActionResult, createSucessfulActionResult } from '@/common/libs';
 import { getCsrfToken } from 'next-auth/react';
-import { createFailedActionResult, createSucessfulActionResult } from '@/common/libs';
 import { Account, AuthenticateAccount, CreateAccount } from '@/common/types/account';
-import { responseDataToAccountsResult } from '../mappings';
 
 let csrfToken: string = '';
 
@@ -32,13 +30,7 @@ export async function fetchSettings(): Promise<AppSettings> {
 }
 
 export async function fetchAccountsList(): Promise<ActionResult<Account[]>> {
-  const response = await axiosClient.get<ActionResult<Account[]>>(
-    `/account/list`,
-    AxiosRequestConfigBuilder
-      .create()
-      .addResponseTransformers(responseDataToAccountsResult)
-      .build()
-  )
+  const response = await axiosClient.get<ActionResult<Account[]>>(`/account/list`)
 
   return response.data
 }

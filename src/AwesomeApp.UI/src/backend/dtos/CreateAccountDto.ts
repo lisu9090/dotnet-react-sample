@@ -4,7 +4,7 @@ export interface CreateAccountDto {
   email: string;
   password: string;
   fullName: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   vehiclesNumber: number;
   customerType: CustomerType;
   accountRole: AccountRole;

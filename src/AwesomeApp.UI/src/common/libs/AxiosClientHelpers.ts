@@ -1,33 +1,13 @@
-import { HttpStatusCode, AxiosRequestConfig, AxiosResponse, AxiosResponseTransformer, AxiosInstance } from 'axios';
+import { HttpStatusCode, AxiosRequestConfig, AxiosResponse, AxiosResponseTransformer } from 'axios'
 
-export function acceptStatusCodes(statuses: HttpStatusCode[]): AxiosRequestConfig {
-  return {
-    validateStatus: (status) => statuses.includes(status)   
-  }
-}
+export const isOkStatusCode = (status: number | undefined): boolean =>
+  !!status && status >= 200 && status < 300
 
-export function setContentType(contentType: string): AxiosRequestConfig {
-  return {
-    headers: {
-      'Content-Type': contentType
-    }
-  }
-}
-
-export function isOkStatusCode(status: number | undefined): boolean {
-  return !!status && status >= 200 && status < 300
-}
+export const isOkResponse = (response: AxiosResponse): boolean => 
+  isOkStatusCode(response.status)
 
 export const getDataOrNullTransformer: AxiosResponseTransformer = (data, _, status) => 
   isOkStatusCode(status) ? data : null
-
-export function isOkResponse(response: AxiosResponse): boolean {
-  return response.status >= 200 && response.status < 300
-}
-
-export function getDataIfOk<T>(response: AxiosResponse<T>): T | null {
-  return isOkResponse(response) ? response.data : null
-}
 
 export class AxiosRequestConfigBuilder {
   private config: AxiosRequestConfig = { }
@@ -38,7 +18,7 @@ export class AxiosRequestConfigBuilder {
     return new AxiosRequestConfigBuilder()
   }
 
-  addContentTypeHeader(contentType: string): AxiosRequestConfigBuilder {
+  addContentTypeHeader(contentType: string): this {
     if (this.config.headers) {
       this.config.headers = {
         ...this.config.headers,
@@ -53,7 +33,7 @@ export class AxiosRequestConfigBuilder {
     return this
   }
 
-  addAcceptStatusCodes(...statuses: HttpStatusCode[]): AxiosRequestConfigBuilder {
+  addAcceptStatusCodes(...statuses: HttpStatusCode[]): this {
     if (statuses) {
       this.config.validateStatus = (status) => statuses.includes(status)
     }
@@ -61,7 +41,7 @@ export class AxiosRequestConfigBuilder {
     return this
   }
 
-  addResponseTransformers(...responseTransformers: AxiosResponseTransformer[]): AxiosRequestConfigBuilder {
+  addResponseTransformers(...responseTransformers: AxiosResponseTransformer[]): this {
     if (responseTransformers) {
       this.config.transformResponse = [ ...responseTransformers ]
     }
@@ -70,6 +50,6 @@ export class AxiosRequestConfigBuilder {
   }
 
   build(): AxiosRequestConfig {
-    return this.config;
+    return this.config
   }
 }

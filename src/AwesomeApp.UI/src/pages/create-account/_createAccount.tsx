@@ -67,7 +67,7 @@ function toCreateAccountEntry(formValue: CreateAccountForm): CreateAccount {
     email: formValue.email,
     password: formValue.password,
     fullName: formValue.fullName,
-    dateOfBirth: new Date(formValue.dateOfBirth),
+    dateOfBirth: new Date(formValue.dateOfBirth).toISOString(),
     vehiclesNumber: Number.parseInt(formValue.vehiclesNumber),
     customerType: formValue.customerType
   }

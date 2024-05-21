@@ -24,7 +24,7 @@ export function useFetchWithErrorHandling<T extends any[], TResult>(
 
       return result.payload
     } catch (e) {
-      error(errorMessage ? errorMessage : 'Something went wrong...')
+      error(errorMessage ?? 'Something went wrong...')
 
       if (!isProdEnvironment()) {
         console.error(e)

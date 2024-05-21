@@ -4,7 +4,7 @@ export interface Account {
   id: number;
   email: string;
   fullName: string;
-  dateOfBirth: Date;
+  dateOfBirth: string;
   vehiclesNumber: number;
   customerType: CustomerType;
   accountRole: AccountRole;
