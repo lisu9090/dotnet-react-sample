@@ -46,7 +46,7 @@ export default function Login(): ReactElement {
     })
 
     if (result) {
-      router.replace(getReturnUrl() ?? PAGE_ACCOUNT, router.asPath)
+      router.push(getReturnUrl() ?? PAGE_ACCOUNT)
     } 
   }
 

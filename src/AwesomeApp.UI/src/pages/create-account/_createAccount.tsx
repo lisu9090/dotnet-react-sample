@@ -106,7 +106,7 @@ export default function CreateAccountComponent(): ReactElement {
     const result = await tryLoginUser(authenticateAccount)
 
     if (result) {
-      router.replace(PAGE_ACCOUNT, router.asPath)
+      router.replace(PAGE_ACCOUNT)
     }
   }
 
