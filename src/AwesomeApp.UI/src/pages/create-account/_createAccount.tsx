@@ -28,7 +28,7 @@ type CreateAccountForm = {
   fullName: string;
   dateOfBirth: string;
   vehiclesNumber: string;
-  customerType: CustomerType;
+  customerType: string;
 }
 
 const initialFormValue: CreateAccountForm = {
@@ -38,7 +38,7 @@ const initialFormValue: CreateAccountForm = {
   fullName: '',
   dateOfBirth: '',
   vehiclesNumber: '',
-  customerType: CustomerType.Private
+  customerType: CustomerType.Private.toString()
 }
 
 const initialFormValidation: SimpleFormValidation = {
@@ -69,7 +69,7 @@ function toCreateAccountEntry(formValue: CreateAccountForm): CreateAccount {
     fullName: formValue.fullName,
     dateOfBirth: new Date(formValue.dateOfBirth).toISOString(),
     vehiclesNumber: Number.parseInt(formValue.vehiclesNumber),
-    customerType: formValue.customerType
+    customerType: Number.parseInt(formValue.customerType) as CustomerType
   }
 }
 
@@ -106,7 +106,7 @@ export default function CreateAccountComponent(): ReactElement {
     const result = await tryLoginUser(authenticateAccount)
 
     if (result) {
-      router.replace(PAGE_ACCOUNT)
+      router.replace(PAGE_ACCOUNT, router.asPath)
     }
   }
 

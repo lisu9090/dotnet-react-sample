@@ -20,7 +20,7 @@ export async function getAccount(id: number): Promise<AccountDto | null> {
     AxiosRequestConfigBuilder
       .create()
       .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.NotFound)
-      .addResponseTransformers(getDataOrNullTransformer)
+      .addCombinedResponseTransformers(getDataOrNullTransformer)
       .build()
   )
 
@@ -44,7 +44,7 @@ export async function createAccount(createAccountDto: CreateAccountDto): Promise
     AxiosRequestConfigBuilder
       .create()
       .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
-      .addResponseTransformers(getDataOrNullTransformer)
+      .addCombinedResponseTransformers(getDataOrNullTransformer)
       .build()
   )
 

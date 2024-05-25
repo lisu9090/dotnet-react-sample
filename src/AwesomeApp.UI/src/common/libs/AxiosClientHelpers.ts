@@ -44,7 +44,7 @@ export class AxiosRequestConfigBuilder {
   addCombinedResponseTransformers(...responseTransformers: AxiosResponseTransformer[]): this {
     if (responseTransformers) {
       this.config.transformResponse = new Array<AxiosResponseTransformer>()
-        .concat(axios.defaults.transformRequest ?? [] ,responseTransformers)
+        .concat(axios.defaults.transformResponse ?? [], responseTransformers)
     }
 
     return this

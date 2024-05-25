@@ -23,11 +23,11 @@ export default function Login(): ReactElement {
     const returnUrlQueryValue = router.query[QUERY_RETURN_URL]
 
     if (typeof returnUrlQueryValue === 'string') {
-      return new URL(returnUrlQueryValue)
+      return returnUrlQueryValue as string
     }
 
     if (returnUrlQueryValue instanceof Array && returnUrlQueryValue.length > 0) {
-      return new URL(returnUrlQueryValue[0])
+      return returnUrlQueryValue[0]
     } 
 
     return null
@@ -46,7 +46,7 @@ export default function Login(): ReactElement {
     })
 
     if (result) {
-      router.replace(getReturnUrl() ?? PAGE_ACCOUNT)
+      router.replace(getReturnUrl() ?? PAGE_ACCOUNT, router.asPath)
     } 
   }
 

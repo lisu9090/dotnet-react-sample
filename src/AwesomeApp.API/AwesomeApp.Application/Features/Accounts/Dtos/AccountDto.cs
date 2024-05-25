@@ -33,7 +33,7 @@ namespace AwesomeApp.Application.Features.Accounts.Dtos
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>
-        /// NumberOfCars
+        /// VehiclesNumber
         /// </summary>
         public uint VehiclesNumber { get; set; }
 
