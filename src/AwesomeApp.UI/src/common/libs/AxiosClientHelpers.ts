@@ -1,4 +1,4 @@
-import { HttpStatusCode, AxiosRequestConfig, AxiosResponse, AxiosResponseTransformer } from 'axios'
+import axios, { HttpStatusCode, AxiosRequestConfig, AxiosResponse, AxiosResponseTransformer } from 'axios'
 
 export const isOkStatusCode = (status: number | undefined): boolean =>
   !!status && status >= 200 && status < 300
@@ -41,9 +41,10 @@ export class AxiosRequestConfigBuilder {
     return this
   }
 
-  addResponseTransformers(...responseTransformers: AxiosResponseTransformer[]): this {
+  addCombinedResponseTransformers(...responseTransformers: AxiosResponseTransformer[]): this {
     if (responseTransformers) {
-      this.config.transformResponse = [ ...responseTransformers ]
+      this.config.transformResponse = new Array<AxiosResponseTransformer>()
+        .concat(axios.defaults.transformRequest ?? [] ,responseTransformers)
     }
 
     return this

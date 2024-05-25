@@ -4,14 +4,25 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { NextAuthOptions, User, getServerSession } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 
+const sessionSecret = process.env.SESSION_PASSWORD
+const sessionMaxAge = process.env.SESSION_MAX_AGE ? Number.parseInt(process.env.SESSION_MAX_AGE) : undefined
+const useSecureCookie = isProdEnvironment()
+
 export const nextAuthOptions: NextAuthOptions = {
-  secret: process.env.SESSION_PASSWORD,
-  useSecureCookies: isProdEnvironment(),
+  secret: sessionSecret,
+  useSecureCookies: useSecureCookie,
+  session: {
+    strategy: "jwt",
+    maxAge: sessionMaxAge,
+    updateAge: sessionMaxAge    
+  },
+  jwt: {
+    maxAge: sessionMaxAge
+  },
   pages: {
     signIn: '/login'
   },
   callbacks: {
-    redirect: ({ baseUrl }) => `${baseUrl}/account`,
     jwt: ({ token, user }) => {
       if (user) {
         token.id = user.id as number
@@ -43,7 +54,7 @@ export const nextAuthOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' }
       },
       authorize: async (credentials) => {
-        if (!credentials || !credentials.email || !credentials.password) {
+        if (!credentials?.email || !credentials.password) {
           return null
         }
 

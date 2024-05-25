@@ -1,3 +1,4 @@
+import { QUERY_RETURN_URL } from '@/common/consts';
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
@@ -11,7 +12,7 @@ export function ensureAuthorized<T>(
     if (!session) {
       return {
         redirect: {
-          destination: '/login',
+          destination: `/login?${QUERY_RETURN_URL}=${context.resolvedUrl}`,
           permanent: false,
         }
       }

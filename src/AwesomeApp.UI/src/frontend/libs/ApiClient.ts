@@ -4,7 +4,7 @@ import { AxiosRequestConfigBuilder, isOkResponse, createFailedActionResult, crea
 import { getCsrfToken } from 'next-auth/react';
 import { Account, AuthenticateAccount, CreateAccount } from '@/common/types/account';
 
-let csrfToken: string = '';
+let csrfToken: string = ''
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -52,7 +52,7 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   return response.data
 }
 
-export async function authenticateAccount(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResult<string>> {
+export async function loginUser(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResult<string>> {
   if (!authenticateAccountEntry) {
     throw new Error('authenticateAccountEntry cannot be falsy')
   }
@@ -62,7 +62,7 @@ export async function authenticateAccount(authenticateAccountEntry: Authenticate
     csrfToken,
     redirect: true,
     json: true,
-  };
+  }
   
   const response = await axiosClient.post<{ url: string }>(
     `/auth/callback/awesome-credentials`, 
@@ -77,4 +77,8 @@ export async function authenticateAccount(authenticateAccountEntry: Authenticate
   return isOkResponse(response) 
     ? createSucessfulActionResult(response.data.url)
     : createFailedActionResult('Authentication failed. Please try again.')
+}
+
+export async function logoutUser(): Promise<void> {
+
 }

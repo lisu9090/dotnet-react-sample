@@ -1,22 +1,37 @@
-import { PageBox } from "@/frontend/components";
-import { authenticateAccount } from "@/frontend/libs";
-import { Button, Grid, TextField, Typography } from "@mui/material";
-import Link from "next/link";
-import { ReactElement, useState } from "react";
-import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks";
-import { useRouter } from "next/router";
+import { PageBox } from "@/frontend/components"
+import { loginUser } from "@/frontend/libs"
+import { Button, Grid, TextField, Typography } from "@mui/material"
+import Link from "next/link"
+import { ReactElement, useState } from "react"
+import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks"
+import { useRouter } from "next/router"
+import { PAGE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
 
-function useAuthenticateAccount() {
-  return useFetchWithErrorHandling(authenticateAccount)
+function useLoginUserWithErrorHandling() {
+  return useFetchWithErrorHandling(loginUser)
 }
 
 export default function Login(): ReactElement {
   const router = useRouter()
   const { warning } = useSnackbar()
-  const authenticateAccount = useAuthenticateAccount()
+  const tryLoginUser = useLoginUserWithErrorHandling()
 
   const [userEmail, setUserEmail] = useState<string>('')
   const [userPassword, setUserPassword] = useState<string>('')
+
+  const getReturnUrl = () => {
+    const returnUrlQueryValue = router.query[QUERY_RETURN_URL]
+
+    if (typeof returnUrlQueryValue === 'string') {
+      return new URL(returnUrlQueryValue)
+    }
+
+    if (returnUrlQueryValue instanceof Array && returnUrlQueryValue.length > 0) {
+      return new URL(returnUrlQueryValue[0])
+    } 
+
+    return null
+  }
 
   const login = async () => {
     if (!userEmail || !userPassword) {
@@ -25,13 +40,13 @@ export default function Login(): ReactElement {
       return
     }
 
-    const redirectUrl = await authenticateAccount({
+    const result = await tryLoginUser({
       email: userEmail,
       password: userPassword
     })
 
-    if (redirectUrl) {
-        router.push(redirectUrl)
+    if (result) {
+      router.replace(getReturnUrl() ?? PAGE_ACCOUNT)
     } 
   }
 

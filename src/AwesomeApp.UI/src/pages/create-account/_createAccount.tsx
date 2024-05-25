@@ -12,14 +12,14 @@ import {
   strongPasswordValidator, 
   useSimpleFormValidation,
   createAccount,
-  fieldEqualityValidator, 
+  fieldEqualityValidator,
+  loginUser, 
 } from '@/frontend/libs';
 import { CreateAccount } from '@/common/types/account/CreateAccount';
 import { useRouter } from 'next/router';
 import { useFetchWithErrorHandling } from '@/pages/_hooks';
-import { CustomerType } from '@/common/types/account';
-
-const redirecUrl = '/login'
+import { AuthenticateAccount, CustomerType } from '@/common/types/account';
+import { PAGE_ACCOUNT } from '@/common/consts';
 
 type CreateAccountForm = {
   email: string;
@@ -73,13 +73,18 @@ function toCreateAccountEntry(formValue: CreateAccountForm): CreateAccount {
   }
 }
 
-function useCreateAccount() {
+function useCreateAccountWithErrorHandling() {
   return useFetchWithErrorHandling(createAccount)
+}
+
+function useLoginUserWithErrorHandling() {
+  return useFetchWithErrorHandling(loginUser)
 }
 
 export default function CreateAccountComponent(): ReactElement {
   const router = useRouter()
-  const createAccount = useCreateAccount()
+  const tryCreateAccount = useCreateAccountWithErrorHandling()
+  const tryLoginUser = useLoginUserWithErrorHandling()
 
   const { 
     formValue,
@@ -97,15 +102,27 @@ export default function CreateAccountComponent(): ReactElement {
       setFormValue({ ...formValue, [formField]: event.target.value })
     }
 
-  const submitForm = async () => {
+  const login = async (authenticateAccount: AuthenticateAccount) => {
+    const result = await tryLoginUser(authenticateAccount)
+
+    if (result) {
+      router.replace(PAGE_ACCOUNT)
+    }
+  }
+
+  const createAccontAndLogin = async () => {
     if (!formValidation.isValid) {
       return
     }
 
-    const accountId = await createAccount(toCreateAccountEntry(formValue))
+    const createAccountEntry = toCreateAccountEntry(formValue)
+    const accountId = await tryCreateAccount(createAccountEntry)
 
     if (accountId) {
-      router.push(redirecUrl)
+      await login({
+        email: createAccountEntry.email,
+        password: createAccountEntry.password,
+      })
     }
   }
 
@@ -228,7 +245,7 @@ export default function CreateAccountComponent(): ReactElement {
           <Button 
             variant="outlined" 
             disabled={!formValidation.isValid} 
-            onClick={submitForm}
+            onClick={createAccontAndLogin}
           >
             Submit
           </Button>
