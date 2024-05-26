@@ -1,26 +1,30 @@
-import axios, { HttpStatusCode } from "axios";
-import { Account, ActionResult, AuthenticateAccount, AuthenticationResult, CreateAccount } from "@/shared/types";
-import { AppSettings } from "@/shared/types";
-import { acceptStatusCodes } from "@/shared/libs";
+import axios, { HttpStatusCode } from 'axios';
+import { ActionResult, ActionResultBase, AppSettings } from '@/common/types';
+import { AxiosRequestConfigBuilder, isOkResponse, createFailedActionResult, createSucessfulActionResult, createSucessfulActionResultBase, createFailedActionResultBase } from '@/common/libs';
+import { getCsrfToken } from 'next-auth/react';
+import { Account, AuthenticateAccount, CreateAccount } from '@/common/types/account';
+
+let csrfToken: string = ''
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   headers: {
     'Content-Type': 'application/json'
-  }
+  },
 })
+
+export async function initApiCient(): Promise<void> {
+  const token = await getCsrfToken()
+
+  if (!token) {
+    throw new Error('CSRF token is not defined')
+  }
+
+  csrfToken = token
+}
 
 export async function fetchSettings(): Promise<AppSettings> {
   const response = await axiosClient.get<AppSettings>(`/settings`)
-
-  return response.data
-}
-
-export async function fetchCurrentAccount(): Promise<ActionResult<Account>> {
-  const response = await axiosClient.get<ActionResult<Account>>(
-    `/account/current`,
-    acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.NotFound])
-  )
 
   return response.data
 }
@@ -39,18 +43,53 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   const response = await axiosClient.post<ActionResult<number>>(
     `/account/create`, 
     createAccountEntry,
-    acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.Conflict])
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
+      .build()
   )
 
   return response.data
 }
 
-export async function authenticateAccount(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResult<AuthenticationResult>> {
+export async function loginUser(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResultBase> {
   if (!authenticateAccountEntry) {
     throw new Error('authenticateAccountEntry cannot be falsy')
   }
-  
-  const response = await axiosClient.post<ActionResult<AuthenticationResult>>(`/account/authenticate`, authenticateAccountEntry)
 
-  return response.data
+  const payload = {
+    ...authenticateAccountEntry,
+    csrfToken,
+  }
+  
+  const response = await axiosClient.post(
+    `/auth/callback/awesome-credentials`, 
+    payload,
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Unauthorized)
+      .addContentTypeHeader('application/x-www-form-urlencoded')
+      .build()
+  )
+
+  return isOkResponse(response) 
+    ? createSucessfulActionResultBase()
+    : createFailedActionResultBase('Authentication failed. Please try again.')
+}
+
+export async function logoutUser(): Promise<ActionResultBase> {
+  const payload = { csrfToken }
+
+  const response = await axiosClient.post(
+    `/auth/signout`, 
+    payload,
+    AxiosRequestConfigBuilder
+      .create()
+      .addContentTypeHeader('application/x-www-form-urlencoded')
+      .build()
+  )
+
+  return isOkResponse(response) 
+    ? createSucessfulActionResultBase()
+    : createFailedActionResultBase('Authentication failed. Please try again.')
 }

@@ -2,8 +2,8 @@ import {
   SnackbarOrigin, 
   SnackbarProvider as SnackbarProviderNotistack,
   useSnackbar as useSnackbarNotistack 
-} from "notistack";
-import { ReactElement, useMemo } from "react";
+} from 'notistack';
+import { ReactElement, useMemo } from 'react';
 
 type Props = {
   children: any

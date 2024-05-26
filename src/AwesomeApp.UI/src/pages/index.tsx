@@ -1,8 +1,8 @@
-import { PageBox } from "@/frontend/components"
-import { Button, Grid, Typography } from "@mui/material"
-import Image from "next/image"
-import Link from "next/link"
-import { ReactElement } from "react"
+import { PageBox } from '@/frontend/components'
+import { Button, Grid, Typography } from '@mui/material'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ReactElement } from 'react'
 
 export default function LandingPage(): ReactElement {
   return (

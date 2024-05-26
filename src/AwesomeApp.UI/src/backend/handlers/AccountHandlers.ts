@@ -1,34 +1,23 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { HttpStatusCode } from "axios";
-import { AccountRole, ActionResult, AuthenticationResult } from "@/shared/types";
-import { AccountDto, CreateAccountDto } from "@/backend/dtos";
-import { createFailedActionResult, createSucessfulActionResult } from "@/backend/libs/ActionResultFactories";
-import { getAccount, getAccounts, createAccount, authenticateAccount } from "@/backend/libs";
+import { NextApiRequest, NextApiResponse } from 'next';
+import { HttpStatusCode } from 'axios';
+import { ActionResult } from '@/common/types';
+import { CreateAccountDto } from '@/backend/dtos';
+import { createFailedActionResult, createSucessfulActionResult } from '@/common/libs';
+import { getAccounts, createAccount } from '@/backend/libs';
+import { accountDtostoAccounts } from '../mappings';
+import { Account, AccountRole } from '@/common/types/account';
 
-export async function getCurrentAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto>>): Promise<void> {
-  const currentAccountId =  req.session.user?.id!
-
-  const accountDto = await getAccount(currentAccountId)
-
-  if (accountDto) {
-    res.send(createSucessfulActionResult(accountDto))
-  } else {
-    res.status(HttpStatusCode.NotFound)
-      .send(createFailedActionResult("Account not found"))
-  }
-} 
-
-export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<ActionResult<AccountDto[]>>): Promise<void> {
+export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<ActionResult<Account[]>>): Promise<void> {
   const accountDtos = await getAccounts()
 
-  res.send(createSucessfulActionResult(accountDtos))
-} 
+  res.send(createSucessfulActionResult(accountDtostoAccounts(accountDtos)))
+}
 
 export async function postCreateAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<number>>): Promise<void> {
   const payload: CreateAccountDto = {
     ...req.body,
     accountRole: AccountRole.User
-  } 
+  }
 
   const accountId = await createAccount(payload)
 
@@ -38,16 +27,4 @@ export async function postCreateAccount(req: NextApiRequest, res: NextApiRespons
     res.status(HttpStatusCode.Conflict)
       .send(createFailedActionResult('Account with this email exists'))
   }
-} 
-
-export async function postAuthenticate(req: NextApiRequest, res: NextApiResponse<ActionResult<AuthenticationResult>>): Promise<void> {
-  const authenticationResultDto = await authenticateAccount(req.body)
-
-  if (authenticationResultDto.authenticationSuccessful) {
-    req.session.user = { id: authenticationResultDto.accountId!, role: authenticationResultDto.accountRole! }
-    
-    await req.session.save()
-  }
-
-  res.send(createSucessfulActionResult(authenticationResultDto))
 }

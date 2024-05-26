@@ -31,9 +31,9 @@ namespace AwesomeApp.Application.Features.Accounts.Commands
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>
-        /// NumberOfCars
+        /// VehiclesNumber
         /// </summary>
-        public uint VechiclesNumber { get; set; }
+        public uint VehiclesNumber { get; set; }
 
         /// <summary>
         /// ECustomerType

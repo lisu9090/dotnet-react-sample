@@ -72,11 +72,15 @@ In order to run app you will need following software to be installed:
 - [x] Setup error handling in API
 - [x] Setup error handling mechanism in both App Backend and frontend
 - [ ] (Optional) Setup sample logging mechanism in API and App Backend
-- [ ] Secure communication between API and App Backend (simple subscription key)
-- [ ] Secure communication between App backend and App frontend (user authentication and authorization)
-- [ ] Secure App routing and enable role-based user authorization
+- [ ] Secure communication between API and App Backend with SSL
+- [ ] Secure communication between App backend and App frontend with SSL
+- [x] Secure API with subscription key
+- [x] Secure App backend with JWT token
+- [ ] Secure App backend with CSRF token
+- [x] Secure pages with user authentication
+- [ ] (Optional) Enable role-based user authorization
 - [ ] Enable App localization (string translations)
-- [ ] Apply documentation comments across codebase
+- [ ] Apply docs
 - [x] Feature: Landing, Error and NotFound pages
 - [x] Feature: Create user account
 - [x] Feature: Authenticate user

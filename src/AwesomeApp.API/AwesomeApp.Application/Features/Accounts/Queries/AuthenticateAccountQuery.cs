@@ -1,4 +1,5 @@
-﻿using AwesomeApp.Application.Features.Accounts.Dtos;
+﻿using AutoMapper;
+using AwesomeApp.Application.Features.Accounts.Dtos;
 using AwesomeApp.Application.Security;
 using AwesomeApp.Domain.Accounts.Entities;
 using AwesomeApp.Domain.Accounts.Repositories;
@@ -10,16 +11,18 @@ namespace AwesomeApp.Application.Features.Accounts.Queries
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IHashService _hashService;
+        private readonly IMapper _mapper;
 
-        public AuthenticateAccountQuery(IAccountRepository accountRepository, IHashService hashService)
+        public AuthenticateAccountQuery(IAccountRepository accountRepository, IHashService hashService, IMapper mapper)
         {
             _accountRepository = accountRepository;
             _hashService = hashService;
+            _mapper = mapper;
         }
 
         public async Task<AuthenticationResultDto> Handle(AuthenticateAccountQueryRequest request, CancellationToken cancellationToken)
         {
-            Account? account = await _accountRepository.GetByEmailAsync(request.Email!);
+            Account? account = await _accountRepository.GetByEmailAsync(request.Email!.ToLowerInvariant());
             string passwordHash = _hashService.GetHash(request.Password!);
 
             if (account == null || !_hashService.Compare(account.PasswordHash!, passwordHash))
@@ -27,7 +30,9 @@ namespace AwesomeApp.Application.Features.Accounts.Queries
                 return AuthenticationResultDto.AuthenticationFailedResult();
             }
 
-            return AuthenticationResultDto.AuthenticationSucessfulResult(account.Id, account.AccountRole);
+            AccountSessionDto accountDto = _mapper.Map<AccountSessionDto>(account);
+
+            return AuthenticationResultDto.AuthenticationSuccessfulResult(accountDto);
         }
     }
 }

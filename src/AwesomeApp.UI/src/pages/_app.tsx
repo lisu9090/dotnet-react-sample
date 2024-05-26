@@ -1,7 +1,7 @@
 import './globals.css'
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import { useModulesInit } from '@/frontend/libs'
+import { initApiCient, useModulesInit } from '@/frontend/libs'
 import initAppSettings from '@/frontend/libs/SettingsProvider'
 import { PageBox } from '@/frontend/components'
 import { ReactElement } from 'react'
@@ -11,7 +11,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function App({ Component, pageProps }: any): ReactElement {
   const isAppInited = useModulesInit([
-    initAppSettings
+    initAppSettings,
+    initApiCient
   ])
 
   return (

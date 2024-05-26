@@ -1,25 +1,25 @@
-import { ReactElement, useCallback, useEffect, useMemo, useState } from "react";
-import { PageBox } from "@/frontend/components";
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material";
-import Link from "next/link";
-import { 
-  FormValidators, 
-  SimpleFormValidation, 
-  emailValidator, 
-  minLengthValidator, 
-  requiredValidator, 
-  positiveValueValidator, 
-  strongPasswordValidator, 
+import { ReactElement } from 'react';
+import { PageBox } from '@/frontend/components';
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material';
+import Link from 'next/link';
+import {
+  FormValidators,
+  SimpleFormValidation,
+  emailValidator,
+  minLengthValidator,
+  requiredValidator,
+  positiveValueValidator,
+  strongPasswordValidator,
   useSimpleFormValidation,
   createAccount,
-  fieldEqualityValidator, 
-} from "@/frontend/libs";
-import { CreateAccount } from "@/shared/types/account/CreateAccount";
-import { useRouter } from "next/router";
-import { CustomerType } from "@/shared/types";
-import { useFetchWithErrorHandling } from "@/pages/_hooks";
-
-const redirecUrl = '/login'
+  fieldEqualityValidator,
+  loginUser,
+} from '@/frontend/libs';
+import { CreateAccount } from '@/common/types/account/CreateAccount';
+import { useRouter } from 'next/router';
+import { useCallWithErrorHandling, useFetchWithErrorHandling } from '@/pages/_hooks';
+import { AuthenticateAccount, CustomerType } from '@/common/types/account';
+import { PAGE_ACCOUNT } from '@/common/consts';
 
 type CreateAccountForm = {
   email: string;
@@ -27,8 +27,8 @@ type CreateAccountForm = {
   passwordRepeated: string;
   fullName: string;
   dateOfBirth: string;
-  vechiclesNumber: string;
-  customerType: CustomerType;
+  vehiclesNumber: string;
+  customerType: string;
 }
 
 const initialFormValue: CreateAccountForm = {
@@ -37,8 +37,8 @@ const initialFormValue: CreateAccountForm = {
   passwordRepeated: '',
   fullName: '',
   dateOfBirth: '',
-  vechiclesNumber: '',
-  customerType: CustomerType.private
+  vehiclesNumber: '',
+  customerType: CustomerType.Private.toString()
 }
 
 const initialFormValidation: SimpleFormValidation = {
@@ -49,7 +49,7 @@ const initialFormValidation: SimpleFormValidation = {
     passwordRepeated: null,
     fullName: null,
     dateOfBirth: null,
-    vechiclesNumber: null,
+    vehiclesNumber: null,
   }
 }
 
@@ -59,7 +59,7 @@ const formValidators: FormValidators = {
   passwordRepeated: [requiredValidator(), fieldEqualityValidator('password', 'Password does not match')],
   fullName: [requiredValidator(), minLengthValidator()],
   dateOfBirth: [requiredValidator()],
-  vechiclesNumber: [requiredValidator(), positiveValueValidator()]
+  vehiclesNumber: [requiredValidator(), positiveValueValidator()]
 }
 
 function toCreateAccountEntry(formValue: CreateAccountForm): CreateAccount {
@@ -67,45 +67,62 @@ function toCreateAccountEntry(formValue: CreateAccountForm): CreateAccount {
     email: formValue.email,
     password: formValue.password,
     fullName: formValue.fullName,
-    dateOfBirth: new Date(formValue.dateOfBirth),
-    vechiclesNumber: Number.parseInt(formValue.vechiclesNumber),
-    customerType: formValue.customerType
+    dateOfBirth: new Date(formValue.dateOfBirth).toISOString(),
+    vehiclesNumber: Number.parseInt(formValue.vehiclesNumber),
+    customerType: Number.parseInt(formValue.customerType) as CustomerType
   }
 }
 
-function useCreateAccount() {
+function useCreateAccountWithErrorHandling() {
   return useFetchWithErrorHandling(createAccount)
+}
+
+function useLoginUserWithErrorHandling() {
+  return useCallWithErrorHandling(loginUser)
 }
 
 export default function CreateAccountComponent(): ReactElement {
   const router = useRouter()
-  const createAccount = useCreateAccount()
+  const tryCreateAccount = useCreateAccountWithErrorHandling()
+  const tryLoginUser = useLoginUserWithErrorHandling()
 
-  const { 
+  const {
     formValue,
     formValidation,
     setFormValue,
     validateFormField
   } = useSimpleFormValidation(initialFormValue, initialFormValidation, formValidators)
 
-  const createBlurHandler = (fieldName: string, fieldValue: string) => 
+  const createBlurHandler = (fieldName: string, fieldValue: string) =>
     () => validateFormField(fieldName, fieldValue)
 
-  const createFormFieldChangeHandler = (formField: string) => 
+  const createFormFieldChangeHandler = (formField: string) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
       validateFormField(formField, event.target.value)
       setFormValue({ ...formValue, [formField]: event.target.value })
     }
 
-  const submitForm = async () => {
+  const login = async (authenticateAccount: AuthenticateAccount) => {
+    const result = await tryLoginUser(authenticateAccount)
+
+    if (result) {
+      router.replace(PAGE_ACCOUNT)
+    }
+  }
+
+  const createAccontAndLogin = async () => {
     if (!formValidation.isValid) {
       return
     }
 
-    const accountId = await createAccount(toCreateAccountEntry(formValue))
+    const createAccountEntry = toCreateAccountEntry(formValue)
+    const accountId = await tryCreateAccount(createAccountEntry)
 
     if (accountId) {
-      router.push(redirecUrl)
+      await login({
+        email: createAccountEntry.email,
+        password: createAccountEntry.password,
+      })
     }
   }
 
@@ -115,18 +132,18 @@ export default function CreateAccountComponent(): ReactElement {
         <Grid item>
           <Typography variant="h5">Create Account</Typography>
         </Grid>
-        <Grid 
-          item 
+        <Grid
+          item
           container
           direction="column"
           justifyContent="space-between"
           alignItems="stretch"
         >
-          <TextField 
+          <TextField
             required
             className="mb-2"
             type="email"
-            label="Email" 
+            label="Email"
             placeholder="you@inbox.com"
             variant="standard"
             value={formValue.email}
@@ -135,11 +152,11 @@ export default function CreateAccountComponent(): ReactElement {
             onBlur={createBlurHandler("email", formValue.email)}
             onChange={createFormFieldChangeHandler("email")}
           />
-          <TextField 
+          <TextField
             required
             className="mb-2"
             type="password"
-            label="Password" 
+            label="Password"
             variant="standard"
             value={formValue.password}
             error={!!formValidation.fieldErrors.password}
@@ -147,11 +164,11 @@ export default function CreateAccountComponent(): ReactElement {
             onBlur={createBlurHandler("password", formValue.password)}
             onChange={createFormFieldChangeHandler("password")}
           />
-          <TextField 
+          <TextField
             required
             className="mb-2"
             type="password"
-            label="Repeat password" 
+            label="Repeat password"
             variant="standard"
             value={formValue.passwordRepeated}
             error={!!formValidation.fieldErrors.passwordRepeated}
@@ -159,11 +176,11 @@ export default function CreateAccountComponent(): ReactElement {
             onBlur={createBlurHandler("passwordRepeated", formValue.passwordRepeated)}
             onChange={createFormFieldChangeHandler("passwordRepeated")}
           />
-          <TextField 
+          <TextField
             required
             className="mb-2"
             type="text"
-            label="Full name" 
+            label="Full name"
             placeholder="Jane Doe"
             variant="standard"
             value={formValue.fullName}
@@ -172,11 +189,11 @@ export default function CreateAccountComponent(): ReactElement {
             onBlur={createBlurHandler("fullName", formValue.fullName)}
             onChange={createFormFieldChangeHandler("fullName")}
           />
-          <TextField 
+          <TextField
             required
             className="mb-2"
             type="date"
-            label="Date of birth" 
+            label="Date of birth"
             variant="standard"
             InputLabelProps={{ shrink: true }}
             value={formValue.dateOfBirth}
@@ -185,18 +202,18 @@ export default function CreateAccountComponent(): ReactElement {
             onBlur={createBlurHandler("dateOfBirth", formValue.dateOfBirth)}
             onChange={createFormFieldChangeHandler("dateOfBirth")}
           />
-          <TextField 
+          <TextField
             required
             className="mb-2"
             type="number"
-            label="Number of owned vechicles" 
+            label="Number of owned vechicles"
             placeholder="1"
             variant="standard"
-            value={formValue.vechiclesNumber}
-            error={!!formValidation.fieldErrors.vechiclesNumber}
-            helperText={formValidation.fieldErrors.vechiclesNumber}
-            onBlur={createBlurHandler("vechiclesNumber", formValue.vechiclesNumber)}
-            onChange={createFormFieldChangeHandler("vechiclesNumber")}
+            value={formValue.vehiclesNumber}
+            error={!!formValidation.fieldErrors.vehiclesNumber}
+            helperText={formValidation.fieldErrors.vehiclesNumber}
+            onBlur={createBlurHandler("vehiclesNumber", formValue.vehiclesNumber)}
+            onChange={createFormFieldChangeHandler("vehiclesNumber")}
           />
           <FormControl>
             <FormLabel id="customer-type">Customer type</FormLabel>
@@ -206,32 +223,37 @@ export default function CreateAccountComponent(): ReactElement {
               value={formValue.customerType}
               onChange={createFormFieldChangeHandler("customerType")}
             >
-              <FormControlLabel value={CustomerType.private} control={<Radio />} label="Private" />
-              <FormControlLabel value={CustomerType.company} control={<Radio />} label="Company" />
+              <FormControlLabel value={CustomerType.Private} control={<Radio />} label="Private" />
+              <FormControlLabel value={CustomerType.Company} control={<Radio />} label="Company" />
             </RadioGroup>
           </FormControl>
         </Grid>
         <Grid
           item
           container
-          spacing={2}
-          justifyContent="end"
+          justifyContent="space-between"
         >
-          <Link className="mr-2" href="/">
-            <Button 
-              variant="outlined" 
-              color="warning"
+          <Grid item xs={4}>
+            <Link href="/">
+              <Button
+                className="w-full"
+                variant="outlined"
+                color="secondary"
+              >
+                Return to home
+              </Button>
+            </Link>
+          </Grid>
+          <Grid item xs={4}>
+            <Button
+              className="w-full"
+              variant="outlined"
+              disabled={!formValidation.isValid}
+              onClick={createAccontAndLogin}
             >
-              Return to home
+              Submit
             </Button>
-          </Link>
-          <Button 
-            variant="outlined" 
-            disabled={!formValidation.isValid} 
-            onClick={submitForm}
-          >
-            Submit
-          </Button>
+          </Grid>
         </Grid>
       </Grid>
     </PageBox>

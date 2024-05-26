@@ -21,10 +21,10 @@ namespace AwesomeApp.Infrastructure.InMemoryCache
         /// <returns>service collection</returns>
         public static IServiceCollection RegisterInMemoryCache(this IServiceCollection services, IConfiguration config)
         {
-            services.Configure<List<Account>>(config.GetSection("Accounts"));
+            services.Configure<AccountDataToSeedOptions>(config.GetSection("Accounts"));
 
             services.AddSingleton<IEntityCache<Account>, EntityCache<Account>>(serviceProvider => 
-                EntityCache<Account>.CreateEntityCache(serviceProvider.GetService<IOptions<List<Account>>>()));
+                EntityCache<Account>.CreateEntityCache(serviceProvider.GetService<IOptions<AccountDataToSeedOptions>>()));
 
             services.AddScoped<IAccountRepository, AccountRepository>();
 

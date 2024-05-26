@@ -1,28 +1,30 @@
-import axios, { HttpStatusCode } from "axios";
-import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from "@/backend/dtos";
-import settings from "@/Settings";
-import { acceptStatusCodes, isOkResponse } from "@/shared/libs";
-
-const { awesomeApiConfig } = settings
+import axios, { HttpStatusCode } from 'axios';
+import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from '@/backend/dtos';
+import { AxiosRequestConfigBuilder, getDataOrNullTransformer } from '@/common/libs';
 
 const axiosClient = axios.create({
-  baseURL: awesomeApiConfig.baseUrl,
+  baseURL: process.env.AWESOME_API_URL,
   headers: {
-    "Content-Type": "application/json"
-  }
+    'Content-Type': 'application/json',
+    'X-Awesome-API-Key': process.env.AWESOME_API_KEY
+  },
 })
 
 export async function getAccount(id: number): Promise<AccountDto | null> {
-  if (!(id > 0)) {
+  if (id <= 0) {
     throw new Error(`Parameter id must be positive intiger`)
   }
 
-  const response = await axiosClient.get<AccountDto>(
+  const response = await axiosClient.get<AccountDto | null>(
     `/account/${id}`,
-    acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.NotFound])
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.NotFound)
+      .addCombinedResponseTransformers(getDataOrNullTransformer)
+      .build()
   )
 
-  return isOkResponse(response) ? response.data : null
+  return response.data
 }
 
 export async function getAccounts(): Promise<AccountDto[]> {
@@ -39,10 +41,14 @@ export async function createAccount(createAccountDto: CreateAccountDto): Promise
   const response = await axiosClient.post<number>(
     `/account`, 
     createAccountDto,
-    acceptStatusCodes([HttpStatusCode.Ok, HttpStatusCode.Conflict])
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
+      .addCombinedResponseTransformers(getDataOrNullTransformer)
+      .build()
   )
 
-  return isOkResponse(response) ? response.data : null
+  return response.data
 }
 
 export async function authenticateAccount(authenticateAccountDto: AuthenticateAccountDto): Promise<AuthenticationResultDto> {
