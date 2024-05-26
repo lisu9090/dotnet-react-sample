@@ -74,12 +74,12 @@ export const nextAuthOptions: NextAuthOptions = {
 export async function getSession(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, nextAuthOptions)
 
-  if (!session || !session.user) {
+  if (!session?.user) {
     throw new Error('Not authorized')
   }
 
   return {
     ...session,
-    user: session.user!
+    user: session.user
   }
 }
