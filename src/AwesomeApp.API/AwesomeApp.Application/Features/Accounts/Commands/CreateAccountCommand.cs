@@ -31,6 +31,7 @@ namespace AwesomeApp.Application.Features.Accounts.Commands
 
             account = _mapper.Map<Account>(request);
 
+            account.Email = account.Email!.ToLowerInvariant();
             account.PasswordHash = _hashService.GetHash(request.Password!);
 
             account = await _accountRepository.UpsertAsync(account, cancellationToken);

@@ -5,14 +5,15 @@ using AwesomeApp.Domain.Accounts.Entities;
 
 namespace AwesomeApp.Application.Features.Accounts
 {
-    internal class MapingProfile : Profile
+    internal class MappingProfile : Profile
     {
-        public MapingProfile()
+        public MappingProfile()
         {
             CreateMap<CreateAccountCommandRequest, Account>(MemberList.Source)
                 .ForSourceMember(src => src.Password, opt => opt.DoNotValidate());
 
             CreateMap<Account, AccountDto>(MemberList.Destination);
+            CreateMap<Account, AccountSessionDto>(MemberList.Destination);
         }
     }
 }

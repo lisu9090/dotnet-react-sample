@@ -1,5 +1,4 @@
-﻿using AwesomeApp.Application.Behaviors.RequestValidations;
-using AwesomeApp.Application.Features.Accounts.Commands;
+﻿using AwesomeApp.Application.Features.Accounts.Commands;
 using AwesomeApp.Application.Features.Accounts.Dtos;
 using AwesomeApp.Application.Features.Accounts.Exceptions;
 using AwesomeApp.Application.Features.Accounts.Queries;
@@ -8,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AwesomeApp.API.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class AccountController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -47,10 +46,6 @@ namespace AwesomeApp.API.Controllers
             {
                 return Ok(await _mediator.Send(request));
             }
-            catch (RequestValidationException)
-            {
-                return BadRequest();
-            }
             catch (AccountCreationException)
             {
                 return Conflict();
@@ -62,14 +57,7 @@ namespace AwesomeApp.API.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> AuthenticateAccount([FromBody] AuthenticateAccountQueryRequest request)
         {
-            try
-            {
-                return Ok(await _mediator.Send(request));
-            }
-            catch (RequestValidationException)
-            {
-                return BadRequest();
-            }
+            return Ok(await _mediator.Send(request));
         }
     }
 }
