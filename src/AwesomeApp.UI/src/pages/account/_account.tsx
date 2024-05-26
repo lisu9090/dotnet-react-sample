@@ -1,12 +1,32 @@
-import { Account, AccountRole, CustomerType } from '@/common/types/account';
-import { PageBox } from '@/frontend/components';
-import { Grid, Typography } from '@mui/material';
-import { ReactElement } from 'react';
+import { Account, AccountRole, CustomerType } from '@/common/types/account'
+import { PageBox } from '@/frontend/components'
+import { Button, Grid, Typography } from '@mui/material'
+import { ReactElement } from 'react'
+import { useCallWithErrorHandling } from '@/pages/_hooks'
+import { logoutUser } from '@/frontend/libs'
+import { useRouter } from 'next/router'
+import { PAGE_HOME } from '@/common/consts'
+import Link from 'next/link'
 
-export default function AccountComponent({ account }: { account: Account }): ReactElement {
+function useLogoutUserWithErrorHandling() {
+  return useCallWithErrorHandling(logoutUser)
+}
+
+export default function AccountComponent({ account }: Readonly<{ account: Account }>): ReactElement {
+  const router = useRouter()
+  const tryLogout = useLogoutUserWithErrorHandling()
+
   const roleName = AccountRole[account.accountRole]
   const customerTypeName = CustomerType[account.customerType]
   const dateOfBirth = new Date(account.dateOfBirth)
+
+  const logout = async () => {
+    const result = await tryLogout()
+
+    if (result) {
+      router.push(PAGE_HOME)
+    }
+  }
 
   return (
     <PageBox>
@@ -35,6 +55,36 @@ export default function AccountComponent({ account }: { account: Account }): Rea
         <span className="mb-2">{customerTypeName}</span>
         <Typography variant="h6">Account role</Typography>
         <span className="mb-2">{roleName}</span>
+      </Grid>
+      <Grid
+        className="mt-2"
+        item
+        container
+        alignItems="stretch"
+        justifyContent="space-between"
+      >
+        <Grid item xs={4}>
+          <Link href="/">
+            <Button 
+              className="w-full"
+              variant="outlined"
+              color="secondary"
+            >
+              Return to home
+            </Button>
+          </Link>
+        </Grid>
+        <Grid item xs={4}>
+          <Button
+            className="w-full"
+            type="submit"
+            variant="outlined"
+            color="warning"
+            onClick={logout}
+          >
+            Logout
+          </Button>
+        </Grid>
       </Grid>
     </PageBox>
   )

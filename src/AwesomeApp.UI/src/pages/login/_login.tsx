@@ -3,12 +3,12 @@ import { loginUser } from "@/frontend/libs"
 import { Button, Grid, TextField, Typography } from "@mui/material"
 import Link from "next/link"
 import { ReactElement, useState } from "react"
-import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks"
+import { useCallWithErrorHandling, useSnackbar } from "@/pages/_hooks"
 import { useRouter } from "next/router"
 import { PAGE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
 
 function useLoginUserWithErrorHandling() {
-  return useFetchWithErrorHandling(loginUser)
+  return useCallWithErrorHandling(loginUser)
 }
 
 export default function Login(): ReactElement {
@@ -23,7 +23,7 @@ export default function Login(): ReactElement {
     const returnUrlQueryValue = router.query[QUERY_RETURN_URL]
 
     if (typeof returnUrlQueryValue === 'string') {
-      return returnUrlQueryValue as string
+      return returnUrlQueryValue
     }
 
     if (returnUrlQueryValue instanceof Array && returnUrlQueryValue.length > 0) {

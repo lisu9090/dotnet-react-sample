@@ -1,6 +1,6 @@
 import axios, { HttpStatusCode } from 'axios';
-import { ActionResult, AppSettings } from '@/common/types';
-import { AxiosRequestConfigBuilder, isOkResponse, createFailedActionResult, createSucessfulActionResult } from '@/common/libs';
+import { ActionResult, ActionResultBase, AppSettings } from '@/common/types';
+import { AxiosRequestConfigBuilder, isOkResponse, createFailedActionResult, createSucessfulActionResult, createSucessfulActionResultBase, createFailedActionResultBase } from '@/common/libs';
 import { getCsrfToken } from 'next-auth/react';
 import { Account, AuthenticateAccount, CreateAccount } from '@/common/types/account';
 
@@ -52,7 +52,7 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   return response.data
 }
 
-export async function loginUser(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResult<string>> {
+export async function loginUser(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResultBase> {
   if (!authenticateAccountEntry) {
     throw new Error('authenticateAccountEntry cannot be falsy')
   }
@@ -60,11 +60,9 @@ export async function loginUser(authenticateAccountEntry: AuthenticateAccount): 
   const payload = {
     ...authenticateAccountEntry,
     csrfToken,
-    redirect: true,
-    json: true,
   }
   
-  const response = await axiosClient.post<{ url: string }>(
+  const response = await axiosClient.post(
     `/auth/callback/awesome-credentials`, 
     payload,
     AxiosRequestConfigBuilder
@@ -75,10 +73,23 @@ export async function loginUser(authenticateAccountEntry: AuthenticateAccount): 
   )
 
   return isOkResponse(response) 
-    ? createSucessfulActionResult(response.data.url)
-    : createFailedActionResult('Authentication failed. Please try again.')
+    ? createSucessfulActionResultBase()
+    : createFailedActionResultBase('Authentication failed. Please try again.')
 }
 
-export async function logoutUser(): Promise<void> {
+export async function logoutUser(): Promise<ActionResultBase> {
+  const payload = { csrfToken }
 
+  const response = await axiosClient.post(
+    `/auth/signout`, 
+    payload,
+    AxiosRequestConfigBuilder
+      .create()
+      .addContentTypeHeader('application/x-www-form-urlencoded')
+      .build()
+  )
+
+  return isOkResponse(response) 
+    ? createSucessfulActionResultBase()
+    : createFailedActionResultBase('Authentication failed. Please try again.')
 }

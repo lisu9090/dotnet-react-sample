@@ -3,6 +3,7 @@ import { isProdEnvironment } from '@/common/libs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { NextAuthOptions, User, getServerSession } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { accountSessionDtotoUser } from '../mappings'
 
 const sessionSecret = process.env.SESSION_PASSWORD
 const sessionMaxAge = process.env.SESSION_MAX_AGE ? Number.parseInt(process.env.SESSION_MAX_AGE) : undefined
@@ -64,12 +65,7 @@ export const nextAuthOptions: NextAuthOptions = {
           return null
         }
 
-        return {
-          id: authenticationResult.account.id,
-          email: authenticationResult.account.email,
-          name: authenticationResult.account.fullName,
-          role: authenticationResult.account.accountRole,
-        } as User
+        return accountSessionDtotoUser(authenticationResult.account)
       },
     })
   ]
