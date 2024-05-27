@@ -17,7 +17,7 @@ const context = createContext<ContextProps>({
 
 let callCounter = 0;
 
-export function SpinnerProvider({ children }: Props): ReactElement {
+export function SpinnerProvider({ children }: Readonly<Props>): ReactElement {
   const [isShown, setIsShown] = useState<boolean>(false)
 
   const value = useMemo<ContextProps>(

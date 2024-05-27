@@ -6,6 +6,39 @@ import { ReactElement, useState } from "react"
 import { useCallWithErrorHandling, useSnackbar } from "@/pages/_hooks"
 import { useRouter } from "next/router"
 import { PAGE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
+import { ParsedUrlQuery } from "querystring"
+
+function validateReturnUrlOrigin (url: string | undefined) {
+  if (!url) {
+    return false
+  }
+
+  if (url.startsWith('/')) {
+    return true
+  }
+
+  try {
+    return new URL(url).origin === location.origin
+  }
+  catch {
+    return false
+  }
+}
+
+function getReturnUrl(query: ParsedUrlQuery) {
+  let returnUrl: string = '' 
+  const returnUrlQueryValue = query[QUERY_RETURN_URL]
+
+  if (typeof returnUrlQueryValue === 'string') {
+    returnUrl = returnUrlQueryValue
+  }
+
+  if (returnUrlQueryValue instanceof Array && returnUrlQueryValue.length > 0) {
+    returnUrl = returnUrlQueryValue[0]
+  } 
+
+  return validateReturnUrlOrigin(returnUrl) ? returnUrl : null
+}
 
 function useLoginUserWithErrorHandling() {
   return useCallWithErrorHandling(loginUser)
@@ -18,20 +51,6 @@ export default function Login(): ReactElement {
 
   const [userEmail, setUserEmail] = useState<string>('')
   const [userPassword, setUserPassword] = useState<string>('')
-
-  const getReturnUrl = () => {
-    const returnUrlQueryValue = router.query[QUERY_RETURN_URL]
-
-    if (typeof returnUrlQueryValue === 'string') {
-      return returnUrlQueryValue
-    }
-
-    if (returnUrlQueryValue instanceof Array && returnUrlQueryValue.length > 0) {
-      return returnUrlQueryValue[0]
-    } 
-
-    return null
-  }
 
   const login = async () => {
     if (!userEmail || !userPassword) {
@@ -46,7 +65,7 @@ export default function Login(): ReactElement {
     })
 
     if (result) {
-      router.push(getReturnUrl() ?? PAGE_ACCOUNT)
+      router.replace(getReturnUrl(router.query) ?? PAGE_ACCOUNT)
     } 
   }
 

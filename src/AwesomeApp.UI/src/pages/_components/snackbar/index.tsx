@@ -22,7 +22,7 @@ const anchor = {
   horizontal: 'right'
 } as SnackbarOrigin
 
-export function SnackbarProvider({ children }: Props): ReactElement {
+export function SnackbarProvider({ children }: Readonly<Props>): ReactElement {
   return (
     <SnackbarProviderNotistack
       autoHideDuration={autoHideDuration}
