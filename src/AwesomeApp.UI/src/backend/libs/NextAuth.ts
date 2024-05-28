@@ -1,7 +1,7 @@
 import { authenticateAccount } from '@/backend/libs'
 import { isProdEnvironment } from '@/common/libs'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { NextAuthOptions, User, getServerSession } from 'next-auth'
+import { NextAuthOptions, getServerSession as nextGetServerSession } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { accountSessionDtotoUser } from '../mappings'
 
@@ -51,7 +51,7 @@ export const nextAuthOptions: NextAuthOptions = {
       type: 'credentials',
       name: 'Credentials',
       credentials: {
-        email: { label: 'Email', type: 'text', placeholder: 'you@inbox.com' },
+        email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' }
       },
       authorize: async (credentials) => {
@@ -71,15 +71,4 @@ export const nextAuthOptions: NextAuthOptions = {
   ]
 }
 
-export async function getSession(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession(req, res, nextAuthOptions)
-
-  if (!session?.user) {
-    throw new Error('Not authorized')
-  }
-
-  return {
-    ...session,
-    user: session.user
-  }
-}
+export const getServerSession = (req: NextApiRequest, res: NextApiResponse) => nextGetServerSession(req, res, nextAuthOptions)

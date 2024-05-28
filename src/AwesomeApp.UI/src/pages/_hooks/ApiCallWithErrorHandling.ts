@@ -1,5 +1,5 @@
-import { useSnackbar } from '@/pages/_components/snackbar'
-import { useSpinner } from '@/pages/_components/spinner'
+import { useSnackbar } from '@/frontend/components/snackbar'
+import { useSpinner } from '@/frontend/components/spinner'
 import { isProdEnvironment } from '@/common/libs'
 import { ActionResult, ActionResultBase } from '@/common/types'
 

@@ -2,12 +2,8 @@ import {
   SnackbarOrigin, 
   SnackbarProvider as SnackbarProviderNotistack,
   useSnackbar as useSnackbarNotistack 
-} from 'notistack';
-import { ReactElement, useMemo } from 'react';
-
-type Props = {
-  children: any
-}
+} from 'notistack'
+import { ReactElement, ReactNode, useMemo } from 'react'
 
 type SnackbarApi = {
   success: (message: string) => void;
@@ -22,7 +18,7 @@ const anchor = {
   horizontal: 'right'
 } as SnackbarOrigin
 
-export function SnackbarProvider({ children }: Readonly<Props>): ReactElement {
+export function SnackbarProvider({ children }: Readonly<{ children: ReactNode }>): ReactElement {
   return (
     <SnackbarProviderNotistack
       autoHideDuration={autoHideDuration}
