@@ -12,7 +12,7 @@ function useLogoutUserWithErrorHandling() {
   return useCallWithErrorHandling(logoutUser)
 }
 
-export default function AccountComponent({ account }: Readonly<{ account: Account }>): ReactElement {
+export default function AccountPage({ account }: Readonly<{ account: Account }>): ReactElement {
   const router = useRouter()
   const tryLogout = useLogoutUserWithErrorHandling()
 
@@ -64,7 +64,7 @@ export default function AccountComponent({ account }: Readonly<{ account: Accoun
         justifyContent="space-between"
       >
         <Grid item xs={4}>
-          <Link href="/">
+          <Link href={PAGE_HOME}>
             <Button 
               className="w-full"
               variant="outlined"

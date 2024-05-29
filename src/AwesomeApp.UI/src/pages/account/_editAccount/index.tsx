@@ -5,7 +5,7 @@ type Props = {
   account: Account
 }
 
-export default function EditAccountComponent({ account }: Readonly<Props>) {
+export default function EditAccountPage({ account }: Readonly<Props>) {
   return (
     <PageBox>{account.id}</PageBox>
   )

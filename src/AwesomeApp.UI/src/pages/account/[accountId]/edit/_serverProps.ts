@@ -1,34 +1,22 @@
-import { ensureAuthenticated, getAccount } from '@/backend/libs'
+import { ensureAuthorized, getAccount, resultProps, resultRedirect } from '@/backend/libs'
 import { accountDtotoAccount } from '@/backend/mappings'
+import { PAGE_NOT_FOUND } from '@/common/consts'
 import { AccountRole } from '@/common/types/account'
 
-const redirectHome = {
-  redirect: {
-    destination: '/',
-    permanent: false,
-  }
-}
-
-export const getServerSideProps = ensureAuthenticated(async (context, { user: { role } }) => {
-  if (role !== AccountRole.Admin) {
-    return redirectHome
-  }
-
+export const getServerSideProps = ensureAuthorized([AccountRole.Admin], async (context, { user: { role } }) => {
   const accountId = Number.parseInt(context.params?.accountId as string)
 
   if (!accountId) {
-    return redirectHome
+    return resultRedirect(PAGE_NOT_FOUND)
   }
 
   const accountDto = await getAccount(accountId)
 
   if (!accountDto) {
-    return redirectHome
+    return resultRedirect(PAGE_NOT_FOUND)
   }
 
-  return {
-    props: {
-      account: accountDtotoAccount(accountDto)
-    }
-  }
+  return resultProps({
+    account: accountDtotoAccount(accountDto)
+  })
 })

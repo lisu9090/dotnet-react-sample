@@ -4,6 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { NextAuthOptions, getServerSession as nextGetServerSession } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { accountSessionDtotoUser } from '../mappings'
+import { PAGE_LOGIN } from '@/common/consts'
 
 const sessionSecret = process.env.SESSION_PASSWORD
 const sessionMaxAge = Number.parseInt(process.env.SESSION_MAX_AGE ?? '') || (3600 * 24)
@@ -21,7 +22,7 @@ export const nextAuthOptions: NextAuthOptions = {
     maxAge: sessionMaxAge
   },
   pages: {
-    signIn: '/login'
+    signIn: PAGE_LOGIN
   },
   callbacks: {
     jwt: ({ token, user }) => {

@@ -1,3 +1,4 @@
+import { PAGE_CREATE_ACCOUNT, PAGE_LOGIN } from '@/common/consts'
 import { PageBox } from '@/frontend/components'
 import { Button, Grid, Typography } from '@mui/material'
 import Image from 'next/image'
@@ -49,7 +50,7 @@ export default function HomePage(): ReactElement {
             direction="column"
             alignItems="stretch"
           >
-            <Link href="/create-account">
+            <Link href={PAGE_CREATE_ACCOUNT}>
               <Button className="w-full" variant="outlined">Create Account</Button>
             </Link>
           </Grid>
@@ -69,7 +70,7 @@ export default function HomePage(): ReactElement {
             direction="column"
             alignItems="stretch"
           >
-            <Link href="/login">
+            <Link href={PAGE_LOGIN}>
               <Button className="w-full" variant="outlined">Login</Button>
             </Link>
           </Grid>

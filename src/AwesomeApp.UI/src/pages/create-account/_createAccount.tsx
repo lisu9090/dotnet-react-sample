@@ -19,7 +19,7 @@ import { CreateAccount } from '@/common/types/account/CreateAccount';
 import { useRouter } from 'next/router';
 import { useCallWithErrorHandling, useFetchWithErrorHandling } from '@/pages/_hooks';
 import { AuthenticateAccount, CustomerType } from '@/common/types/account';
-import { PAGE_ACCOUNT } from '@/common/consts';
+import { PAGE_ACCOUNT, PAGE_HOME } from '@/common/consts';
 
 type CreateAccountForm = {
   email: string;
@@ -81,7 +81,7 @@ function useLoginUserWithErrorHandling() {
   return useCallWithErrorHandling(loginUser)
 }
 
-export default function CreateAccountComponent(): ReactElement {
+export default function CreateAccountPage(): ReactElement {
   const router = useRouter()
   const tryCreateAccount = useCreateAccountWithErrorHandling()
   const tryLoginUser = useLoginUserWithErrorHandling()
@@ -234,7 +234,7 @@ export default function CreateAccountComponent(): ReactElement {
           justifyContent="space-between"
         >
           <Grid item xs={4}>
-            <Link href="/">
+            <Link href={PAGE_HOME}>
               <Button
                 className="w-full"
                 variant="outlined"

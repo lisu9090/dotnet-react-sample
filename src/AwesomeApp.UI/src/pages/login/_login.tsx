@@ -5,7 +5,7 @@ import Link from "next/link"
 import { ReactElement, useState } from "react"
 import { useCallWithErrorHandling, useSnackbar } from "@/pages/_hooks"
 import { useRouter } from "next/router"
-import { PAGE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
+import { PAGE_ACCOUNT, PAGE_CREATE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
 import { ParsedUrlQuery } from "querystring"
 
 function validateReturnUrlOrigin (url: string | undefined) {
@@ -44,7 +44,7 @@ function useLoginUserWithErrorHandling() {
   return useCallWithErrorHandling(loginUser)
 }
 
-export default function Login(): ReactElement {
+export default function LoginPage(): ReactElement {
   const router = useRouter()
   const { warning } = useSnackbar()
   const tryLoginUser = useLoginUserWithErrorHandling()
@@ -120,7 +120,7 @@ export default function Login(): ReactElement {
             justifyContent="space-between"
           >
             <Grid item xs={4}>
-              <Link className="mr-2" href="/create-account">
+              <Link className="mr-2" href={PAGE_CREATE_ACCOUNT}>
                 <Button
                   className="w-full"
                   color="secondary"
