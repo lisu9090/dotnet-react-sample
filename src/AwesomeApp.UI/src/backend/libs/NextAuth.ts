@@ -6,7 +6,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { accountSessionDtotoUser } from '../mappings'
 
 const sessionSecret = process.env.SESSION_PASSWORD
-const sessionMaxAge = process.env.SESSION_MAX_AGE ? Number.parseInt(process.env.SESSION_MAX_AGE) : undefined
+const sessionMaxAge = Number.parseInt(process.env.SESSION_MAX_AGE ?? '') || (3600 * 24)
 const useSecureCookie = isProdEnvironment()
 
 export const nextAuthOptions: NextAuthOptions = {
@@ -15,7 +15,7 @@ export const nextAuthOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
     maxAge: sessionMaxAge,
-    updateAge: sessionMaxAge    
+    updateAge: sessionMaxAge
   },
   jwt: {
     maxAge: sessionMaxAge

@@ -1,4 +1,4 @@
-import { ensureAuthorized, getAccount } from '@/backend/libs'
+import { ensureAuthenticated, getAccount } from '@/backend/libs'
 import { accountDtotoAccount } from '@/backend/mappings'
 import { AccountRole } from '@/common/types/account'
 
@@ -9,7 +9,7 @@ const redirectHome = {
   }
 }
 
-export const getServerSideProps = ensureAuthorized(async (context, { user: { role } }) => {
+export const getServerSideProps = ensureAuthenticated(async (context, { user: { role } }) => {
   if (role !== AccountRole.Admin) {
     return redirectHome
   }

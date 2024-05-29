@@ -1,4 +1,5 @@
 import { Account } from "@/common/types/account"
+import { PageBox } from "@/frontend/components"
 
 type Props = {
   account: Account
@@ -6,6 +7,6 @@ type Props = {
 
 export default function EditAccountComponent({ account }: Readonly<Props>) {
   return (
-    <>{account.id}</>
+    <PageBox>{account.id}</PageBox>
   )
 }

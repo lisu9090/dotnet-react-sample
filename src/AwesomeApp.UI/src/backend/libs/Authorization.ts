@@ -3,7 +3,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { Session } from 'next-auth';
 import { getSession } from 'next-auth/react';
 
-export function ensureAuthorized<T>(
+export function ensureAuthenticated<T>(
   getServerSideProps?: (context: GetServerSidePropsContext, session: Session) => GetServerSidePropsResult<T> | Promise< GetServerSidePropsResult<T>>
 ): (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<T>> {
   return async (context: GetServerSidePropsContext) => {
