@@ -5,7 +5,7 @@ Powered by the most common web technologies and frameworks project which gives y
 ## Technology stack
 
 - ASP.NET Core Web API
-  - .NET 7
+  - .NET 8.0
   - MediatR
   - MSTest
 - Next.js
@@ -13,7 +13,7 @@ Powered by the most common web technologies and frameworks project which gives y
   - TypeScript
   - MUI (Material UI)
   - Tailwind CSS
-  - iron-session
+  - NextAuth.js
 
 ## Design concepts
 
@@ -46,7 +46,8 @@ Application has no production environment yet, therefore you will need to compil
 
 In order to run app you will need following software to be installed:
 - Visual Studio IDE or .NET CLI
-- Nodejs
+- .NET 8.0
+- Node.js v22
 
 ### Run in debug mode (Windows)
 
