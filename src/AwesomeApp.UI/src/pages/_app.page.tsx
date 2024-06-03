@@ -3,9 +3,8 @@ import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import { initApiCient, useModulesInit } from '@/frontend/libs'
 import initAppSettings from '@/frontend/libs/SettingsProvider'
-import { PageBox } from '@/frontend/components'
 import { ReactElement } from 'react'
-import { SpinnerProvider, SnackbarProvider } from '@/frontend/components'
+import { SpinnerProvider, SnackbarProvider, PageBox } from '@/frontend/components'
 
 const inter = Inter({ subsets: ['latin'] })
 
