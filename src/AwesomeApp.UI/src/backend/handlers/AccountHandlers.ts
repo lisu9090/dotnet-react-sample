@@ -1,11 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { HttpStatusCode } from 'axios';
-import { ActionResult } from '@/common/types';
-import { CreateAccountDto } from '@/backend/dtos';
-import { createFailedActionResult, createSucessfulActionResult } from '@/common/libs';
-import { getAccounts, createAccount } from '@/backend/libs';
-import { accountDtostoAccounts } from '../mappings';
-import { Account, AccountRole } from '@/common/types/account';
+import { NextApiRequest, NextApiResponse } from 'next'
+import { HttpStatusCode } from 'axios'
+import { ActionResult } from '@/common/types'
+import { CreateAccountDto } from '@/backend/dtos'
+import { createFailedActionResult, createSucessfulActionResult } from '@/common/libs'
+import { getAccounts, createAccount } from '@/backend/libs'
+import { accountDtostoAccounts } from '../mappings'
+import { Account, AccountRole } from '@/common/types/account'
 
 export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<ActionResult<Account[]>>): Promise<void> {
   const accountDtos = await getAccounts()
@@ -27,4 +27,8 @@ export async function postCreateAccount(req: NextApiRequest, res: NextApiRespons
     res.status(HttpStatusCode.Conflict)
       .send(createFailedActionResult('Account with this email exists'))
   }
+}
+
+export async function putUpdateAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<number>>): Promise<void> {
+  res.send(createSucessfulActionResult(req.body.id))
 }

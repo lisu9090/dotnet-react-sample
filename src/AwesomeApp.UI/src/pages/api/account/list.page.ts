@@ -1,10 +1,12 @@
 import { getAccountsList } from '@/backend/handlers/AccountHandlers'
-import { withAuthentication, withEndpoints, withErrorHandling } from '@/backend/libs'
+import { withEndpoints, withErrorHandling, withRoleAuthorization } from '@/backend/libs'
 import { HttpMethod } from '@/common/types/HttpMethod'
+import { AccountRole } from '@/common/types/account'
 
 export default 
 withErrorHandling(
-  withAuthentication(
+  withRoleAuthorization(
+    [AccountRole.Admin],
     withEndpoints({
       [HttpMethod.get]: getAccountsList
     })

@@ -5,6 +5,8 @@ import { Session } from 'next-auth'
 import { getSession } from 'next-auth/react'
 import { resultProps, resultRedirect } from './ServerPropsHelpers'
 
+export type ResourceContextAuthorization = (context: GetServerSidePropsContext, session: Session) => boolean | Promise<boolean>
+
 export function ensureAuthenticated<T>(
   getServerSideProps?: (context: GetServerSidePropsContext, session: Session) => GetServerSidePropsResult<T> | Promise<GetServerSidePropsResult<T>>
 ): (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<T>> {
@@ -23,13 +25,32 @@ export function ensureAuthenticated<T>(
   }
 }
 
-export function ensureAuthorized<T>(
+export function ensureRoleAuthorized<T>(
   allowedRoles: AccountRole[],
   getServerSideProps?: (context: GetServerSidePropsContext, session: Session) => GetServerSidePropsResult<T> | Promise<GetServerSidePropsResult<T>>
 ): (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<T>> {
   return ensureAuthenticated(
     (context: GetServerSidePropsContext, session: Session) => {
       if (allowedRoles.length > 0 && !allowedRoles.includes(session.user.role)) {
+        return resultRedirect(PAGE_FORBIDDEN)
+      }
+
+      if (!getServerSideProps) {
+        return resultProps<T>()
+      }
+
+      return getServerSideProps(context, session)
+    }
+  ) 
+}
+
+export function ensureResourceAuthorized<T>(
+  authorize: ResourceContextAuthorization,
+  getServerSideProps?: (context: GetServerSidePropsContext, session: Session) => GetServerSidePropsResult<T> | Promise<GetServerSidePropsResult<T>>
+): (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<T>> {
+  return ensureAuthenticated(
+    async (context: GetServerSidePropsContext, session: Session) => {
+      if (!await authorize(context, session)) {
         return resultRedirect(PAGE_FORBIDDEN)
       }
 
