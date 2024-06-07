@@ -44,7 +44,8 @@ export const fieldEqualityValidator: (otherFieldName: string, message?: string) 
 export function useSimpleFormValidation<T> (
   initialFormValue: T, 
   initialFormValidationValue: SimpleFormValidation, 
-  validators: FormValidators): {
+  validators: FormValidators
+): {
   formValue: T;
   formValidation: SimpleFormValidation;
   setFormValue: (value: T) => void;

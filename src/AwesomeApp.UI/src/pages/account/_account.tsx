@@ -5,7 +5,7 @@ import { ReactElement } from 'react'
 import { useCallWithErrorHandling } from '@/pages/_hooks'
 import { logoutUser } from '@/frontend/libs'
 import { useRouter } from 'next/router'
-import { PAGE_HOME } from '@/common/consts'
+import { PAGE_ACCOUNT_EDIT, PAGE_HOME } from '@/common/consts'
 import Link from 'next/link'
 
 function useLogoutUserWithErrorHandling() {
@@ -63,7 +63,7 @@ export default function AccountPage({ account }: Readonly<{ account: Account }>)
         alignItems="stretch"
         justifyContent="space-between"
       >
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <Link href={PAGE_HOME}>
             <Button 
               className="w-full"
@@ -74,7 +74,18 @@ export default function AccountPage({ account }: Readonly<{ account: Account }>)
             </Button>
           </Link>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
+          <Link href={PAGE_ACCOUNT_EDIT}>
+            <Button 
+              className="w-full"
+              variant="outlined"
+              color="secondary"
+            >
+              Edit account
+            </Button>
+          </Link>
+        </Grid>
+        <Grid item xs={3}>
           <Button
             className="w-full"
             type="submit"
