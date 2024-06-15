@@ -251,7 +251,7 @@ export default function CreateAccountPage(): ReactElement {
               disabled={!formValidation.isValid}
               onClick={createAccontAndLogin}
             >
-              Submit
+              Create
             </Button>
           </Grid>
         </Grid>

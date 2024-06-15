@@ -6,6 +6,7 @@ import { createFailedActionResult, createSucessfulActionResult } from '@/common/
 import { getAccounts, createAccount } from '@/backend/libs'
 import { accountDtostoAccounts } from '../mappings'
 import { Account, AccountRole } from '@/common/types/account'
+import { Session } from 'next-auth'
 
 export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<ActionResult<Account[]>>): Promise<void> {
   const accountDtos = await getAccounts()
@@ -30,5 +31,9 @@ export async function postCreateAccount(req: NextApiRequest, res: NextApiRespons
 }
 
 export async function putUpdateAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<number>>): Promise<void> {
+  res.send(createSucessfulActionResult(req.body.id))
+}
+
+export async function patchUpdateAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<number>>, session: Session): Promise<void> {
   res.send(createSucessfulActionResult(req.body.id))
 }
