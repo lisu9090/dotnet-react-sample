@@ -1,5 +1,5 @@
 import axios, { HttpStatusCode } from 'axios';
-import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto } from '@/backend/dtos';
+import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto, PatchUpdateAccountDto, PutUpdateAccountDto } from '@/backend/dtos';
 import { AxiosRequestConfigBuilder, getDataOrNullTransformer } from '@/common/libs';
 
 const axiosClient = axios.create({
@@ -33,17 +33,53 @@ export async function getAccounts(): Promise<AccountDto[]> {
   return response.data
 }
 
-export async function createAccount(createAccountDto: CreateAccountDto): Promise<number | null> {
+export async function createAccount(createAccountDto: CreateAccountDto): Promise<AccountDto | null> {
   if (!createAccountDto) {
     throw new Error(`Parameter createAccountDto cannot be falsy`)
   }
 
-  const response = await axiosClient.post<number>(
+  const response = await axiosClient.post<AccountDto>(
     `/account`, 
     createAccountDto,
     AxiosRequestConfigBuilder
       .create()
       .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
+      .addCombinedResponseTransformers(getDataOrNullTransformer)
+      .build()
+  )
+
+  return response.data
+}
+
+export async function putUpdateAccount(updateAccountDto: PutUpdateAccountDto): Promise<AccountDto | null> {
+  if (!updateAccountDto) {
+    throw new Error(`Parameter updateAccountDto cannot be falsy`)
+  }
+
+  const response = await axiosClient.put<AccountDto>(
+    `/account`, 
+    updateAccountDto,
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
+      .addCombinedResponseTransformers(getDataOrNullTransformer)
+      .build()
+  )
+
+  return response.data
+}
+
+export async function patchUpdateAccount(updateAccountDto: PatchUpdateAccountDto): Promise<AccountDto | null> {
+  if (!updateAccountDto) {
+    throw new Error(`Parameter updateAccountDto cannot be falsy`)
+  }
+
+  const response = await axiosClient.post<AccountDto>(
+    `/account`, 
+    updateAccountDto,
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.NotFound)
       .addCombinedResponseTransformers(getDataOrNullTransformer)
       .build()
   )
