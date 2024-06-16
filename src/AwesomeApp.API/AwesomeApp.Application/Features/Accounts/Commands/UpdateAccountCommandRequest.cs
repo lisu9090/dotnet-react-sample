@@ -19,16 +19,16 @@ namespace AwesomeApp.Application.Features.Accounts.Commands
         /// <summary>
         /// DateOfBirth
         /// </summary>
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// VehiclesNumber
         /// </summary>
-        public uint VehiclesNumber { get; set; }
+        public uint? VehiclesNumber { get; set; }
 
         /// <summary>
         /// ECustomerType
         /// </summary>
-        public ECustomerType CustomerType { get; set; }
+        public ECustomerType? CustomerType { get; set; }
     }
 }

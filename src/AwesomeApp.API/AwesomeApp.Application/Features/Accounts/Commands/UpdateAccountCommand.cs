@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AwesomeApp.Application.Features.Accounts.Dtos;
 using AwesomeApp.Domain.Accounts.Entities;
+using AwesomeApp.Domain.Accounts.Enums;
 using AwesomeApp.Domain.Accounts.Repositories;
 using MediatR;
 
@@ -26,7 +27,25 @@ namespace AwesomeApp.Application.Features.Accounts.Commands
                 return null;
             }
 
-            account = _mapper.Map(request, account);
+            if (request.FullName != null)
+            {
+                account.FullName = request.FullName;
+            }
+
+            if (request.DateOfBirth.HasValue)
+            {
+                account.DateOfBirth = request.DateOfBirth.Value;
+            }
+
+            if (request.VehiclesNumber.HasValue)
+            {
+                account.VehiclesNumber = request.VehiclesNumber.Value;
+            }
+
+            if (request.CustomerType.HasValue)
+            {
+                account.CustomerType = request.CustomerType.Value;
+            }
 
             account = await _accountRepository.UpsertAsync(account, cancellationToken);
 

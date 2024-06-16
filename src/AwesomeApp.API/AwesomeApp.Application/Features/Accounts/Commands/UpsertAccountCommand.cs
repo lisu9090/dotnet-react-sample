@@ -1,4 +1,4 @@
-﻿using System.Threading;
+﻿using System.Security.Principal;
 using AutoMapper;
 using AwesomeApp.Application.Features.Accounts.Dtos;
 using AwesomeApp.Application.Features.Accounts.Exceptions;
@@ -28,10 +28,16 @@ namespace AwesomeApp.Application.Features.Accounts.Commands
 
             Account? account = await _accountRepository.GetAsync(request.Id, cancellationToken);
 
+            ValidateIfPasswordIsRequired(account, request.Password);
+
             account = _mapper.Map(request, account ?? new Account());
 
             account.Email = account.Email!.ToLowerInvariant();
-            account.PasswordHash = _hashService.GetHash(request.Password!);
+
+            if (request.Password != null)
+            {
+                account.PasswordHash = _hashService.GetHash(request.Password);
+            }
 
             account = await _accountRepository.UpsertAsync(account, cancellationToken);
 
@@ -45,6 +51,14 @@ namespace AwesomeApp.Application.Features.Accounts.Commands
             if (account != null && account.Id != currentEntityId)
             {
                 throw new AccountCreationException("Email already used");
+            }
+        }
+
+        private void ValidateIfPasswordIsRequired(Account? existingAccount, string? password)
+        {
+            if (existingAccount == null && password == null)
+            {
+                throw new AccountCreationException("Password cannot be empty while creating an account");
             }
         }
     }
