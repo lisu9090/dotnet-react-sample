@@ -1,10 +1,16 @@
-﻿using AwesomeApp.Domain.Accounts.Enums;
+﻿using AwesomeApp.Application.Features.Accounts.Dtos;
+using AwesomeApp.Domain.Accounts.Enums;
 using MediatR;
 
 namespace AwesomeApp.Application.Features.Accounts.Commands
 {
-    public class UpdateAccountCommandRequest : IRequest<uint>
+    public class UpdateAccountCommandRequest : IRequest<AccountDto?>
     {
+        /// <summary>
+        /// Account identity
+        /// </summary>
+        public uint Id { get; set; }
+
         /// <summary>
         /// FullName
         /// </summary>

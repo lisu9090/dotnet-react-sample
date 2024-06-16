@@ -44,7 +44,7 @@ namespace AwesomeApp.API.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(uint), 200)]
+        [ProducesResponseType(typeof(AccountDto), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
         public async Task<IActionResult> Create([FromBody] CreateAccountCommandRequest request)
@@ -60,7 +60,7 @@ namespace AwesomeApp.API.Controllers
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(uint), 200)]
+        [ProducesResponseType(typeof(AccountDto), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
         public async Task<IActionResult> Update([FromBody] UpsertAccountCommandRequest request)
@@ -76,10 +76,19 @@ namespace AwesomeApp.API.Controllers
         }
 
         [HttpPatch]
-        [ProducesResponseType(typeof(uint), 200)]
+        [ProducesResponseType(typeof(AccountDto), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> Update([FromBody] UpdateAccountCommandRequest request)
         {
-            return Ok(await _mediator.Send(request));
+            AccountDto? data = await _mediator.Send(request);
+
+            if (data != null)
+            {
+                return Ok(data);
+            }
+
+            return NotFound();
         }
 
         [HttpPost("authenticate")]
