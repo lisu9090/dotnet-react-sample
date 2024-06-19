@@ -7,6 +7,7 @@ import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGro
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { useState } from "react"
+import { useSnackbar } from "@/pages/_hooks"
 
 type Props = {
   account: Account | null
@@ -41,7 +42,27 @@ const formValidators: FormValidators = {
   vehiclesNumber: [requiredValidator(), positiveValueValidator()]
 }
 
-const mapToPutUpdateAccount = (accontId: number, formValue: UpdateAccountForm) => ({
+const getIsoDateSubstring = (isoDateTimeString: string) => isoDateTimeString.substring(0, DATETIME_ISO_DATE_FORMAT.length)
+
+const mapAccountToForm = (account: Account | null) => (account ? {
+  email: account.email,
+  password: '',
+  fullName: account.fullName,
+  dateOfBirth: getIsoDateSubstring(account.dateOfBirth),
+  vehiclesNumber: account.vehiclesNumber.toString(),
+  customerType: account.customerType.toString(),
+  accountRole: account.accountRole.toString(),
+} as UpdateAccountForm : {
+  email: '',
+  password: '',
+  fullName: '',
+  dateOfBirth: '',
+  vehiclesNumber: '',
+  customerType: '',
+  accountRole: '',
+} as UpdateAccountForm)
+
+const mapFormToPutUpdateAccount = (accontId: number, formValue: UpdateAccountForm) => ({
   id: accontId,
   email: formValue.email,
   password: formValue.password || undefined,
@@ -50,34 +71,16 @@ const mapToPutUpdateAccount = (accontId: number, formValue: UpdateAccountForm) =
   vehiclesNumber: Number.parseInt(formValue.vehiclesNumber),
   customerType: Number.parseInt(formValue.customerType) as CustomerType,
   accountRole: Number.parseInt(formValue.accountRole) as AccountRole,
-
 } as PutUpdateAccount)
-
-const getIsoDateSubstring = (isoDateTimeString: string) => isoDateTimeString.substring(0, DATETIME_ISO_DATE_FORMAT.length)
 
 const useUpdateWithErrorHandling = () => useFetchWithErrorHandling(putUpdateAccount)
 
 export default function EditAccountPage({ account }: Readonly<Props>) {
   const router = useRouter()
   const tryUpdateAccount = useUpdateWithErrorHandling()
+  const { success } = useSnackbar()
 
-  const [ initialFormValue ] = useState<UpdateAccountForm>(account ? {
-    email: account.email,
-    password: '',
-    fullName: account.fullName,
-    dateOfBirth: getIsoDateSubstring(account.dateOfBirth),
-    vehiclesNumber: account.vehiclesNumber.toString(),
-    customerType: account.customerType.toString(),
-    accountRole: account.accountRole.toString(),
-  } : {
-    email: '',
-    password: '',
-    fullName: '',
-    dateOfBirth: '',
-    vehiclesNumber: '',
-    customerType: '',
-    accountRole: '',
-  })
+  const [ initialFormValue, setInitialFormValue ] = useState<UpdateAccountForm>(mapAccountToForm(account))
 
   const {
     formValue,
@@ -108,13 +111,17 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
       return
     }
 
-    const updatedAccount = await tryUpdateAccount(mapToPutUpdateAccount(accountId, formValue))
+    const updatedAccount = await tryUpdateAccount(mapFormToPutUpdateAccount(accountId, formValue))
 
     if (!updatedAccount) {
       return
     }
 
-    router.reload()
+    const updatedFormValue = mapAccountToForm(updatedAccount)
+    
+    setInitialFormValue(updatedFormValue)
+    setFormValue(updatedFormValue)
+    success('Saved')
   }
   
   return (

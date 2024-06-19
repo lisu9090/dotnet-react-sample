@@ -6,6 +6,7 @@ import { useFetchWithErrorHandling } from "@/pages/_hooks"
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
 import Link from "next/link"
 import { useState } from "react"
+import { useSnackbar } from "@/pages/_hooks"
 
 type Props = {
   account: Account
@@ -40,7 +41,7 @@ const formValidators: FormValidators = {
 
 const getIsoDateSubstring = (isoDateTimeString: string) => isoDateTimeString.substring(0, DATETIME_ISO_DATE_FORMAT.length)
 
-const mapAccountToFormLabels = (account: Account) => ({
+const mapAccountToForm = (account: Account) => ({
   fullName: account.fullName,
   dateOfBirth: getIsoDateSubstring(account.dateOfBirth),
   vehiclesNumber: account.vehiclesNumber.toString(),
@@ -58,8 +59,9 @@ const useUpdateAccountWithErrorHandling = () => useFetchWithErrorHandling(patchU
 
 export default function EditAccountPage({ account }: Readonly<Props>) {
   const tryUpdateAccount = useUpdateAccountWithErrorHandling()
+  const { success } = useSnackbar()
 
-  const [ formLabels, setFormLabels ] = useState<UpdateAccountForm>(mapAccountToFormLabels(account))
+  const [ formLabels, setFormLabels ] = useState<UpdateAccountForm>(mapAccountToForm(account))
 
   const {
     formValue,
@@ -94,8 +96,9 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
       return
     }
 
-    setFormLabels(mapAccountToFormLabels(updatedAccount))
+    setFormLabels(mapAccountToForm(updatedAccount))
     setFormValue(initialFormValue)
+    success('Saved')
    }
   
   return (
