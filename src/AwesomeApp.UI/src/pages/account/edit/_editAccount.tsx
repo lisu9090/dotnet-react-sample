@@ -1,7 +1,8 @@
-import { PAGE_ACCOUNT } from "@/common/consts"
-import { Account, CustomerType } from "@/common/types/account"
+import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
+import { Account, CustomerType, PatchUpdateAccount } from "@/common/types/account"
 import { PageBox } from "@/frontend/components"
-import { FormValidators, SimpleFormValidation, minLengthValidator, positiveValueValidator, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from "@/frontend/libs"
+import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from "@/frontend/libs"
+import { useFetchWithErrorHandling } from "@/pages/_hooks"
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
 import Link from "next/link"
 import { useState } from "react"
@@ -17,30 +18,48 @@ type UpdateAccountForm = {
   customerType: string;
 }
 
+const initialFormValue: UpdateAccountForm = {
+  fullName: '',
+  dateOfBirth: '',
+  vehiclesNumber: '',
+  customerType: ''
+}
+
 const initialFormValidation: SimpleFormValidation = {
   isValid: true,
   fieldErrors: {
     fullName: '',
-    dateOfBirth: '',
-    vehiclesNumber: '',
+    vehiclesNumber: ''
   }
 }
 
 const formValidators: FormValidators = {
-  fullName: [requiredValidator(), minLengthValidator()],
-  dateOfBirth: [requiredValidator()],
-  vehiclesNumber: [requiredValidator(), positiveValueValidator()]
+  fullName: [minLengthValidator()],
+  vehiclesNumber: [positiveValueValidator()]
 }
 
-const getIsoDateSubstring = (isoDateTimeString: string) => isoDateTimeString.substring(0, 'yyyy-MM-dd'.length)
+const getIsoDateSubstring = (isoDateTimeString: string) => isoDateTimeString.substring(0, DATETIME_ISO_DATE_FORMAT.length)
+
+const mapAccountToFormLabels = (account: Account) => ({
+  fullName: account.fullName,
+  dateOfBirth: getIsoDateSubstring(account.dateOfBirth),
+  vehiclesNumber: account.vehiclesNumber.toString(),
+  customerType: CustomerType[account.customerType]
+} as UpdateAccountForm)
+
+const mapFormToPatchUpdateAccount = (formValue: UpdateAccountForm) => ({
+  fullName: formValue.fullName || undefined,
+  dateOfBirth: formValue.dateOfBirth || undefined,
+  vehiclesNumber: Number.parseInt(formValue.vehiclesNumber) || undefined,
+  customerType: Number.parseInt(formValue.customerType) as CustomerType || undefined,
+} as PatchUpdateAccount)
+
+const useUpdateAccountWithErrorHandling = () => useFetchWithErrorHandling(patchUpdateAccount)
 
 export default function EditAccountPage({ account }: Readonly<Props>) {
-  const [ initialFormValue ] = useState<UpdateAccountForm>({
-    fullName: account.fullName,
-    dateOfBirth: getIsoDateSubstring(account.dateOfBirth),
-    vehiclesNumber: account.vehiclesNumber.toString(),
-    customerType: account.customerType.toString()
-  })
+  const tryUpdateAccount = useUpdateAccountWithErrorHandling()
+
+  const [ formLabels, setFormLabels ] = useState<UpdateAccountForm>(mapAccountToFormLabels(account))
 
   const {
     formValue,
@@ -64,7 +83,20 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
 
   const formHasChanged = () => JSON.stringify(initialFormValue) !== JSON.stringify(formValue)
 
-  const updateAccont = () => { }
+  const updateAccontAndRefreshForm = async () => {
+    if (!formValidation.isValid || !formHasChanged()) {
+      return
+    }
+
+    const updatedAccount = await tryUpdateAccount(mapFormToPatchUpdateAccount(formValue))
+
+    if (!updatedAccount) {
+      return
+    }
+
+    setFormLabels(mapAccountToFormLabels(updatedAccount))
+    setFormValue(initialFormValue)
+   }
   
   return (
     <PageBox>
@@ -80,12 +112,10 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
           alignItems="stretch"
         >
           <TextField
-            required
             className="mb-2"
             type="text"
-            label="Full name"
-            placeholder="Jane Doe"
             variant="standard"
+            label={`Full name: ${formLabels.fullName}`}
             value={formValue.fullName}
             error={!!formValidation.fieldErrors.fullName}
             helperText={formValidation.fieldErrors.fullName}
@@ -93,23 +123,19 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
             onChange={createFormFieldChangeHandler("fullName")}
           />
           <TextField
-            required
             className="mb-2"
             type="date"
-            label="Date of birth"
+            label={`Date of birth: ${formLabels.dateOfBirth}`}
             variant="standard"
             InputLabelProps={{ shrink: true }}
             value={formValue.dateOfBirth}
-            error={!!formValidation.fieldErrors.dateOfBirth}
-            helperText={formValidation.fieldErrors.dateOfBirth}
             onBlur={createBlurHandler("dateOfBirth", formValue.dateOfBirth)}
             onChange={createFormFieldChangeHandler("dateOfBirth")}
           />
           <TextField
-            required
             className="mb-2"
             type="number"
-            label="Number of owned vechicles"
+            label={`Number of owned vechicles: ${formLabels.vehiclesNumber}`}
             placeholder="1"
             variant="standard"
             value={formValue.vehiclesNumber}
@@ -119,7 +145,7 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
             onChange={createFormFieldChangeHandler("vehiclesNumber")}
           />
           <FormControl>
-            <FormLabel id="customer-type">Customer type</FormLabel>
+            <FormLabel id="customer-type">Customer type: {formLabels.customerType}</FormLabel>
             <RadioGroup
               row
               name="customer-type-radio"
@@ -152,7 +178,7 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
               className="w-full"
               variant="outlined"
               disabled={!formValidation.isValid || !formHasChanged()}
-              onClick={updateAccont}
+              onClick={updateAccontAndRefreshForm}
             >
               Save
             </Button>

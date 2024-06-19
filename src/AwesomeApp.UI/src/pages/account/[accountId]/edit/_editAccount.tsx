@@ -1,7 +1,7 @@
 import { PAGE_ACCOUNT } from "@/common/consts"
-import { Account, CustomerType } from "@/common/types/account"
+import { Account, CustomerType, AccountRole } from "@/common/types/account"
 import { PageBox } from "@/frontend/components"
-import { FormValidators, SimpleFormValidation, minLengthValidator, positiveValueValidator, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from "@/frontend/libs"
+import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from "@/frontend/libs"
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
 import Link from "next/link"
 import { useState } from "react"
@@ -23,6 +23,8 @@ type UpdateAccountForm = {
 const initialFormValidation: SimpleFormValidation = {
   isValid: true,
   fieldErrors: {
+    email: '',
+    password: '',
     fullName: '',
     dateOfBirth: '',
     vehiclesNumber: '',
@@ -30,6 +32,8 @@ const initialFormValidation: SimpleFormValidation = {
 }
 
 const formValidators: FormValidators = {
+  email: [requiredValidator(), emailValidator()],
+  password: [],
   fullName: [requiredValidator(), minLengthValidator()],
   dateOfBirth: [requiredValidator()],
   vehiclesNumber: [requiredValidator(), positiveValueValidator()]
@@ -39,10 +43,13 @@ const getIsoDateSubstring = (isoDateTimeString: string) => isoDateTimeString.sub
 
 export default function EditAccountPage({ account }: Readonly<Props>) {
   const [ initialFormValue ] = useState<UpdateAccountForm>({
+    email: account.email,
+    password: '',
     fullName: account.fullName,
     dateOfBirth: getIsoDateSubstring(account.dateOfBirth),
     vehiclesNumber: account.vehiclesNumber.toString(),
-    customerType: account.customerType.toString()
+    customerType: account.customerType.toString(),
+    accountRole: account.accountRole.toString(),
   })
 
   const {
@@ -65,8 +72,6 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
       setFormValue({ ...formValue, [formField]: event.target.value })
     }
 
-  const formHasChanged = () => JSON.stringify(initialFormValue) !== JSON.stringify(formValue)
-
   const updateAccont = () => { }
   
   return (
@@ -82,7 +87,7 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
           justifyContent="space-between"
           alignItems="stretch"
         >
-                    <TextField
+          <TextField
             required
             className="mb-2"
             type="email"
@@ -158,6 +163,18 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
               <FormControlLabel value={CustomerType.Company} control={<Radio />} label="Company" />
             </RadioGroup>
           </FormControl>
+          <FormControl>
+            <FormLabel id="account-role">Account role</FormLabel>
+            <RadioGroup
+              row
+              name="account-role-radio"
+              value={formValue.accountRole}
+              onChange={createFormFieldChangeHandler("accountRole")}
+            >
+              <FormControlLabel value={AccountRole.User} control={<Radio />} label="User" />
+              <FormControlLabel value={AccountRole.Admin} control={<Radio />} label="Admin" />
+            </RadioGroup>
+          </FormControl>
         </Grid>
         <Grid
           item
@@ -179,7 +196,7 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
             <Button
               className="w-full"
               variant="outlined"
-              disabled={!formValidation.isValid || !formHasChanged()}
+              disabled={!formValidation.isValid}
               onClick={updateAccont}
             >
               Save

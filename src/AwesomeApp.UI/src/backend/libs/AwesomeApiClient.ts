@@ -74,7 +74,7 @@ export async function patchUpdateAccount(updateAccountDto: PatchUpdateAccountDto
     throw new Error(`Parameter updateAccountDto cannot be falsy`)
   }
 
-  const response = await axiosClient.post<AccountDto>(
+  const response = await axiosClient.patch<AccountDto>(
     `/account`, 
     updateAccountDto,
     AxiosRequestConfigBuilder
