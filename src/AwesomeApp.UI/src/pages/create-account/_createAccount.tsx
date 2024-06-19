@@ -62,24 +62,18 @@ const formValidators: FormValidators = {
   vehiclesNumber: [requiredValidator(), positiveValueValidator()]
 }
 
-function toCreateAccountEntry(formValue: CreateAccountForm): CreateAccount {
-  return {
-    email: formValue.email,
-    password: formValue.password,
-    fullName: formValue.fullName,
-    dateOfBirth: new Date(formValue.dateOfBirth).toISOString(),
-    vehiclesNumber: Number.parseInt(formValue.vehiclesNumber),
-    customerType: Number.parseInt(formValue.customerType) as CustomerType
-  }
-}
+const toCreateAccount = (formValue: CreateAccountForm) => ({
+  email: formValue.email,
+  password: formValue.password,
+  fullName: formValue.fullName,
+  dateOfBirth: new Date(formValue.dateOfBirth).toISOString(),
+  vehiclesNumber: Number.parseInt(formValue.vehiclesNumber),
+  customerType: Number.parseInt(formValue.customerType) as CustomerType
+} as CreateAccount)
 
-function useCreateAccountWithErrorHandling() {
-  return useFetchWithErrorHandling(createAccount)
-}
+const useCreateAccountWithErrorHandling = () => useFetchWithErrorHandling(createAccount)
 
-function useLoginUserWithErrorHandling() {
-  return useCallWithErrorHandling(loginUser)
-}
+const useLoginUserWithErrorHandling = () => useCallWithErrorHandling(loginUser)
 
 export default function CreateAccountPage(): ReactElement {
   const router = useRouter()
@@ -105,9 +99,11 @@ export default function CreateAccountPage(): ReactElement {
   const login = async (authenticateAccount: AuthenticateAccount) => {
     const result = await tryLoginUser(authenticateAccount)
 
-    if (result) {
-      router.replace(PAGE_ACCOUNT)
+    if (!result) {
+      return
     }
+
+    router.replace(PAGE_ACCOUNT)
   }
 
   const createAccontAndLogin = async () => {
@@ -115,15 +111,17 @@ export default function CreateAccountPage(): ReactElement {
       return
     }
 
-    const createAccountEntry = toCreateAccountEntry(formValue)
-    const accountId = await tryCreateAccount(createAccountEntry)
+    const createAccountEntry = toCreateAccount(formValue)
+    const accountId = await tryCreateAccount(toCreateAccount(formValue))
 
-    if (accountId) {
-      await login({
-        email: createAccountEntry.email,
-        password: createAccountEntry.password,
-      })
+    if (!accountId) {
+      return
     }
+
+    await login({
+      email: createAccountEntry.email,
+      password: createAccountEntry.password,
+    })
   }
 
   return (

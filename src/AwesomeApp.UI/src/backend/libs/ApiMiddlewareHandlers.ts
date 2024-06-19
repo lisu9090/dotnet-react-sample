@@ -40,7 +40,7 @@ export function withAuthentication(handler: SessionApiHandler): NextApiHandler {
 
 export function withRoleAuthorization(allowedRoles: AccountRole[], handler: SessionApiHandler): NextApiHandler {
   return withAuthentication(async (req, res, session) => {
-    if (allowedRoles.length > 0 && !allowedRoles.includes(session.user.role)) {
+    if (allowedRoles.length == 0 || allowedRoles.includes(session.user.role)) {
       await handler(req, res, session)
     } else {
       res.status(HttpStatusCode.Forbidden)

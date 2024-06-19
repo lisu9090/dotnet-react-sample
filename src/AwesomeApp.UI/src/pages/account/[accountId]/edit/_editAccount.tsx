@@ -1,13 +1,15 @@
-import { PAGE_ACCOUNT } from "@/common/consts"
-import { Account, CustomerType, AccountRole } from "@/common/types/account"
+import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
+import { Account, CustomerType, AccountRole, PutUpdateAccount } from "@/common/types/account"
 import { PageBox } from "@/frontend/components"
-import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from "@/frontend/libs"
+import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, putUpdateAccount, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from "@/frontend/libs"
+import { useFetchWithErrorHandling } from "@/pages/_hooks"
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
 import Link from "next/link"
+import { useRouter } from "next/router"
 import { useState } from "react"
 
 type Props = {
-  account: Account
+  account: Account | null
 }
 
 type UpdateAccountForm = {
@@ -33,16 +35,33 @@ const initialFormValidation: SimpleFormValidation = {
 
 const formValidators: FormValidators = {
   email: [requiredValidator(), emailValidator()],
-  password: [],
+  password: [strongPasswordValidator()],
   fullName: [requiredValidator(), minLengthValidator()],
   dateOfBirth: [requiredValidator()],
   vehiclesNumber: [requiredValidator(), positiveValueValidator()]
 }
 
-const getIsoDateSubstring = (isoDateTimeString: string) => isoDateTimeString.substring(0, 'yyyy-MM-dd'.length)
+const mapToPutUpdateAccount = (accontId: number, formValue: UpdateAccountForm) => ({
+  id: accontId,
+  email: formValue.email,
+  password: formValue.password || undefined,
+  fullName: formValue.fullName,
+  dateOfBirth: formValue.dateOfBirth,
+  vehiclesNumber: Number.parseInt(formValue.vehiclesNumber),
+  customerType: Number.parseInt(formValue.customerType) as CustomerType,
+  accountRole: Number.parseInt(formValue.accountRole) as AccountRole,
+
+} as PutUpdateAccount)
+
+const getIsoDateSubstring = (isoDateTimeString: string) => isoDateTimeString.substring(0, DATETIME_ISO_DATE_FORMAT.length)
+
+const useUpdateWithErrorHandling = () => useFetchWithErrorHandling(putUpdateAccount)
 
 export default function EditAccountPage({ account }: Readonly<Props>) {
-  const [ initialFormValue ] = useState<UpdateAccountForm>({
+  const router = useRouter()
+  const tryUpdateAccount = useUpdateWithErrorHandling()
+
+  const [ initialFormValue ] = useState<UpdateAccountForm>(account ? {
     email: account.email,
     password: '',
     fullName: account.fullName,
@@ -50,6 +69,14 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
     vehiclesNumber: account.vehiclesNumber.toString(),
     customerType: account.customerType.toString(),
     accountRole: account.accountRole.toString(),
+  } : {
+    email: '',
+    password: '',
+    fullName: '',
+    dateOfBirth: '',
+    vehiclesNumber: '',
+    customerType: '',
+    accountRole: '',
   })
 
   const {
@@ -72,13 +99,29 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
       setFormValue({ ...formValue, [formField]: event.target.value })
     }
 
-  const updateAccont = () => { }
+  const formHasChanged = () => JSON.stringify(initialFormValue) !== JSON.stringify(formValue)
+
+  const updateAccont = async () => {
+    const accountId = Number.parseInt(router.query.accountId as string)
+
+    if (!formValidation.isValid || !formHasChanged() || !accountId) {
+      return
+    }
+
+    const updatedAccount = await tryUpdateAccount(mapToPutUpdateAccount(accountId, formValue))
+
+    if (!updatedAccount) {
+      return
+    }
+
+    router.reload()
+  }
   
   return (
     <PageBox>
       <Grid container direction="column" spacing={4}>
         <Grid item>
-          <Typography variant="h5">Edit Account</Typography>
+          <Typography variant="h5">Edit Account (Admin)</Typography>
         </Grid>
         <Grid
           item
@@ -196,7 +239,7 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
             <Button
               className="w-full"
               variant="outlined"
-              disabled={!formValidation.isValid}
+              disabled={!formValidation.isValid || !formHasChanged()}
               onClick={updateAccont}
             >
               Save

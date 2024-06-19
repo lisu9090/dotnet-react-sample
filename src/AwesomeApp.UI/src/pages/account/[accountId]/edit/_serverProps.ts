@@ -12,11 +12,7 @@ export const getServerSideProps = ensureRoleAuthorized([AccountRole.Admin], asyn
 
   const accountDto = await getAccount(accountId)
 
-  if (!accountDto) {
-    return resultRedirect(PAGE_NOT_FOUND)
-  }
-
   return resultProps({
-    account: accountDtotoAccount(accountDto)
+    account: accountDto ? accountDtotoAccount(accountDto) : null
   })
 })
