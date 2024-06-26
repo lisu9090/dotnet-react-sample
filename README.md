@@ -86,6 +86,6 @@ In order to run app you will need following software to be installed:
 - [x] Feature: Create user account
 - [x] Feature: Authenticate user
 - [x] Feature: UserDetails page that allows to view and edit account data (secured)
-- [ ] Feature: AdminPanel page that allows admins to manage accounts (secured)
+- [x] Feature: AdminPanel page that allows admins to manage accounts (secured)
 - [ ] Unit tests
 - [ ] Docker support

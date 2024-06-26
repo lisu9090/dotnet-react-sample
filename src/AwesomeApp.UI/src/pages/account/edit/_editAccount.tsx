@@ -1,12 +1,11 @@
 import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
 import { Account, CustomerType, PatchUpdateAccount } from "@/common/types/account"
 import { PageBox } from "@/frontend/components"
-import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from "@/frontend/libs"
-import { useFetchWithErrorHandling } from "@/pages/_hooks"
+import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, useSimpleFormValidation } from "@/frontend/libs"
+import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks"
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
 import Link from "next/link"
 import { useState } from "react"
-import { useSnackbar } from "@/pages/_hooks"
 
 type Props = {
   account: Account
