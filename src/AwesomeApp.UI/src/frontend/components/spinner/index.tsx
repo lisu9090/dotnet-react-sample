@@ -1,9 +1,5 @@
-import { ReactElement, createContext, useContext, useMemo, useState } from 'react'
-import { Spinner } from '@/pages/_components/spinner/Spinner'
-
-type Props = {
-  children: any;
-}
+import { ReactElement, ReactNode, createContext, useContext, useMemo, useState } from 'react'
+import { Spinner } from './Spinner'
 
 type ContextProps = {
   show: () => void;
@@ -17,7 +13,7 @@ const context = createContext<ContextProps>({
 
 let callCounter = 0;
 
-export function SpinnerProvider({ children }: Props): ReactElement {
+export function SpinnerProvider({ children }: Readonly<{ children: ReactNode }>): ReactElement {
   const [isShown, setIsShown] = useState<boolean>(false)
 
   const value = useMemo<ContextProps>(

@@ -1,7 +1,14 @@
-import { NextApiHandler } from 'next';
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 import { HttpStatusCode } from 'axios';
-import { getServerSession } from 'next-auth';
+import { Session, getServerSession } from 'next-auth';
 import { nextAuthOptions } from './NextAuth';
+import { AccountRole } from '@/common/types/account';
+
+export type SessionApiHandler<T = any> = (req: NextApiRequest, res: NextApiResponse<T>, session: Session) => 
+  unknown | Promise<unknown>
+
+export type ResourceRequestAuthorization = (req: NextApiRequest, session: Session) => 
+  boolean | Promise<boolean>
 
 export interface EndpointHandlers {
   [method: string]: NextApiHandler
@@ -18,17 +25,39 @@ export function withEndpoints(endpointHandlers: EndpointHandlers): NextApiHandle
   }
 }
 
-export function withAuthentication(handler: NextApiHandler): NextApiHandler {
+export function withAuthentication(handler: SessionApiHandler): NextApiHandler {
   return async (req, res) => {
     const session = await getServerSession(req, res, nextAuthOptions)
     
     if (session) {
-      await handler(req, res)
+      await handler(req, res, session)
     } else {
       res.status(HttpStatusCode.Unauthorized)
         .send('Not authorized, please login')
     }
   }
+}
+
+export function withRoleAuthorization(allowedRoles: AccountRole[], handler: SessionApiHandler): NextApiHandler {
+  return withAuthentication(async (req, res, session) => {
+    if (allowedRoles.length == 0 || allowedRoles.includes(session.user.role)) {
+      await handler(req, res, session)
+    } else {
+      res.status(HttpStatusCode.Forbidden)
+        .send('Forbidden')
+    }
+  })
+}
+
+export function withResourceAuthorization(authorize: ResourceRequestAuthorization, handler: SessionApiHandler): NextApiHandler {
+  return withAuthentication(async (req, res, session) => {
+    if (await authorize(req, session)) {
+      await handler(req, res, session)
+    } else {
+      res.status(HttpStatusCode.Forbidden)
+        .send('Forbidden')
+    }
+  })
 }
 
 export function withErrorHandling(handler: NextApiHandler): NextApiHandler {

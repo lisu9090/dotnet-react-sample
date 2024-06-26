@@ -11,6 +11,8 @@ namespace AwesomeApp.Application.Features.Accounts
         {
             CreateMap<CreateAccountCommandRequest, Account>(MemberList.Source)
                 .ForSourceMember(src => src.Password, opt => opt.DoNotValidate());
+            CreateMap<UpsertAccountCommandRequest, Account>(MemberList.Source)
+                .ForSourceMember(src => src.Password, opt => opt.DoNotValidate());
 
             CreateMap<Account, AccountDto>(MemberList.Destination);
             CreateMap<Account, AccountSessionDto>(MemberList.Destination);

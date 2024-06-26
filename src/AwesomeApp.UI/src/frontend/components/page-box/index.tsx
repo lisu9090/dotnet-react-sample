@@ -1,7 +1,8 @@
 import { Grid, Paper } from '@mui/material'
 import styles from './styles.module.css'
+import { ReactNode } from 'react'
 
-export function PageBox({ children }: any) {
+export function PageBox({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <Grid
       container

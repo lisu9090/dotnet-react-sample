@@ -1,12 +1,13 @@
 import { authenticateAccount } from '@/backend/libs'
 import { isProdEnvironment } from '@/common/libs'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { NextAuthOptions, User, getServerSession } from 'next-auth'
+import { NextAuthOptions, getServerSession as nextGetServerSession } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { accountSessionDtotoUser } from '../mappings'
+import { PAGE_LOGIN } from '@/common/consts'
 
 const sessionSecret = process.env.SESSION_PASSWORD
-const sessionMaxAge = process.env.SESSION_MAX_AGE ? Number.parseInt(process.env.SESSION_MAX_AGE) : undefined
+const sessionMaxAge = Number.parseInt(process.env.SESSION_MAX_AGE ?? '') || (3600 * 24)
 const useSecureCookie = isProdEnvironment()
 
 export const nextAuthOptions: NextAuthOptions = {
@@ -15,13 +16,13 @@ export const nextAuthOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
     maxAge: sessionMaxAge,
-    updateAge: sessionMaxAge    
+    updateAge: sessionMaxAge
   },
   jwt: {
     maxAge: sessionMaxAge
   },
   pages: {
-    signIn: '/login'
+    signIn: PAGE_LOGIN
   },
   callbacks: {
     jwt: ({ token, user }) => {
@@ -51,7 +52,7 @@ export const nextAuthOptions: NextAuthOptions = {
       type: 'credentials',
       name: 'Credentials',
       credentials: {
-        email: { label: 'Email', type: 'text', placeholder: 'you@inbox.com' },
+        email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' }
       },
       authorize: async (credentials) => {
@@ -71,15 +72,4 @@ export const nextAuthOptions: NextAuthOptions = {
   ]
 }
 
-export async function getSession(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession(req, res, nextAuthOptions)
-
-  if (!session?.user) {
-    throw new Error('Not authorized')
-  }
-
-  return {
-    ...session,
-    user: session.user
-  }
-}
+export const getServerSession = (req: NextApiRequest, res: NextApiResponse) => nextGetServerSession(req, res, nextAuthOptions)

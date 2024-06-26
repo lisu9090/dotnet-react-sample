@@ -2,7 +2,7 @@ import axios, { HttpStatusCode } from 'axios';
 import { ActionResult, ActionResultBase, AppSettings } from '@/common/types';
 import { AxiosRequestConfigBuilder, isOkResponse, createFailedActionResult, createSucessfulActionResult, createSucessfulActionResultBase, createFailedActionResultBase } from '@/common/libs';
 import { getCsrfToken } from 'next-auth/react';
-import { Account, AuthenticateAccount, CreateAccount } from '@/common/types/account';
+import { Account, AuthenticateAccount, CreateAccount, PatchUpdateAccount, PutUpdateAccount } from '@/common/types/account';
 
 let csrfToken: string = ''
 
@@ -46,6 +46,40 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
     AxiosRequestConfigBuilder
       .create()
       .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
+      .build()
+  )
+
+  return response.data
+}
+
+export async function putUpdateAccount(updateAccountEntry: PutUpdateAccount): Promise<ActionResult<Account>> {
+  if (!updateAccountEntry) {
+    throw new Error('createAccountEntry cannot be falsy')
+  }
+
+  const response = await axiosClient.put<ActionResult<Account>>(
+    `/account/update`, 
+    updateAccountEntry,
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
+      .build()
+  )
+
+  return response.data
+}
+
+export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount): Promise<ActionResult<Account>> {
+  if (!updateAccountEntry) {
+    throw new Error('createAccountEntry cannot be falsy')
+  }
+
+  const response = await axiosClient.patch<ActionResult<Account>>(
+    `/account/update`, 
+    updateAccountEntry,
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.NotFound)
       .build()
   )
 

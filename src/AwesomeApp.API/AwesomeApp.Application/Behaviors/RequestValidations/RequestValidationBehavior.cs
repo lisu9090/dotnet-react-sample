@@ -1,36 +1,29 @@
-﻿using System.Reflection;
-using AwesomeApp.Application.Attributes;
+﻿using FluentValidation;
+using FluentValidation.Results;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AwesomeApp.Application.Behaviors.RequestValidations
 {
     internal class RequestValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
     {
-        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
-        {
-            bool isRequestValid = ValidateRequiredProps(request);
+        private readonly IValidator<TRequest>? _validator;
 
-            return isRequestValid ? next() : throw new RequestValidationException();
+        public RequestValidationBehavior(IServiceProvider serviceProvider)
+        {
+            _validator = serviceProvider.GetService<IValidator<TRequest>>();
         }
 
-        private bool ValidateRequiredProps(object objectToValidate) 
+        public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            IEnumerable<PropertyInfo> propsToValidate = objectToValidate
-                .GetType()
-                .GetProperties()
-                .Where(prop => prop
-                    .GetCustomAttributes<RequiredAttribute>()
-                    .Any());
-
-
-            return propsToValidate.All(prop =>
+            if (_validator == null)
             {
-                Type propType = prop.PropertyType;
-                object? propValue = prop.GetValue(objectToValidate);
+                return next();
+            }
 
-                return (propType.IsValueType && Activator.CreateInstance(propType) != propValue) ||
-                    (!propType.IsValueType && propValue != null && ValidateRequiredProps(propValue));
-            });
+            ValidationResult result = _validator.Validate(request);
+
+            return result.IsValid ? next() : throw new RequestValidationException();
         }
     }
 }

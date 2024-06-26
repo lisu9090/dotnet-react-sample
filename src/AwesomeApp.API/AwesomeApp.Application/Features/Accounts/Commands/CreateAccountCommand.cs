@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AwesomeApp.Application.Features.Accounts.Dtos;
 using AwesomeApp.Application.Features.Accounts.Exceptions;
 using AwesomeApp.Application.Security;
 using AwesomeApp.Domain.Accounts.Entities;
@@ -7,7 +8,7 @@ using MediatR;
 
 namespace AwesomeApp.Application.Features.Accounts.Commands
 {
-    internal class CreateAccountCommand : IRequestHandler<CreateAccountCommandRequest, uint>
+    internal class CreateAccountCommand : IRequestHandler<CreateAccountCommandRequest, AccountDto>
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IHashService _hashService;
@@ -20,23 +21,29 @@ namespace AwesomeApp.Application.Features.Accounts.Commands
             _mapper = mapper;
         }
 
-        public async Task<uint> Handle(CreateAccountCommandRequest request, CancellationToken cancellationToken)
+        public async Task<AccountDto> Handle(CreateAccountCommandRequest request, CancellationToken cancellationToken)
         {
-            Account? account = await _accountRepository.GetByEmailAsync(request.Email!);
+            await ValidateIfEmailIsUsedAsync(request.Email!, cancellationToken);
 
-            if (account != null)
-            {
-                throw new AccountCreationException("Email already used");
-            }
-
-            account = _mapper.Map<Account>(request);
+            Account account = _mapper.Map<Account>(request);
 
             account.Email = account.Email!.ToLowerInvariant();
             account.PasswordHash = _hashService.GetHash(request.Password!);
 
             account = await _accountRepository.UpsertAsync(account, cancellationToken);
 
-            return account.Id;
+            return _mapper.Map<AccountDto>(account);
+        }
+
+
+        private async Task ValidateIfEmailIsUsedAsync(string email, CancellationToken cancellationToken)
+        {
+            Account? account = await _accountRepository.GetByEmailAsync(email, cancellationToken);
+
+            if (account != null)
+            {
+                throw new AccountCreationException("Email already used");
+            }
         }
     }
 }

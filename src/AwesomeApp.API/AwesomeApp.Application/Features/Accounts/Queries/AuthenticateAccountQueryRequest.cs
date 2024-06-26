@@ -1,5 +1,4 @@
-﻿using AwesomeApp.Application.Attributes;
-using AwesomeApp.Application.Features.Accounts.Dtos;
+﻿using AwesomeApp.Application.Features.Accounts.Dtos;
 using MediatR;
 
 namespace AwesomeApp.Application.Features.Accounts.Queries
@@ -9,13 +8,11 @@ namespace AwesomeApp.Application.Features.Accounts.Queries
         /// <summary>
         /// Gets or set Email
         /// </summary>
-        [Required]
         public string? Email { get; set; }
 
         /// <summary>
         /// Gets or set Password
         /// </summary>
-        [Required]
         public string? Password { get; set; }
     }
 }
