@@ -2,7 +2,7 @@ import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
 import { Account, CustomerType, PatchUpdateAccount } from "@/common/types/account"
 import { PageBox } from "@/frontend/components"
 import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, useSimpleFormValidation } from "@/frontend/libs"
-import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks"
+import { useFetchWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
 import Link from "next/link"
 import { useState } from "react"
@@ -58,7 +58,7 @@ const useUpdateAccountWithErrorHandling = () => useFetchWithErrorHandling(patchU
 
 export default function EditAccountPage({ account }: Readonly<Props>) {
   const tryUpdateAccount = useUpdateAccountWithErrorHandling()
-  const { success } = useSnackbar()
+  const { success } = useAppSnackbar()
 
   const [ formLabels, setFormLabels ] = useState<UpdateAccountForm>(mapAccountToForm(account))
 

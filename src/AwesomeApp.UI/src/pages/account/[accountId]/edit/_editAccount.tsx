@@ -2,7 +2,7 @@ import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
 import { Account, CustomerType, AccountRole, PutUpdateAccount } from "@/common/types/account"
 import { PageBox } from "@/frontend/components"
 import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, putUpdateAccount, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from "@/frontend/libs"
-import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks"
+import { useFetchWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -77,7 +77,7 @@ const useUpdateWithErrorHandling = () => useFetchWithErrorHandling(putUpdateAcco
 export default function EditAccountPage({ account }: Readonly<Props>) {
   const router = useRouter()
   const tryUpdateAccount = useUpdateWithErrorHandling()
-  const { success } = useSnackbar()
+  const { success } = useAppSnackbar()
 
   const [ initialFormValue, setInitialFormValue ] = useState<UpdateAccountForm>(mapAccountToForm(account))
 
