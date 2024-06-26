@@ -1,10 +1,10 @@
-import axios, { HttpStatusCode } from 'axios';
-import { ActionResult, ActionResultBase, AppSettings } from '@/common/types';
-import { AxiosRequestConfigBuilder, isOkResponse, createFailedActionResult, createSucessfulActionResult, createSucessfulActionResultBase, createFailedActionResultBase } from '@/common/libs';
-import { getCsrfToken } from 'next-auth/react';
-import { Account, AuthenticateAccount, CreateAccount, PatchUpdateAccount, PutUpdateAccount } from '@/common/types/account';
+import axios, { HttpStatusCode } from 'axios'
+import { ActionResult, ActionResultBase, AppSettings } from '@/common/types'
+import { AxiosRequestConfigBuilder, isOkResponse, createSucessfulActionResultBase, createFailedActionResultBase } from '@/common/libs'
+import { getCsrfToken } from 'next-auth/react'
+import { Account, AuthenticateAccount, CreateAccount, PatchUpdateAccount, PutUpdateAccount } from '@/common/types/account'
 
-let csrfToken: string = ''
+let csrfToken: string | undefined
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -13,7 +13,7 @@ const axiosClient = axios.create({
   },
 })
 
-export async function initApiCient(): Promise<void> {
+export async function initApiCientModule(): Promise<void> {
   const token = await getCsrfToken()
 
   if (!token) {
