@@ -7,6 +7,7 @@ import { useCallWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
 import { useRouter } from "next/router"
 import { PAGE_ACCOUNT, PAGE_CREATE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
 import { ParsedUrlQuery } from "querystring"
+import { AuthCsrfToken } from "@/common/types"
 
 function validateReturnUrlOrigin (url: string | undefined) {
   if (!url) {
@@ -44,7 +45,7 @@ function useLoginUserWithErrorHandling() {
   return useCallWithErrorHandling(loginUser)
 }
 
-export default function LoginPage({ csrfToken }: Readonly<{ csrfToken: string | undefined }>): ReactElement {
+export default function LoginPage({ authCsrfToken }: Readonly<AuthCsrfToken>): ReactElement {
   const router = useRouter()
   const { warning } = useAppSnackbar()
   const tryLoginUser = useLoginUserWithErrorHandling()
@@ -64,7 +65,7 @@ export default function LoginPage({ csrfToken }: Readonly<{ csrfToken: string | 
         email: userEmail,
         password: userPassword
       },
-      csrfToken
+      authCsrfToken
     )
 
     if (result) {

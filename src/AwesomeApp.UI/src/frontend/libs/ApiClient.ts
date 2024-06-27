@@ -40,17 +40,22 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   return response.data
 }
 
-export async function putUpdateAccount(updateAccountEntry: PutUpdateAccount): Promise<ActionResult<Account>> {
-  if (!updateAccountEntry) {
-    throw new Error('createAccountEntry cannot be falsy')
+export async function putUpdateAccount(updateAccountEntry: PutUpdateAccount, csrfToken: string | undefined): Promise<ActionResult<Account>> {
+  if (!updateAccountEntry || !csrfToken) {
+    throw new Error('createAccountEntry and csrfToken cannot be falsy')
   }
+
+  const payload = {
+    ...updateAccountEntry,
+    csrfToken,
+  }
+
 
   const response = await axiosClient.put<ActionResult<Account>>(
     `/account/update`, 
-    updateAccountEntry,
+    payload,
     AxiosRequestConfigBuilder
       .create()
-      // .addCsrfTokenHeader(await getCsrfToken())
       .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
       .build()
   )
@@ -58,17 +63,21 @@ export async function putUpdateAccount(updateAccountEntry: PutUpdateAccount): Pr
   return response.data
 }
 
-export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount): Promise<ActionResult<Account>> {
-  if (!updateAccountEntry) {
-    throw new Error('createAccountEntry cannot be falsy')
+export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount, csrfToken: string | undefined): Promise<ActionResult<Account>> {
+  if (!updateAccountEntry || !csrfToken) {
+    throw new Error('createAccountEntry and csrfToken cannot be falsy')
+  }
+
+  const payload = {
+    ...updateAccountEntry,
+    csrfToken,
   }
 
   const response = await axiosClient.patch<ActionResult<Account>>(
     `/account/update`, 
-    updateAccountEntry,
+    payload,
     AxiosRequestConfigBuilder
       .create()
-      // .addCsrfTokenHeader(await getCsrfToken())
       .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.NotFound)
       .build()
   )
@@ -76,14 +85,14 @@ export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount)
   return response.data
 }
 
-export async function loginUser(authenticateAccountEntry: AuthenticateAccount, csrfToken: string | undefined): Promise<ActionResultBase> {
-  if (!authenticateAccountEntry || !csrfToken) {
+export async function loginUser(authenticateAccountEntry: AuthenticateAccount, authCsrfToken: string | undefined): Promise<ActionResultBase> {
+  if (!authenticateAccountEntry || !authCsrfToken) {
     throw new Error('authenticateAccountEntry and csrfToken cannot be falsy')
   }
 
   const payload = {
     ...authenticateAccountEntry,
-    csrfToken,
+    csrfToken: authCsrfToken,
   }
   
   const response = await axiosClient.post(
@@ -101,14 +110,14 @@ export async function loginUser(authenticateAccountEntry: AuthenticateAccount, c
     : createFailedActionResultBase('Authentication failed. Please try again.')
 }
 
-export async function logoutUser(csrfToken: string | undefined): Promise<ActionResultBase> {
-  if (!csrfToken) {
+export async function logoutUser(authCsrfToken: string | undefined): Promise<ActionResultBase> {
+  if (!authCsrfToken) {
     throw new Error('csrfToken cannot be falsy')
   }
 
   const response = await axiosClient.post(
     `/auth/signout`, 
-    { csrfToken },
+    { csrfToken: authCsrfToken },
     AxiosRequestConfigBuilder
       .create()
       .addContentTypeHeader('application/x-www-form-urlencoded')

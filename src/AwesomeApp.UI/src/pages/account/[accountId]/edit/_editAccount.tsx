@@ -1,4 +1,5 @@
 import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
+import { CsrfToken } from "@/common/types"
 import { Account, CustomerType, AccountRole, PutUpdateAccount } from "@/common/types/account"
 import { PageBox } from "@/frontend/components"
 import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, putUpdateAccount, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from "@/frontend/libs"
@@ -10,7 +11,7 @@ import { useState } from "react"
 
 type Props = {
   account: Account | null
-}
+} & CsrfToken
 
 type UpdateAccountForm = {
   email: string;
@@ -74,7 +75,7 @@ const mapFormToPutUpdateAccount = (accontId: number, formValue: UpdateAccountFor
 
 const useUpdateWithErrorHandling = () => useFetchWithErrorHandling(putUpdateAccount)
 
-export default function EditAccountPage({ account }: Readonly<Props>) {
+export default function EditAccountPage({ account, csrfToken }: Readonly<Props>) {
   const router = useRouter()
   const tryUpdateAccount = useUpdateWithErrorHandling()
   const { success } = useAppSnackbar()
@@ -110,7 +111,7 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
       return
     }
 
-    const updatedAccount = await tryUpdateAccount(mapFormToPutUpdateAccount(accountId, formValue))
+    const updatedAccount = await tryUpdateAccount(mapFormToPutUpdateAccount(accountId, formValue), csrfToken)
 
     if (!updatedAccount) {
       return

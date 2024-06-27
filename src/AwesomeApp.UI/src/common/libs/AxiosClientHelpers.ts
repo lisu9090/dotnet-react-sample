@@ -29,17 +29,6 @@ export class AxiosRequestConfigBuilder {
     return this
   }
 
-  addCsrfTokenHeader(token: string | undefined): this {
-    if (!this.config.headers) {
-      this.config.headers = {}
-    }
-
-    this.config.headers[HEADER_CSRF_TOKEN] = token
-
-    return this
-  }
-
-
   addAcceptStatusCodes(...statuses: HttpStatusCode[]): this {
     if (statuses) {
       this.config.validateStatus = (status) => statuses.includes(status)
