@@ -32,9 +32,6 @@ export function withCsrfTokenValidation(handler: NextApiHandler): NextApiHandler
     const expectedTokenValue = authCookie ? getCsrfToken(authCookie) : undefined
     const actualTokenValue = req.body.csrfToken
 
-    // console.log(expectedTokenValue)
-    // console.log(actualTokenValue)
-
     if (!expectedTokenValue || actualTokenValue === expectedTokenValue) {
       await handler(req, res)
     } else {

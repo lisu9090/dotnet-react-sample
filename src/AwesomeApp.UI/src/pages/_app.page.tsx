@@ -1,10 +1,9 @@
 import './globals.css'
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import { useModulesInit } from '@/frontend/libs'
-import initAppSettingsModule from '@/frontend/libs/SettingsProvider'
 import { ReactElement } from 'react'
 import { SpinnerProvider, SnackbarProvider, PageBox } from '@/frontend/components'
+import { useModulesInit, initAppSettingsModule } from '@/frontend/libs'
 
 const inter = Inter({ subsets: ['latin'] })
 
