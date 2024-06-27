@@ -8,11 +8,16 @@ import { useRouter } from 'next/router'
 import { PAGE_ACCOUNT_EDIT, PAGE_HOME } from '@/common/consts'
 import Link from 'next/link'
 
+type Props = { 
+  account: Account,
+  csrfToken: string | undefined
+}
+
 function useLogoutUserWithErrorHandling() {
   return useCallWithErrorHandling(logoutUser)
 }
 
-export default function AccountPage({ account }: Readonly<{ account: Account }>): ReactElement {
+export default function AccountPage({ account, csrfToken }: Readonly<Props>): ReactElement {
   const router = useRouter()
   const tryLogout = useLogoutUserWithErrorHandling()
 
@@ -21,7 +26,7 @@ export default function AccountPage({ account }: Readonly<{ account: Account }>)
   const dateOfBirth = new Date(account.dateOfBirth)
 
   const logout = async () => {
-    const result = await tryLogout()
+    const result = await tryLogout(csrfToken)
 
     if (result) {
       router.push(PAGE_HOME)

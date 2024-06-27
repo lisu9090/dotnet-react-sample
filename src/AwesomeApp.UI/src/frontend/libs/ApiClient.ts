@@ -1,10 +1,8 @@
 import axios, { HttpStatusCode } from 'axios'
 import { ActionResult, ActionResultBase, AppSettings } from '@/common/types'
 import { AxiosRequestConfigBuilder, isOkResponse, createSucessfulActionResultBase, createFailedActionResultBase } from '@/common/libs'
-import { getCsrfToken } from 'next-auth/react'
 import { Account, AuthenticateAccount, CreateAccount, PatchUpdateAccount, PutUpdateAccount } from '@/common/types/account'
-
-let csrfToken: string | undefined
+import { getCsrfToken } from 'next-auth/react'
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -12,16 +10,6 @@ const axiosClient = axios.create({
     'Content-Type': 'application/json'
   },
 })
-
-export async function initApiCientModule(): Promise<void> {
-  const token = await getCsrfToken()
-
-  if (!token) {
-    throw new Error('CSRF token is not defined')
-  }
-
-  csrfToken = token
-}
 
 export async function fetchSettings(): Promise<AppSettings> {
   const response = await axiosClient.get<AppSettings>(`/settings`)
@@ -62,6 +50,7 @@ export async function putUpdateAccount(updateAccountEntry: PutUpdateAccount): Pr
     updateAccountEntry,
     AxiosRequestConfigBuilder
       .create()
+      // .addCsrfTokenHeader(await getCsrfToken())
       .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
       .build()
   )
@@ -79,6 +68,7 @@ export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount)
     updateAccountEntry,
     AxiosRequestConfigBuilder
       .create()
+      // .addCsrfTokenHeader(await getCsrfToken())
       .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.NotFound)
       .build()
   )
@@ -86,9 +76,9 @@ export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount)
   return response.data
 }
 
-export async function loginUser(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResultBase> {
-  if (!authenticateAccountEntry) {
-    throw new Error('authenticateAccountEntry cannot be falsy')
+export async function loginUser(authenticateAccountEntry: AuthenticateAccount, csrfToken: string | undefined): Promise<ActionResultBase> {
+  if (!authenticateAccountEntry || !csrfToken) {
+    throw new Error('authenticateAccountEntry and csrfToken cannot be falsy')
   }
 
   const payload = {
@@ -111,12 +101,14 @@ export async function loginUser(authenticateAccountEntry: AuthenticateAccount): 
     : createFailedActionResultBase('Authentication failed. Please try again.')
 }
 
-export async function logoutUser(): Promise<ActionResultBase> {
-  const payload = { csrfToken }
+export async function logoutUser(csrfToken: string | undefined): Promise<ActionResultBase> {
+  if (!csrfToken) {
+    throw new Error('csrfToken cannot be falsy')
+  }
 
   const response = await axiosClient.post(
     `/auth/signout`, 
-    payload,
+    { csrfToken },
     AxiosRequestConfigBuilder
       .create()
       .addContentTypeHeader('application/x-www-form-urlencoded')

@@ -44,7 +44,7 @@ function useLoginUserWithErrorHandling() {
   return useCallWithErrorHandling(loginUser)
 }
 
-export default function LoginPage(): ReactElement {
+export default function LoginPage({ csrfToken }: Readonly<{ csrfToken: string | undefined }>): ReactElement {
   const router = useRouter()
   const { warning } = useAppSnackbar()
   const tryLoginUser = useLoginUserWithErrorHandling()
@@ -59,10 +59,13 @@ export default function LoginPage(): ReactElement {
       return
     }
 
-    const result = await tryLoginUser({
-      email: userEmail,
-      password: userPassword
-    })
+    const result = await tryLoginUser(
+      {
+        email: userEmail,
+        password: userPassword
+      },
+      csrfToken
+    )
 
     if (result) {
       router.replace(getReturnUrl(router.query) ?? PAGE_ACCOUNT)

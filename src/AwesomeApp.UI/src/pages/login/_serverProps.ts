@@ -1,7 +1,7 @@
 import { resultProps, resultRedirect } from '@/backend/libs'
 import { PAGE_ACCOUNT } from '@/common/consts'
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
-import { getSession } from 'next-auth/react'
+import { getCsrfToken, getSession } from 'next-auth/react'
 
 export async function getServerSideProps(context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<{}>> {
   const session = await getSession(context)
@@ -10,5 +10,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
     return resultRedirect(PAGE_ACCOUNT)
   }
 
-  return resultProps<{}>()
+  const csrfToken = await getCsrfToken(context)
+
+  return resultProps({ csrfToken })
 }

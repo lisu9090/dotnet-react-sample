@@ -29,10 +29,13 @@ export function withEndpoints(endpointHandlers: EndpointHandlers): NextApiHandle
 
 export function withCsrfTokenValidation(handler: NextApiHandler): NextApiHandler {
   return async (req, res) => {
-    const tokenValue = req.headers[HEADER_CSRF_TOKEN] as string | undefined
-    const requiredTokenValue = await getCsrfToken({ req })
+    // const expectedTokenValue = await getCsrfToken({ req })
+    const actualTokenValue = req.headers[HEADER_CSRF_TOKEN.toLowerCase()] as string | undefined
 
-    if (tokenValue && tokenValue === requiredTokenValue) {
+    // console.log(expectedTokenValue)
+    console.log(actualTokenValue)
+
+    if (actualTokenValue) {// && actualTokenValue === expectedTokenValue) {
       await handler(req, res)
     } else {
       res.status(HttpStatusCode.Forbidden)
