@@ -77,7 +77,7 @@ In order to run app you will need following software to be installed:
 - [x] Secure communication between App backend and App frontend with SSL
 - [x] Secure API with subscription key
 - [x] Secure App backend with JWT token
-- [ ] Secure App backend with CSRF token
+- [x] Secure App backend with CSRF token
 - [x] Secure pages with user authentication
 - [x] Enable role-based user authorization
 - [ ] Enable App localization (string translations)

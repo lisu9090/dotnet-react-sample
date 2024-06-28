@@ -1,15 +1,16 @@
 import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
+import { CsrfToken } from "@/common/types"
 import { Account, CustomerType, PatchUpdateAccount } from "@/common/types/account"
 import { PageBox } from "@/frontend/components"
 import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, useSimpleFormValidation } from "@/frontend/libs"
-import { useFetchWithErrorHandling, useSnackbar } from "@/pages/_hooks"
+import { useFetchWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
 import Link from "next/link"
 import { useState } from "react"
 
 type Props = {
-  account: Account
-}
+  account: Account;
+} & CsrfToken
 
 type UpdateAccountForm = {
   fullName: string;
@@ -56,9 +57,9 @@ const mapFormToPatchUpdateAccount = (formValue: UpdateAccountForm) => ({
 
 const useUpdateAccountWithErrorHandling = () => useFetchWithErrorHandling(patchUpdateAccount)
 
-export default function EditAccountPage({ account }: Readonly<Props>) {
+export default function EditAccountPage({ account, csrfToken }: Readonly<Props>) {
   const tryUpdateAccount = useUpdateAccountWithErrorHandling()
-  const { success } = useSnackbar()
+  const { success } = useAppSnackbar()
 
   const [ formLabels, setFormLabels ] = useState<UpdateAccountForm>(mapAccountToForm(account))
 
@@ -89,7 +90,7 @@ export default function EditAccountPage({ account }: Readonly<Props>) {
       return
     }
 
-    const updatedAccount = await tryUpdateAccount(mapFormToPatchUpdateAccount(formValue))
+    const updatedAccount = await tryUpdateAccount(mapFormToPatchUpdateAccount(formValue), csrfToken)
 
     if (!updatedAccount) {
       return

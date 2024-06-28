@@ -10,5 +10,5 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
     return resultRedirect(PAGE_ACCOUNT)
   }
 
-  return resultProps<{}>()
+  return resultProps()
 }

@@ -1,8 +1,9 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
-import { HttpStatusCode } from 'axios';
-import { Session, getServerSession } from 'next-auth';
-import { nextAuthOptions } from './NextAuth';
-import { AccountRole } from '@/common/types/account';
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
+import { HttpStatusCode } from 'axios'
+import { Session, getServerSession } from 'next-auth'
+import { nextAuthOptions } from './NextAuth'
+import { AccountRole } from '@/common/types/account'
+import { getCsrfToken } from './CsrfToken'
 
 export type SessionApiHandler<T = any> = (req: NextApiRequest, res: NextApiResponse<T>, session: Session) => 
   unknown | Promise<unknown>
@@ -21,6 +22,21 @@ export function withEndpoints(endpointHandlers: EndpointHandlers): NextApiHandle
     } else {
       res.status(HttpStatusCode.MethodNotAllowed)
         .send('Method not allowed at this endpoint')
+    }
+  }
+}
+
+export function withCsrfTokenValidation(handler: NextApiHandler): NextApiHandler {
+  return async (req, res) => {
+    const authCookie = req.cookies['next-auth.session-token']
+    const expectedTokenValue = authCookie ? getCsrfToken(authCookie) : undefined
+    const actualTokenValue = req.body.csrfToken
+
+    if (!expectedTokenValue || actualTokenValue === expectedTokenValue) {
+      await handler(req, res)
+    } else {
+      res.status(HttpStatusCode.Forbidden)
+        .send('Forbidden')
     }
   }
 }

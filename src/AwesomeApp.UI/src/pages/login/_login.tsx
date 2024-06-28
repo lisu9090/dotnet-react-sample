@@ -3,10 +3,11 @@ import { loginUser } from "@/frontend/libs"
 import { Button, Grid, TextField, Typography } from "@mui/material"
 import Link from "next/link"
 import { ReactElement, useState } from "react"
-import { useCallWithErrorHandling, useSnackbar } from "@/pages/_hooks"
+import { useCallWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
 import { useRouter } from "next/router"
 import { PAGE_ACCOUNT, PAGE_CREATE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
 import { ParsedUrlQuery } from "querystring"
+import { getCsrfToken } from "next-auth/react"
 
 function validateReturnUrlOrigin (url: string | undefined) {
   if (!url) {
@@ -46,7 +47,7 @@ function useLoginUserWithErrorHandling() {
 
 export default function LoginPage(): ReactElement {
   const router = useRouter()
-  const { warning } = useSnackbar()
+  const { warning } = useAppSnackbar()
   const tryLoginUser = useLoginUserWithErrorHandling()
 
   const [userEmail, setUserEmail] = useState<string>('')
@@ -59,10 +60,15 @@ export default function LoginPage(): ReactElement {
       return
     }
 
-    const result = await tryLoginUser({
-      email: userEmail,
-      password: userPassword
-    })
+    const authCsrfToken = await getCsrfToken()
+
+    const result = await tryLoginUser(
+      {
+        email: userEmail,
+        password: userPassword
+      },
+      authCsrfToken
+    )
 
     if (result) {
       router.replace(getReturnUrl(router.query) ?? PAGE_ACCOUNT)

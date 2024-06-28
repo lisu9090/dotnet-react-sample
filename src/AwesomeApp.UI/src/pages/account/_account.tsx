@@ -7,12 +7,17 @@ import { logoutUser } from '@/frontend/libs'
 import { useRouter } from 'next/router'
 import { PAGE_ACCOUNT_EDIT, PAGE_HOME } from '@/common/consts'
 import Link from 'next/link'
+import { getCsrfToken } from 'next-auth/react'
+
+type Props = { 
+  account: Account;
+}
 
 function useLogoutUserWithErrorHandling() {
   return useCallWithErrorHandling(logoutUser)
 }
 
-export default function AccountPage({ account }: Readonly<{ account: Account }>): ReactElement {
+export default function AccountPage({ account }: Readonly<Props>): ReactElement {
   const router = useRouter()
   const tryLogout = useLogoutUserWithErrorHandling()
 
@@ -21,7 +26,8 @@ export default function AccountPage({ account }: Readonly<{ account: Account }>)
   const dateOfBirth = new Date(account.dateOfBirth)
 
   const logout = async () => {
-    const result = await tryLogout()
+    const authCsrfToken = await getCsrfToken()
+    const result = await tryLogout(authCsrfToken)
 
     if (result) {
       router.push(PAGE_HOME)

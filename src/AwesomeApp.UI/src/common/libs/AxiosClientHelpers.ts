@@ -1,4 +1,5 @@
 import axios, { HttpStatusCode, AxiosRequestConfig, AxiosResponse, AxiosResponseTransformer } from 'axios'
+import { HEADER_CONTENT_TYPE, HEADER_CSRF_TOKEN } from '../consts'
 
 export const isOkStatusCode = (status: number | undefined): boolean =>
   !!status && status >= 200 && status < 300
@@ -19,16 +20,11 @@ export class AxiosRequestConfigBuilder {
   }
 
   addContentTypeHeader(contentType: string): this {
-    if (this.config.headers) {
-      this.config.headers = {
-        ...this.config.headers,
-        'Content-Type': contentType
-      }
-    } else {
-      this.config.headers = {
-        'Content-Type': contentType
-      }
+    if (!this.config.headers) {
+      this.config.headers = {}
     }
+    
+    this.config.headers[HEADER_CONTENT_TYPE] = contentType
 
     return this
   }
