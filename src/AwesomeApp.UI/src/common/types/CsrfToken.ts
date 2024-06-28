@@ -1,7 +1,3 @@
-export type AuthCsrfToken = {
-  authCsrfToken: string | undefined;
-}
-
-export type CsrfToken = {
+export interface CsrfToken {
   csrfToken: string | undefined;
 }
