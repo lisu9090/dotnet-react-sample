@@ -5,14 +5,19 @@ import { ReactElement } from 'react'
 import { useCallWithErrorHandling } from '@/pages/_hooks'
 import { logoutUser } from '@/frontend/libs'
 import { useRouter } from 'next/router'
-import { PAGE_HOME } from '@/common/consts'
+import { PAGE_ACCOUNT_EDIT, PAGE_HOME } from '@/common/consts'
 import Link from 'next/link'
+import { getCsrfToken } from 'next-auth/react'
+
+type Props = { 
+  account: Account;
+}
 
 function useLogoutUserWithErrorHandling() {
   return useCallWithErrorHandling(logoutUser)
 }
 
-export default function AccountComponent({ account }: Readonly<{ account: Account }>): ReactElement {
+export default function AccountPage({ account }: Readonly<Props>): ReactElement {
   const router = useRouter()
   const tryLogout = useLogoutUserWithErrorHandling()
 
@@ -21,7 +26,8 @@ export default function AccountComponent({ account }: Readonly<{ account: Accoun
   const dateOfBirth = new Date(account.dateOfBirth)
 
   const logout = async () => {
-    const result = await tryLogout()
+    const authCsrfToken = await getCsrfToken()
+    const result = await tryLogout(authCsrfToken)
 
     if (result) {
       router.push(PAGE_HOME)
@@ -63,8 +69,8 @@ export default function AccountComponent({ account }: Readonly<{ account: Accoun
         alignItems="stretch"
         justifyContent="space-between"
       >
-        <Grid item xs={4}>
-          <Link href="/">
+        <Grid item xs={3}>
+          <Link href={PAGE_HOME}>
             <Button 
               className="w-full"
               variant="outlined"
@@ -74,7 +80,18 @@ export default function AccountComponent({ account }: Readonly<{ account: Accoun
             </Button>
           </Link>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
+          <Link href={PAGE_ACCOUNT_EDIT}>
+            <Button 
+              className="w-full"
+              variant="outlined"
+              color="secondary"
+            >
+              Edit account
+            </Button>
+          </Link>
+        </Grid>
+        <Grid item xs={3}>
           <Button
             className="w-full"
             type="submit"

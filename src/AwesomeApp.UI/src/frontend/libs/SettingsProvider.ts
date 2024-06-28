@@ -3,7 +3,7 @@ import { fetchSettings } from './ApiClient'
 
 let appSettings: AppSettings
 
-export default async function initAppSettings(): Promise<void> {
+export async function initAppSettingsModule(): Promise<void> {
   appSettings = await fetchSettings()
 }
 

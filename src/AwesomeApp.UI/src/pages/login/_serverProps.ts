@@ -1,3 +1,4 @@
+import { resultProps, resultRedirect } from '@/backend/libs'
 import { PAGE_ACCOUNT } from '@/common/consts'
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 import { getSession } from 'next-auth/react'
@@ -6,15 +7,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext): Pr
   const session = await getSession(context)
 
   if (session) {
-    return {
-      redirect: {
-        destination: PAGE_ACCOUNT,
-        permanent: false,
-      }
-    }
+    return resultRedirect(PAGE_ACCOUNT)
   }
 
-  return {
-    props: {}
-  }
+  return resultProps()
 }

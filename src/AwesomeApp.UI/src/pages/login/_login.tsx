@@ -3,35 +3,55 @@ import { loginUser } from "@/frontend/libs"
 import { Button, Grid, TextField, Typography } from "@mui/material"
 import Link from "next/link"
 import { ReactElement, useState } from "react"
-import { useCallWithErrorHandling, useSnackbar } from "@/pages/_hooks"
+import { useCallWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
 import { useRouter } from "next/router"
-import { PAGE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
+import { PAGE_ACCOUNT, PAGE_CREATE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
+import { ParsedUrlQuery } from "querystring"
+import { getCsrfToken } from "next-auth/react"
+
+function validateReturnUrlOrigin (url: string | undefined) {
+  if (!url) {
+    return false
+  }
+
+  if (url.startsWith('/')) {
+    return true
+  }
+
+  try {
+    return new URL(url).origin === location.origin
+  }
+  catch {
+    return false
+  }
+}
+
+function getReturnUrl(query: ParsedUrlQuery) {
+  let returnUrl: string = '' 
+  const returnUrlQueryValue = query[QUERY_RETURN_URL]
+
+  if (typeof returnUrlQueryValue === 'string') {
+    returnUrl = returnUrlQueryValue
+  }
+
+  if (returnUrlQueryValue instanceof Array && returnUrlQueryValue.length > 0) {
+    returnUrl = returnUrlQueryValue[0]
+  } 
+
+  return validateReturnUrlOrigin(returnUrl) ? returnUrl : null
+}
 
 function useLoginUserWithErrorHandling() {
   return useCallWithErrorHandling(loginUser)
 }
 
-export default function Login(): ReactElement {
+export default function LoginPage(): ReactElement {
   const router = useRouter()
-  const { warning } = useSnackbar()
+  const { warning } = useAppSnackbar()
   const tryLoginUser = useLoginUserWithErrorHandling()
 
   const [userEmail, setUserEmail] = useState<string>('')
   const [userPassword, setUserPassword] = useState<string>('')
-
-  const getReturnUrl = () => {
-    const returnUrlQueryValue = router.query[QUERY_RETURN_URL]
-
-    if (typeof returnUrlQueryValue === 'string') {
-      return returnUrlQueryValue
-    }
-
-    if (returnUrlQueryValue instanceof Array && returnUrlQueryValue.length > 0) {
-      return returnUrlQueryValue[0]
-    } 
-
-    return null
-  }
 
   const login = async () => {
     if (!userEmail || !userPassword) {
@@ -40,13 +60,18 @@ export default function Login(): ReactElement {
       return
     }
 
-    const result = await tryLoginUser({
-      email: userEmail,
-      password: userPassword
-    })
+    const authCsrfToken = await getCsrfToken()
+
+    const result = await tryLoginUser(
+      {
+        email: userEmail,
+        password: userPassword
+      },
+      authCsrfToken
+    )
 
     if (result) {
-      router.push(getReturnUrl() ?? PAGE_ACCOUNT)
+      router.replace(getReturnUrl(router.query) ?? PAGE_ACCOUNT)
     } 
   }
 
@@ -101,7 +126,7 @@ export default function Login(): ReactElement {
             justifyContent="space-between"
           >
             <Grid item xs={4}>
-              <Link className="mr-2" href="/create-account">
+              <Link className="mr-2" href={PAGE_CREATE_ACCOUNT}>
                 <Button
                   className="w-full"
                   color="secondary"

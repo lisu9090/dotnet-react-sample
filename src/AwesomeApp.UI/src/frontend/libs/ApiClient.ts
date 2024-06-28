@@ -1,10 +1,8 @@
-import axios, { HttpStatusCode } from 'axios';
-import { ActionResult, ActionResultBase, AppSettings } from '@/common/types';
-import { AxiosRequestConfigBuilder, isOkResponse, createFailedActionResult, createSucessfulActionResult, createSucessfulActionResultBase, createFailedActionResultBase } from '@/common/libs';
-import { getCsrfToken } from 'next-auth/react';
-import { Account, AuthenticateAccount, CreateAccount } from '@/common/types/account';
-
-let csrfToken: string = ''
+import axios, { HttpStatusCode } from 'axios'
+import { ActionResult, ActionResultBase, AppSettings } from '@/common/types'
+import { AxiosRequestConfigBuilder, isOkResponse, createSucessfulActionResultBase, createFailedActionResultBase } from '@/common/libs'
+import { Account, AuthenticateAccount, CreateAccount, PatchUpdateAccount, PutUpdateAccount } from '@/common/types/account'
+import { getCsrfToken } from 'next-auth/react'
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -12,16 +10,6 @@ const axiosClient = axios.create({
     'Content-Type': 'application/json'
   },
 })
-
-export async function initApiCient(): Promise<void> {
-  const token = await getCsrfToken()
-
-  if (!token) {
-    throw new Error('CSRF token is not defined')
-  }
-
-  csrfToken = token
-}
 
 export async function fetchSettings(): Promise<AppSettings> {
   const response = await axiosClient.get<AppSettings>(`/settings`)
@@ -52,14 +40,59 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   return response.data
 }
 
-export async function loginUser(authenticateAccountEntry: AuthenticateAccount): Promise<ActionResultBase> {
-  if (!authenticateAccountEntry) {
-    throw new Error('authenticateAccountEntry cannot be falsy')
+export async function putUpdateAccount(updateAccountEntry: PutUpdateAccount, csrfToken: string | undefined): Promise<ActionResult<Account>> {
+  if (!updateAccountEntry || !csrfToken) {
+    throw new Error('createAccountEntry and csrfToken cannot be falsy')
+  }
+
+  const payload = {
+    ...updateAccountEntry,
+    csrfToken,
+  }
+
+
+  const response = await axiosClient.put<ActionResult<Account>>(
+    `/account/update`, 
+    payload,
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.Conflict)
+      .build()
+  )
+
+  return response.data
+}
+
+export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount, csrfToken: string | undefined): Promise<ActionResult<Account>> {
+  if (!updateAccountEntry || !csrfToken) {
+    throw new Error('createAccountEntry and csrfToken cannot be falsy')
+  }
+
+  const payload = {
+    ...updateAccountEntry,
+    csrfToken,
+  }
+
+  const response = await axiosClient.patch<ActionResult<Account>>(
+    `/account/update`, 
+    payload,
+    AxiosRequestConfigBuilder
+      .create()
+      .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.NotFound)
+      .build()
+  )
+
+  return response.data
+}
+
+export async function loginUser(authenticateAccountEntry: AuthenticateAccount, authCsrfToken: string | undefined): Promise<ActionResultBase> {
+  if (!authenticateAccountEntry || !authCsrfToken) {
+    throw new Error('authenticateAccountEntry and csrfToken cannot be falsy')
   }
 
   const payload = {
     ...authenticateAccountEntry,
-    csrfToken,
+    csrfToken: authCsrfToken,
   }
   
   const response = await axiosClient.post(
@@ -77,12 +110,14 @@ export async function loginUser(authenticateAccountEntry: AuthenticateAccount): 
     : createFailedActionResultBase('Authentication failed. Please try again.')
 }
 
-export async function logoutUser(): Promise<ActionResultBase> {
-  const payload = { csrfToken }
+export async function logoutUser(authCsrfToken: string | undefined): Promise<ActionResultBase> {
+  if (!authCsrfToken) {
+    throw new Error('csrfToken cannot be falsy')
+  }
 
   const response = await axiosClient.post(
     `/auth/signout`, 
-    payload,
+    { csrfToken: authCsrfToken },
     AxiosRequestConfigBuilder
       .create()
       .addContentTypeHeader('application/x-www-form-urlencoded')

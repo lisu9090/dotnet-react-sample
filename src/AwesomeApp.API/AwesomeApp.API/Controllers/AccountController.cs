@@ -21,7 +21,7 @@ namespace AwesomeApp.API.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(AccountDto), 200)]
         [ProducesResponseType(404)]
-        public async Task<IActionResult> GetAccount([FromRoute] uint id)
+        public async Task<IActionResult> Get([FromRoute] uint id)
         {
             AccountDto? data = await _mediator.Send(new GetAccountQueryRequest
             {
@@ -36,11 +36,18 @@ namespace AwesomeApp.API.Controllers
             return NotFound();
         }
 
+        [HttpGet("list")]
+        [ProducesResponseType(typeof(IEnumerable<AccountDto>), 200)]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(new List<AccountDto>());
+        }
+
         [HttpPost]
-        [ProducesResponseType(typeof(uint), 200)]
+        [ProducesResponseType(typeof(AccountDto), 200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(409)]
-        public async Task<IActionResult> CreateAccount([FromBody] CreateAccountCommandRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateAccountCommandRequest request)
         {
             try
             {
@@ -52,10 +59,42 @@ namespace AwesomeApp.API.Controllers
             }
         }
 
+        [HttpPut]
+        [ProducesResponseType(typeof(AccountDto), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(409)]
+        public async Task<IActionResult> Update([FromBody] UpsertAccountCommandRequest request)
+        {
+            try
+            {
+                return Ok(await _mediator.Send(request));
+            }
+            catch (AccountCreationException)
+            {
+                return Conflict();
+            }
+        }
+
+        [HttpPatch]
+        [ProducesResponseType(typeof(AccountDto), 200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> Update([FromBody] UpdateAccountCommandRequest request)
+        {
+            AccountDto? data = await _mediator.Send(request);
+
+            if (data != null)
+            {
+                return Ok(data);
+            }
+
+            return NotFound();
+        }
+
         [HttpPost("authenticate")]
         [ProducesResponseType(typeof(AuthenticationResultDto), 200)]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> AuthenticateAccount([FromBody] AuthenticateAccountQueryRequest request)
+        public async Task<IActionResult> Authenticate([FromBody] AuthenticateAccountQueryRequest request)
         {
             return Ok(await _mediator.Send(request));
         }
