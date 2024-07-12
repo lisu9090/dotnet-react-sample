@@ -1,7 +1,7 @@
 import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
 import { CsrfToken } from "@/common/types"
 import { Account, CustomerType, PatchUpdateAccount } from "@/common/types/account"
-import { PageBox } from "@/frontend/components"
+import { AppPage } from "@/frontend/components"
 import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, useSimpleFormValidation } from "@/frontend/libs"
 import { useFetchWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
@@ -102,7 +102,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
    }
   
   return (
-    <PageBox>
+    <AppPage>
       <Grid container direction="column" spacing={4}>
         <Grid item>
           <Typography variant="h5">Edit Account</Typography>
@@ -188,6 +188,6 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
           </Grid>
         </Grid>
       </Grid>
-    </PageBox>
+    </AppPage>
   )
 }

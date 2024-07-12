@@ -1,5 +1,5 @@
 import { Account, AccountRole, CustomerType } from '@/common/types/account'
-import { PageBox } from '@/frontend/components'
+import { AppPage } from '@/frontend/components'
 import { Button, Grid, Typography } from '@mui/material'
 import { ReactElement } from 'react'
 import { useCallWithErrorHandling } from '@/pages/_hooks'
@@ -35,7 +35,7 @@ export default function AccountPage({ account }: Readonly<Props>): ReactElement 
   }
 
   return (
-    <PageBox>
+    <AppPage>
       <Typography
         variant="h5"
         className="mb-2"
@@ -103,6 +103,6 @@ export default function AccountPage({ account }: Readonly<Props>): ReactElement 
           </Button>
         </Grid>
       </Grid>
-    </PageBox>
+    </AppPage>
   )
 }

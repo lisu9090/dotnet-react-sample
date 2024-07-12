@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { PageBox } from '@/frontend/components';
+import { AppPage } from '@/frontend/components';
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material';
 import Link from 'next/link';
 import {
@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import { useCallWithErrorHandling, useFetchWithErrorHandling } from '@/pages/_hooks';
 import { AuthenticateAccount, CustomerType } from '@/common/types/account';
 import { PAGE_ACCOUNT, PAGE_HOME } from '@/common/consts';
+import { getCsrfToken } from 'next-auth/react';
 
 type CreateAccountForm = {
   email: string;
@@ -97,7 +98,8 @@ export default function CreateAccountPage(): ReactElement {
     }
 
   const login = async (authenticateAccount: AuthenticateAccount) => {
-    const result = await tryLoginUser(authenticateAccount)
+    const authCsrfToken = await getCsrfToken()
+    const result = await tryLoginUser(authenticateAccount, authCsrfToken)
 
     if (!result) {
       return
@@ -125,7 +127,7 @@ export default function CreateAccountPage(): ReactElement {
   }
 
   return (
-    <PageBox>
+    <AppPage>
       <Grid container direction="column" spacing={4}>
         <Grid item>
           <Typography variant="h5">Create Account</Typography>
@@ -254,6 +256,6 @@ export default function CreateAccountPage(): ReactElement {
           </Grid>
         </Grid>
       </Grid>
-    </PageBox>
+    </AppPage>
   )
 }

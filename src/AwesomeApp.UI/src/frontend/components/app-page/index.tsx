@@ -15,7 +15,7 @@ export function AppPage({ children }: any): ReactElement {
       alignItems="stretch"
     >
       <AppNavBar />
-      <Container className="mt-12 mb-6" maxWidth="md" >
+      <Container className="mt-6 mb-6" maxWidth="md" >
         <PageBox>{ children }</PageBox>
       </Container>
       <Footer />

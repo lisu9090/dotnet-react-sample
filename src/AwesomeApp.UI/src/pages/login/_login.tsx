@@ -1,4 +1,4 @@
-import { PageBox } from "@/frontend/components"
+import { AppPage } from "@/frontend/components"
 import { loginUser } from "@/frontend/libs"
 import { Button, Grid, TextField, Typography } from "@mui/material"
 import Link from "next/link"
@@ -61,7 +61,6 @@ export default function LoginPage(): ReactElement {
     }
 
     const authCsrfToken = await getCsrfToken()
-
     const result = await tryLoginUser(
       {
         email: userEmail,
@@ -76,7 +75,7 @@ export default function LoginPage(): ReactElement {
   }
 
   return (
-    <PageBox>
+    <AppPage>
       <form 
         onSubmit={(event: React.FormEvent) => {
           event.preventDefault()
@@ -149,6 +148,6 @@ export default function LoginPage(): ReactElement {
           </Grid>
         </Grid>
       </form>
-    </PageBox>
+    </AppPage>
   )
 }

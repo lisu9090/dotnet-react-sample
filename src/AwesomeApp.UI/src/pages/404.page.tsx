@@ -1,12 +1,12 @@
 import { PAGE_HOME } from '@/common/consts'
-import { PageBox } from '@/frontend/components'
+import { AppPage } from '@/frontend/components'
 import { Button, Grid, Typography } from '@mui/material'
 import Link from 'next/link'
 import { ReactElement } from 'react'
 
 export default function NotFoundPage(): ReactElement {
   return (
-    <PageBox>
+    <AppPage>
       <Grid container justifyContent="space-between">
         <Grid item xs={4}>
           <Typography variant="h5">
@@ -24,6 +24,6 @@ export default function NotFoundPage(): ReactElement {
           </Link>
         </Grid>
       </Grid>
-    </PageBox>
+    </AppPage>
   )
 }
