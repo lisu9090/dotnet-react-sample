@@ -5,15 +5,29 @@ import { ReactElement } from 'react'
 import { SpinnerProvider, SnackbarProvider, PageBox } from '@/frontend/components'
 import { useModulesInit, initAppSettingsModule } from '@/frontend/libs'
 
+const nextRootElementId = '__next'
 const inter = Inter({ subsets: ['latin'] })
+
+function applyInter(): Promise<void> {
+  return new Promise(resolve => {
+    const element = document.getElementById(nextRootElementId)
+
+    if (element) {
+      element.className = inter.className
+    }
+
+    resolve()
+  })
+}
 
 export default function App({ Component, pageProps }: any): ReactElement {
   const isAppInited = useModulesInit([
-    initAppSettingsModule,
+    applyInter,
+    initAppSettingsModule
   ])
 
   return (
-    <div className={`${inter.className} page-container`} >
+    <>
       <Head>
         <link rel="icon" href="favicon.ico" />
         <title>AwesomeApp</title>
@@ -26,6 +40,6 @@ export default function App({ Component, pageProps }: any): ReactElement {
           </SnackbarProvider>
         </SpinnerProvider>
       )}
-    </div>
+    </>
   ) 
 }

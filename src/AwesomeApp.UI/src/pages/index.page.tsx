@@ -1,5 +1,5 @@
 import { PAGE_CREATE_ACCOUNT, PAGE_LOGIN } from '@/common/consts'
-import { PageBox } from '@/frontend/components'
+import { AppPage } from '@/frontend/components'
 import { Button, Grid, Typography } from '@mui/material'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -7,7 +7,7 @@ import { ReactElement } from 'react'
 
 export default function HomePage(): ReactElement {
   return (
-    <PageBox>
+    <AppPage>
       <Grid
         container
         spacing={6}
@@ -76,6 +76,6 @@ export default function HomePage(): ReactElement {
           </Grid>
         </Grid>
       </Grid>
-    </PageBox>
+    </AppPage>
   )
 }
