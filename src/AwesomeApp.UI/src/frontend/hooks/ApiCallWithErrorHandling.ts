@@ -1,5 +1,5 @@
-import { useAppSnackbar } from './appSnackbar'
-import { useAppSpinner } from './appSpinner'
+import { useAppSnackbar } from './AppSnackbar'
+import { useAppSpinner } from './AppSpinner'
 import { isProdEnvironment } from '@/common/libs'
 import { ActionResult, ActionResultBase } from '@/common/types'
 

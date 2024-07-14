@@ -6,7 +6,7 @@ type Props = {
   height: string;
 }
 
-export function NextIcon({ width, height }: Props): ReactElement {
+export function NextIcon({ width, height }: Readonly<Props>): ReactElement {
   return (
     <SvgIcon style={{ width, height }} className="mr-2">
       <svg xmlns="http://www.w3.org/2000/svg" height="32" width="32" viewBox="0 0 32 32" fill="currentColor">

@@ -1,7 +1,6 @@
-import { ReactElement } from 'react';
-import { AppPage } from '@/frontend/components';
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material';
-import Link from 'next/link';
+import { ReactElement } from 'react'
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material'
+import Link from 'next/link'
 import {
   FormValidators,
   SimpleFormValidation,
@@ -14,13 +13,14 @@ import {
   createAccount,
   fieldEqualityValidator,
   loginUser,
-} from '@/frontend/libs';
-import { CreateAccount } from '@/common/types/account/CreateAccount';
-import { useRouter } from 'next/router';
-import { useCallWithErrorHandling, useFetchWithErrorHandling } from '@/pages/_hooks';
-import { AuthenticateAccount, CustomerType } from '@/common/types/account';
-import { PAGE_ACCOUNT, PAGE_HOME } from '@/common/consts';
-import { getCsrfToken } from 'next-auth/react';
+} from '@/frontend/libs'
+import { CreateAccount } from '@/common/types/account/CreateAccount'
+import { useRouter } from 'next/router'
+import { AuthenticateAccount, CustomerType } from '@/common/types/account'
+import { PAGE_ACCOUNT, PAGE_HOME } from '@/common/consts'
+import { getCsrfToken } from 'next-auth/react'
+import { useCallWithErrorHandling, useFetchWithErrorHandling } from '@/frontend/hooks'
+import { AppPage } from '@/frontend/views'
 
 type CreateAccountForm = {
   email: string;

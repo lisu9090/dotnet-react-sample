@@ -1,13 +1,13 @@
-import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
-import { CsrfToken } from "@/common/types"
-import { Account, CustomerType, AccountRole, PutUpdateAccount } from "@/common/types/account"
-import { AppPage } from "@/frontend/components"
-import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, putUpdateAccount, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from "@/frontend/libs"
-import { useFetchWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useState } from "react"
+import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from '@/common/consts'
+import { CsrfToken } from '@/common/types'
+import { Account, CustomerType, AccountRole, PutUpdateAccount } from '@/common/types/account'
+import { useAppSnackbar, useFetchWithErrorHandling } from '@/frontend/hooks'
+import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, putUpdateAccount, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from '@/frontend/libs'
+import { AppPage } from '@/frontend/views'
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 type Props = {
   account: Account | null

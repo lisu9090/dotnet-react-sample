@@ -1,13 +1,13 @@
 import { Account, AccountRole, CustomerType } from '@/common/types/account'
-import { AppPage } from '@/frontend/components'
 import { Button, Grid, Typography } from '@mui/material'
 import { ReactElement } from 'react'
-import { useCallWithErrorHandling } from '@/pages/_hooks'
 import { logoutUser } from '@/frontend/libs'
 import { useRouter } from 'next/router'
 import { PAGE_ACCOUNT_EDIT, PAGE_HOME } from '@/common/consts'
 import Link from 'next/link'
 import { getCsrfToken } from 'next-auth/react'
+import { useCallWithErrorHandling } from '@/frontend/hooks'
+import { AppPage } from '@/frontend/views'
 
 type Props = { 
   account: Account;

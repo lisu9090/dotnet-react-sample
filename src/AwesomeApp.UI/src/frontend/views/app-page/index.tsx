@@ -1,9 +1,8 @@
 import styles from './styles.module.css'
-import { AppNavBar } from '../app-nav-bar'
-import { Footer } from '../footer'
-import { PageBox } from '../page-box'
 import { ReactElement } from 'react'
 import { Container, Grid } from '@mui/material'
+import { Footer, PageBox } from '@/frontend/components'
+import { AppNavBar } from '../app-nav-bar'
 
 export function AppPage({ children }: any): ReactElement {
   return (
@@ -18,7 +17,7 @@ export function AppPage({ children }: any): ReactElement {
       <Container className="mt-6 mb-6" maxWidth="md" >
         <PageBox>{ children }</PageBox>
       </Container>
-      <Footer />
+      <Footer content="AwesomeApp, 2024 - App footer" />
     </Grid>
   )
 }

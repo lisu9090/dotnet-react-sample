@@ -1,5 +1,5 @@
 import { PAGE_CREATE_ACCOUNT, PAGE_LOGIN } from '@/common/consts'
-import { AppPage } from '@/frontend/components'
+import { AppPage } from '@/frontend/views'
 import { Button, Grid, Typography } from '@mui/material'
 import Image from 'next/image'
 import Link from 'next/link'

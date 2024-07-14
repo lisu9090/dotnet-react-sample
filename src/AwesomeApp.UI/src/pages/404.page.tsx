@@ -1,5 +1,5 @@
 import { PAGE_HOME } from '@/common/consts'
-import { AppPage } from '@/frontend/components'
+import { AppPage } from '@/frontend/views'
 import { Button, Grid, Typography } from '@mui/material'
 import Link from 'next/link'
 import { ReactElement } from 'react'

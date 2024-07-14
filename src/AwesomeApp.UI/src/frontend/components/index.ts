@@ -1,5 +1,5 @@
-export * from './app-nav-bar'
-export * from './app-page'
+export * from './footer'
+export * from './next-icon'
 export * from './page-box'
 export * from './snackbar'
 export * from './spinner'

@@ -1,13 +1,13 @@
-import { AppPage } from "@/frontend/components"
 import { loginUser } from "@/frontend/libs"
 import { Button, Grid, TextField, Typography } from "@mui/material"
 import Link from "next/link"
 import { ReactElement, useState } from "react"
-import { useCallWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
 import { useRouter } from "next/router"
 import { PAGE_ACCOUNT, PAGE_CREATE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
 import { ParsedUrlQuery } from "querystring"
 import { getCsrfToken } from "next-auth/react"
+import { useAppSnackbar, useCallWithErrorHandling } from "@/frontend/hooks"
+import { AppPage } from "@/frontend/views"
 
 function validateReturnUrlOrigin (url: string | undefined) {
   if (!url) {
