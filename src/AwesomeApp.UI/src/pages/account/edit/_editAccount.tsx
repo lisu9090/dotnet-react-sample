@@ -102,7 +102,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
    }
   
   return (
-    <AppPage>
+    <AppPage account={account}>
       <Grid container direction="column" spacing={4}>
         <Grid item>
           <Typography variant="h5">Edit Account</Typography>

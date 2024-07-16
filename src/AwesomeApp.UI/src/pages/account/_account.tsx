@@ -35,7 +35,7 @@ export default function AccountPage({ account }: Readonly<Props>): ReactElement 
   }
 
   return (
-    <AppPage>
+    <AppPage account={account}>
       <Typography
         variant="h5"
         className="mb-2"

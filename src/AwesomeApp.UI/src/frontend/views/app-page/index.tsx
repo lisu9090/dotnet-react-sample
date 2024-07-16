@@ -1,10 +1,16 @@
 import styles from './styles.module.css'
-import { ReactElement } from 'react'
+import { ReactElement, ReactNode } from 'react'
 import { Container, Grid } from '@mui/material'
 import { Footer, PageBox } from '@/frontend/components'
 import { AppNavBar } from '../app-nav-bar'
+import { Account } from '@/common/types/account'
 
-export function AppPage({ children }: any): ReactElement {
+type Props = {
+  account?: Account;
+  children?: ReactNode;
+}
+
+export function AppPage({ account, children }: Readonly<Props>): ReactElement {
   return (
     <Grid 
       className={styles.appPage}
@@ -13,8 +19,8 @@ export function AppPage({ children }: any): ReactElement {
       justifyContent="space-between"
       alignItems="stretch"
     >
-      <AppNavBar />
-      <Container className="mt-6 mb-6" maxWidth="md" >
+      <AppNavBar account={account} />
+      <Container className="my-6" maxWidth="md" >
         <PageBox>{ children }</PageBox>
       </Container>
       <Footer content="AwesomeApp, 2024 - App footer" />
