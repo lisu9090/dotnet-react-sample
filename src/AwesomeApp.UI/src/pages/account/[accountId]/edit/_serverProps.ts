@@ -3,17 +3,26 @@ import { accountDtotoAccount } from '@/backend/mappings'
 import { PAGE_NOT_FOUND } from '@/common/consts'
 import { AccountRole } from '@/common/types/account'
 
-export const getServerSideProps = ensureRoleAuthorized([AccountRole.Admin], async (context) => {
-  const accountId = Number.parseInt(context.params?.accountId as string)
+export const getServerSideProps = ensureRoleAuthorized([AccountRole.Admin], async (context, session) => {
+  const currentAccountDto = await getAccount(session.user.id)
 
-  if (!accountId) {
+  if (!currentAccountDto) {
     return resultRedirect(PAGE_NOT_FOUND)
   }
 
-  const accountDto = await getAccount(accountId)
+  const editedAccountId = Number.parseInt(context.params?.accountId as string)
+
+  if (!editedAccountId) {
+    return resultRedirect(PAGE_NOT_FOUND)
+  }
+
+  const editedAccountDto = await getAccount(editedAccountId)
 
   return resultPropsWithCsrfToken(
     context, 
-    { account: accountDto ? accountDtotoAccount(accountDto) : null }
+    { 
+      account: accountDtotoAccount(currentAccountDto),
+      accountToEdit: editedAccountDto ? accountDtotoAccount(editedAccountDto) : null 
+    }
   )
 })

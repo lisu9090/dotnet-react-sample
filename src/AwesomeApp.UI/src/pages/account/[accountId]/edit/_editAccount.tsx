@@ -5,12 +5,12 @@ import { useAppSnackbar, useFetchWithErrorHandling } from '@/frontend/hooks'
 import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, putUpdateAccount, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from '@/frontend/libs'
 import { AppPage } from '@/frontend/views'
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 type Props = {
-  account: Account | null
+  account: Account;
+  accountToEdit: Account | null;
 } & CsrfToken
 
 type UpdateAccountForm = {
@@ -75,12 +75,12 @@ const mapFormToPutUpdateAccount = (accontId: number, formValue: UpdateAccountFor
 
 const useUpdateWithErrorHandling = () => useFetchWithErrorHandling(putUpdateAccount)
 
-export default function EditAccountPage({ account, csrfToken }: Readonly<Props>) {
+export default function EditAccountPage({ account, accountToEdit, csrfToken }: Readonly<Props>) {
   const router = useRouter()
   const tryUpdateAccount = useUpdateWithErrorHandling()
   const { success } = useAppSnackbar()
 
-  const [ initialFormValue, setInitialFormValue ] = useState<UpdateAccountForm>(mapAccountToForm(account))
+  const [ initialFormValue, setInitialFormValue ] = useState<UpdateAccountForm>(mapAccountToForm(accountToEdit))
 
   const {
     formValue,
@@ -125,7 +125,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
   }
   
   return (
-    <AppPage>
+    <AppPage account={account}>
       <Grid container direction="column" spacing={4}>
         <Grid item>
           <Typography variant="h5">Edit Account (Admin)</Typography>
@@ -232,15 +232,14 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
           justifyContent="space-between"
         >
           <Grid item xs={4}>
-            <Link href={PAGE_ACCOUNT}>
-              <Button
-                className="w-full"
-                variant="outlined"
-                color="secondary"
-              >
-                Cancel
-              </Button>
-            </Link>
+            <Button
+              className="w-full"
+              variant="outlined"
+              color="secondary"
+              onClick={router.back}
+            >
+              Cancel
+            </Button>
           </Grid>
           <Grid item xs={4}>
             <Button

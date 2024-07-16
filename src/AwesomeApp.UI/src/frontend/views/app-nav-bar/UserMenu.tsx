@@ -42,6 +42,7 @@ export function UserMenu({ account }: Readonly<Props>): ReactElement {
 
     if (result) {
       router.push(PAGE_HOME)
+      handleCloseUserMenu()
     }
   }
   

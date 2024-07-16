@@ -1,12 +1,12 @@
-import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
-import { CsrfToken } from "@/common/types"
-import { Account, CustomerType, PatchUpdateAccount } from "@/common/types/account"
-import { useAppSnackbar, useFetchWithErrorHandling } from "@/frontend/hooks"
-import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, useSimpleFormValidation } from "@/frontend/libs"
-import { AppPage } from "@/frontend/views"
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
-import Link from "next/link"
-import { useState } from "react"
+import { DATETIME_ISO_DATE_FORMAT } from '@/common/consts'
+import { CsrfToken } from '@/common/types'
+import { Account, CustomerType, PatchUpdateAccount } from '@/common/types/account'
+import { useAppSnackbar, useFetchWithErrorHandling } from '@/frontend/hooks'
+import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, useSimpleFormValidation } from '@/frontend/libs'
+import { AppPage } from '@/frontend/views'
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 type Props = {
   account: Account;
@@ -58,6 +58,7 @@ const mapFormToPatchUpdateAccount = (formValue: UpdateAccountForm) => ({
 const useUpdateAccountWithErrorHandling = () => useFetchWithErrorHandling(patchUpdateAccount)
 
 export default function EditAccountPage({ account, csrfToken }: Readonly<Props>) {
+  const router = useRouter()
   const tryUpdateAccount = useUpdateAccountWithErrorHandling()
   const { success } = useAppSnackbar()
 
@@ -100,7 +101,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
     setFormValue(initialFormValue)
     success('Saved')
    }
-  
+
   return (
     <AppPage account={account}>
       <Grid container direction="column" spacing={4}>
@@ -166,15 +167,14 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
           justifyContent="space-between"
         >
           <Grid item xs={4}>
-            <Link href={PAGE_ACCOUNT}>
-              <Button
-                className="w-full"
-                variant="outlined"
-                color="secondary"
-              >
-                Cancel
-              </Button>
-            </Link>
+            <Button
+              className="w-full"
+              variant="outlined"
+              color="secondary"
+              onClick={router.back}
+            >
+              Cancel
+            </Button>
           </Grid>
           <Grid item xs={4}>
             <Button
