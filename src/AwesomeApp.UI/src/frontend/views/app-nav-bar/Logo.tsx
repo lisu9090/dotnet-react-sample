@@ -1,4 +1,4 @@
-import classes from './styles.module.css'
+import styles from './styles.module.css'
 import { PAGE_HOME } from '@/common/consts'
 import { NextIcon } from '@/frontend/components'
 import { Typography } from '@mui/material'
@@ -9,7 +9,7 @@ export function Logo(): ReactElement {
   return (
     <Link href={PAGE_HOME}>
       <Typography
-        className={`${classes.logoText} mr-3`}
+        className={`${styles.logoText} mr-3`}
         variant="h6"
         noWrap
       >

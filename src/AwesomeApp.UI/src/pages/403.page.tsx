@@ -1,29 +1,38 @@
 import { PAGE_HOME } from '@/common/consts'
-import { AppPage } from '@/frontend/views'
-import { Button, Grid, Typography } from '@mui/material'
+import { PageBox } from '@/frontend/components'
+import { Button, Container, Grid, Typography } from '@mui/material'
 import Link from 'next/link'
 import { ReactElement } from 'react'
 
 export default function ForbiddenPage(): ReactElement {
   return (
-    <AppPage>
-      <Grid container justifyContent="space-between">
-        <Grid item xs={4}>
-          <Typography variant="h5">
-            403 - Forbidden
-          </Typography>
-        </Grid>
-        <Grid item xs={4}>
-          <Link href={PAGE_HOME}>
-            <Button
-              className="w-full"
-              variant="outlined"
-            >
-              Return to home
-            </Button>
-          </Link>
-        </Grid>
+    <Container className="h-full" maxWidth="md">
+      <Grid 
+        container
+        className="h-full"
+        direction="column"
+        justifyContent="center"
+      >
+        <PageBox>
+          <Grid container justifyContent="space-between">
+            <Grid item xs={4}>
+              <Typography variant="h5">
+                403 - Forbidden
+              </Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <Link href={PAGE_HOME}>
+                <Button
+                  className="w-full"
+                  variant="outlined"
+                >
+                  Return to home
+                </Button>
+              </Link>
+            </Grid>
+          </Grid>
+        </PageBox>
       </Grid>
-    </AppPage>
+    </Container>
   )
 }

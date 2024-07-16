@@ -1,5 +1,5 @@
 export * from './ApiMiddlewareHandlers'
-export * from './Authorization' 
+export * from './PageAuthorization' 
 export * from './AwesomeApiClient'
 export * from './CsrfToken'
 export * from './NextAuth' 
