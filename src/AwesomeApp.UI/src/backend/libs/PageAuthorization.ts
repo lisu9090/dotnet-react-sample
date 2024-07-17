@@ -1,9 +1,9 @@
-import { PAGE_FORBIDDEN, PAGE_LOGIN, QUERY_RETURN_URL } from '@/common/consts'
+import { PAGE_LOGIN, QUERY_RETURN_URL } from '@/common/consts'
 import { AccountRole } from '@/common/types/account'
 import { GetServerSidePropsContext, GetServerSidePropsResult } from 'next'
 import { Session } from 'next-auth'
 import { getSession } from 'next-auth/react'
-import { resultProps, resultRedirect } from './ServerPropsHelpers'
+import { resultForbidden, resultProps, resultRedirect } from './ServerPropsHelpers'
 
 export type ResourceContextAuthorization = (context: GetServerSidePropsContext, session: Session) => boolean | Promise<boolean>
 
@@ -32,7 +32,7 @@ export function ensureRoleAuthorized<T>(
   return ensureAuthenticated(
     (context: GetServerSidePropsContext, session: Session) => {
       if (allowedRoles.length > 0 && !allowedRoles.includes(session.user.role)) {
-        return resultRedirect(PAGE_FORBIDDEN)
+        return resultForbidden(context)
       }
 
       if (!getServerSideProps) {
@@ -51,7 +51,7 @@ export function ensureResourceAuthorized<T>(
   return ensureAuthenticated(
     async (context: GetServerSidePropsContext, session: Session) => {
       if (!await authorize(context, session)) {
-        return resultRedirect(PAGE_FORBIDDEN)
+        return resultForbidden<T>(context)
       }
 
       if (!getServerSideProps) {

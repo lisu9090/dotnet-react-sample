@@ -1,13 +1,30 @@
 import { PAGE_HOME } from '@/common/consts'
 import { PageBox } from '@/frontend/components'
 import { Button, Container, Grid, Typography } from '@mui/material'
+import { HttpStatusCode } from 'axios'
+import { NextPageContext } from 'next'
 import Link from 'next/link'
 import { ReactElement } from 'react'
 
-export default function ForbiddenPage(): ReactElement {
+type Props = {
+  statusCode: number;
+}
+
+function ErrorPage({ statusCode }: Readonly<Props>): ReactElement {
+  const getErrorMessage = () => {
+    switch (statusCode) {
+      case HttpStatusCode.NotFound:
+        return 'Not found (404)'
+      case HttpStatusCode.Forbidden:
+        return 'Forbidden (403)'
+      default:
+        'Something went wrong' + statusCode ? ` (${statusCode})` : ''
+    }
+  }
+
   return (
     <Container className="h-full" maxWidth="md">
-      <Grid 
+      <Grid
         container
         className="h-full"
         direction="column"
@@ -17,7 +34,7 @@ export default function ForbiddenPage(): ReactElement {
           <Grid container justifyContent="space-between">
             <Grid item xs={4}>
               <Typography variant="h5">
-                403 - Forbidden
+                {getErrorMessage()}
               </Typography>
             </Grid>
             <Grid item xs={4}>
@@ -36,3 +53,9 @@ export default function ForbiddenPage(): ReactElement {
     </Container>
   )
 }
+
+ErrorPage.getInitialProps = ({ res, err }: NextPageContext) => ({
+  statusCode: res ? res.statusCode : err ? err.statusCode : HttpStatusCode.NotFound
+})
+
+export default ErrorPage
