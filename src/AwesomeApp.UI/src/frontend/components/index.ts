@@ -1,5 +1,5 @@
 export * from './footer'
-export * from './next-icon'
+export * from './next-logo'
 export * from './page-box'
 export * from './snackbar'
 export * from './spinner'

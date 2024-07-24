@@ -1,3 +1,4 @@
+import styles from './styles.module.css'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import Container from '@mui/material/Container'
@@ -24,7 +25,7 @@ export function AppNavBar({ account }: Readonly<Props>) {
           <Grid container direction="row">
             {showForRole() && (
               <Link href={PAGE_ACCOUNT}>
-                <Button color="inherit">Account</Button>
+                <Button className={styles.navBarButton} color="inherit">Account</Button>
               </Link>
             )}
           </Grid>

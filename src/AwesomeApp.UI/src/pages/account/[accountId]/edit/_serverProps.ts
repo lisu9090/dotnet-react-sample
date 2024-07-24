@@ -1,4 +1,4 @@
-import { ensureRoleAuthorized, getAccount, resultNotFound, resultPropsWithCsrfToken, resultRedirect } from '@/backend/libs'
+import { ensureRoleAuthorized, getAccount, resultNotFound, resultPropsWithCsrfToken } from '@/backend/libs'
 import { accountDtotoAccount } from '@/backend/mappings'
 import { AccountRole } from '@/common/types/account'
 

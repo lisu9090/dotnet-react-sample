@@ -1,4 +1,4 @@
-import { ensureAuthenticated, getAccount, resultNotFound, resultProps, resultRedirect } from '@/backend/libs'
+import { ensureAuthenticated, getAccount, resultNotFound, resultProps } from '@/backend/libs'
 import { accountDtotoAccount } from '@/backend/mappings'
 
 export const getServerSideProps = ensureAuthenticated(async (_, session) => {
