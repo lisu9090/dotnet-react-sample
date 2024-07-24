@@ -7,7 +7,7 @@ import { PAGE_ACCOUNT, PAGE_CREATE_ACCOUNT, QUERY_RETURN_URL } from "@/common/co
 import { ParsedUrlQuery } from "querystring"
 import { getCsrfToken } from "next-auth/react"
 import { useAppSnackbar, useCallWithErrorHandling } from "@/frontend/hooks"
-import { AppPage } from "@/frontend/views"
+import { AppPage, AppPageTitle } from "@/frontend/views"
 
 function validateReturnUrlOrigin (url: string | undefined) {
   if (!url) {
@@ -89,7 +89,7 @@ export default function LoginPage(): ReactElement {
           spacing={4}
         >
           <Grid item>
-            <Typography variant="h5">Login to AwesomeApp</Typography>
+            <AppPageTitle>Login to AwesomeApp</AppPageTitle>
           </Grid>
           <Grid 
             item 

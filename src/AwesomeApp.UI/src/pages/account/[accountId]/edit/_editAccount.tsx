@@ -1,10 +1,10 @@
-import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from '@/common/consts'
+import { DATETIME_ISO_DATE_FORMAT } from '@/common/consts'
 import { CsrfToken } from '@/common/types'
 import { Account, CustomerType, AccountRole, PutUpdateAccount } from '@/common/types/account'
 import { useAppSnackbar, useFetchWithErrorHandling } from '@/frontend/hooks'
 import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, putUpdateAccount, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from '@/frontend/libs'
-import { AppPage } from '@/frontend/views'
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material'
+import { AppPage, AppPageTitle } from '@/frontend/views'
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
@@ -128,7 +128,7 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
     <AppPage account={account}>
       <Grid container direction="column" spacing={4}>
         <Grid item>
-          <Typography variant="h5">Edit Account (Admin)</Typography>
+          <AppPageTitle>Edit account (Admin)</AppPageTitle>
         </Grid>
         <Grid
           item
@@ -238,7 +238,7 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
               color="secondary"
               onClick={router.back}
             >
-              Cancel
+              Back
             </Button>
           </Grid>
           <Grid item xs={4}>

@@ -1,5 +1,5 @@
 import { getAccount, resultProps } from '@/backend/libs'
-import { accountDtotoAccount } from '@/backend/mappings'
+import { accountDtoToAccount } from '@/backend/mappings'
 import { Account } from '@/common/types/account'
 import { GetServerSidePropsContext } from 'next'
 import { getSession } from 'next-auth/react'
@@ -18,6 +18,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
   const accountDto = await getAccount(session.user.id)
 
   return resultProps<Props>({ 
-    account: accountDto ? accountDtotoAccount(accountDto) : undefined
+    account: accountDto ? accountDtoToAccount(accountDto) : undefined
   })
 }

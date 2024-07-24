@@ -1,32 +1,20 @@
 import { Account, AccountRole, CustomerType } from '@/common/types/account'
 import { Grid, Typography } from '@mui/material'
 import { ReactElement } from 'react'
-import { logoutUser } from '@/frontend/libs'
-import { useRouter } from 'next/router'
-import { PAGE_HOME } from '@/common/consts'
-import { getCsrfToken } from 'next-auth/react'
-import { useCallWithErrorHandling } from '@/frontend/hooks'
-import { AppPage } from '@/frontend/views'
+import { AppPage, AppPageTitle } from '@/frontend/views'
 
 type Props = { 
   account: Account;
 }
 
 export default function AccountPage({ account }: Readonly<Props>): ReactElement {
-  const router = useRouter()
-
   const roleName = AccountRole[account.accountRole]
   const customerTypeName = CustomerType[account.customerType]
   const dateOfBirth = new Date(account.dateOfBirth)
 
   return (
     <AppPage account={account}>
-      <Typography
-        variant="h5"
-        className="mb-2"
-      >
-        Account Details
-      </Typography>
+      <AppPageTitle>Account dashboard</AppPageTitle>
       <Grid
         item
         container

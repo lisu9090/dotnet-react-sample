@@ -1,5 +1,5 @@
 import { ensureRoleAuthorized, getAccount, resultNotFound, resultPropsWithCsrfToken } from '@/backend/libs'
-import { accountDtotoAccount } from '@/backend/mappings'
+import { accountDtoToAccount } from '@/backend/mappings'
 import { AccountRole } from '@/common/types/account'
 
 export const getServerSideProps = ensureRoleAuthorized([AccountRole.Admin], async (context, session) => {
@@ -20,8 +20,8 @@ export const getServerSideProps = ensureRoleAuthorized([AccountRole.Admin], asyn
   return resultPropsWithCsrfToken(
     context, 
     { 
-      account: accountDtotoAccount(currentAccountDto),
-      accountToEdit: editedAccountDto ? accountDtotoAccount(editedAccountDto) : null 
+      account: accountDtoToAccount(currentAccountDto),
+      accountToEdit: editedAccountDto ? accountDtoToAccount(editedAccountDto) : null 
     }
   )
 })

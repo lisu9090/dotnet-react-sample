@@ -1,6 +1,6 @@
 import { PAGE_CREATE_ACCOUNT, PAGE_LOGIN } from '@/common/consts'
 import { Account } from '@/common/types/account'
-import { AppPage } from '@/frontend/views'
+import { AppPage, AppPageTitle } from '@/frontend/views'
 import { Button, Grid, Typography } from '@mui/material'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -26,7 +26,7 @@ export default function HomePage({ account }: Readonly<Props>): ReactElement {
           container
           justifyContent="center"
         >
-          <Typography variant="h5">Welcome to AwesomeApp</Typography>
+          <AppPageTitle>Welcome to AwesomeApp</AppPageTitle>
         </Grid>
         <Grid
           item

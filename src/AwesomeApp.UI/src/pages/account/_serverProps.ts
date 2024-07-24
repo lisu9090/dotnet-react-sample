@@ -1,5 +1,5 @@
 import { ensureAuthenticated, getAccount, resultNotFound, resultProps } from '@/backend/libs'
-import { accountDtotoAccount } from '@/backend/mappings'
+import { accountDtoToAccount } from '@/backend/mappings'
 
 export const getServerSideProps = ensureAuthenticated(async (_, session) => {
   const accountDto = await getAccount(session.user.id)
@@ -9,6 +9,6 @@ export const getServerSideProps = ensureAuthenticated(async (_, session) => {
   }
 
   return resultProps({ 
-    account: accountDtotoAccount(accountDto) 
+    account: accountDtoToAccount(accountDto) 
   })
 })

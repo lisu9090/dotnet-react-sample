@@ -3,8 +3,8 @@ import { CsrfToken } from '@/common/types'
 import { Account, CustomerType, PatchUpdateAccount } from '@/common/types/account'
 import { useAppSnackbar, useFetchWithErrorHandling } from '@/frontend/hooks'
 import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, useSimpleFormValidation } from '@/frontend/libs'
-import { AppPage } from '@/frontend/views'
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material'
+import { AppPage, AppPageTitle } from '@/frontend/views'
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
@@ -106,7 +106,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
     <AppPage account={account}>
       <Grid container direction="column" spacing={4}>
         <Grid item>
-          <Typography variant="h5">Edit Account</Typography>
+          <AppPageTitle>Edit account</AppPageTitle>
         </Grid>
         <Grid
           item

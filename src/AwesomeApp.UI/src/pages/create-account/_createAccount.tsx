@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material'
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
 import Link from 'next/link'
 import {
   FormValidators,
@@ -20,7 +20,7 @@ import { AuthenticateAccount, CustomerType } from '@/common/types/account'
 import { PAGE_ACCOUNT, PAGE_HOME } from '@/common/consts'
 import { getCsrfToken } from 'next-auth/react'
 import { useCallWithErrorHandling, useFetchWithErrorHandling } from '@/frontend/hooks'
-import { AppPage } from '@/frontend/views'
+import { AppPage, AppPageTitle } from '@/frontend/views'
 
 type CreateAccountForm = {
   email: string;
@@ -130,7 +130,7 @@ export default function CreateAccountPage(): ReactElement {
     <AppPage>
       <Grid container direction="column" spacing={4}>
         <Grid item>
-          <Typography variant="h5">Create Account</Typography>
+          <AppPageTitle>Create account</AppPageTitle>
         </Grid>
         <Grid
           item
