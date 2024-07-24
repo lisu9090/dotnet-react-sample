@@ -1,6 +1,6 @@
-﻿using AwesomeApp.Application.Features.Accounts.Commands;
+﻿using AwesomeApp.Application.Features;
+using AwesomeApp.Application.Features.Accounts.Commands;
 using AwesomeApp.Application.Features.Accounts.Dtos;
-using AwesomeApp.Application.Features.Accounts.Exceptions;
 using AwesomeApp.Application.Features.Accounts.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,8 +19,8 @@ namespace AwesomeApp.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(AccountDto), 200)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(AccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get([FromRoute] uint id)
         {
             AccountDto? data = await _mediator.Send(new GetAccountQueryRequest
@@ -37,48 +37,35 @@ namespace AwesomeApp.API.Controllers
         }
 
         [HttpGet("list")]
-        [ProducesResponseType(typeof(IEnumerable<AccountDto>), 200)]
-        public async Task<IActionResult> Get()
+        [ProducesResponseType(typeof(PaginationResult<AccountDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> Get([FromQuery] GetAccountsQueryRequest request)
         {
-            return Ok(new List<AccountDto>());
+            return Ok(await _mediator.Send(request));
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(AccountDto), 200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(409)]
+        [ProducesResponseType(typeof(AccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create([FromBody] CreateAccountCommandRequest request)
         {
-            try
-            {
-                return Ok(await _mediator.Send(request));
-            }
-            catch (AccountCreationException)
-            {
-                return Conflict();
-            }
+            return Ok(await _mediator.Send(request));
         }
 
         [HttpPut]
-        [ProducesResponseType(typeof(AccountDto), 200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(409)]
+        [ProducesResponseType(typeof(AccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Update([FromBody] UpsertAccountCommandRequest request)
         {
-            try
-            {
-                return Ok(await _mediator.Send(request));
-            }
-            catch (AccountCreationException)
-            {
-                return Conflict();
-            }
+            return Ok(await _mediator.Send(request));
         }
 
         [HttpPatch]
-        [ProducesResponseType(typeof(AccountDto), 200)]
-        [ProducesResponseType(400)]
-        [ProducesResponseType(404)]
+        [ProducesResponseType(typeof(AccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Update([FromBody] UpdateAccountCommandRequest request)
         {
             AccountDto? data = await _mediator.Send(request);
@@ -91,9 +78,21 @@ namespace AwesomeApp.API.Controllers
             return NotFound();
         }
 
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Delete([FromRoute] uint id)
+        {
+            await _mediator.Send(new DeleteAccountCommandRequest
+            {
+                Id = id
+            });
+
+            return NoContent();
+        }
+
         [HttpPost("authenticate")]
-        [ProducesResponseType(typeof(AuthenticationResultDto), 200)]
-        [ProducesResponseType(400)]
+        [ProducesResponseType(typeof(AuthenticationResultDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Authenticate([FromBody] AuthenticateAccountQueryRequest request)
         {
             return Ok(await _mediator.Send(request));
