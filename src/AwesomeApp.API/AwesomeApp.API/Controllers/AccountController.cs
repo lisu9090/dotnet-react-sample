@@ -37,7 +37,7 @@ namespace AwesomeApp.API.Controllers
         }
 
         [HttpGet("list")]
-        [ProducesResponseType(typeof(PaginationResult<AccountDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaginationResultDto<AccountDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Get([FromQuery] GetAccountsQueryRequest request)
         {

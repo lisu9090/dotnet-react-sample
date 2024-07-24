@@ -2,9 +2,9 @@
 
 namespace AwesomeApp.Application.Features
 {
-    public class PaginationResult<T> : IEnumerable<T>
+    public class PaginationResultDto<T> : IEnumerable<T>
     {
-        private PaginationResult() 
+        private PaginationResultDto() 
         {
         }
 
@@ -16,8 +16,8 @@ namespace AwesomeApp.Application.Features
 
         public uint TotalCount { get; private set; }
 
-        public static PaginationResult<T> Create(IEnumerable<T> items, uint pageNumber, uint pageSize, uint totalCount) =>
-            new PaginationResult<T>()
+        public static PaginationResultDto<T> Create(IEnumerable<T> items, uint pageNumber, uint pageSize, uint totalCount) =>
+            new PaginationResultDto<T>()
             {
                 Items = new List<T>(items).AsReadOnly(),
                 PageNumber = pageNumber,

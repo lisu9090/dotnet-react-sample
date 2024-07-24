@@ -3,7 +3,7 @@ using MediatR;
 
 namespace AwesomeApp.Application.Features.Accounts.Queries
 {
-    public class GetAccountsQueryRequest : IRequest<PaginationResult<AccountDto>>
+    public class GetAccountsQueryRequest : IRequest<PaginationResultDto<AccountDto>>
     {
         /// <summary>
         /// Gets or sets PageNumber
