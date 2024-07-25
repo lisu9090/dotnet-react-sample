@@ -1,4 +1,4 @@
-import { getAccountsHandler } from '@/backend/handlers/AccountHandlers'
+import { deleteAccountHandler } from '@/backend/handlers/AccountHandlers'
 import { withEndpoints, withErrorHandling, withRoleAuthorization } from '@/backend/libs'
 import { HttpMethod } from '@/common/types/HttpMethod'
 import { AccountRole } from '@/common/types/account'
@@ -8,7 +8,7 @@ withErrorHandling(
   withRoleAuthorization(
     [AccountRole.Admin],
     withEndpoints({
-      [HttpMethod.get]: getAccountsHandler
+      [HttpMethod.delete]: deleteAccountHandler
     })
   )
 )

@@ -1,25 +1,39 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { HttpStatusCode } from 'axios'
-import { ActionResult } from '@/common/types'
+import { ActionResult, ActionResultBase, PaginationResult } from '@/common/types'
 import { CreateAccountDto, PatchUpdateAccountDto } from '@/backend/dtos'
-import { createFailedActionResult, createSucessfulActionResult } from '@/common/libs'
+import { createFailedActionResult, createSucessfulActionResult, createSucessfulActionResultBase } from '@/common/libs'
 import { 
   getAccounts, 
   createAccount, 
   putUpdateAccount as putUpdateAccountApiCall,
-  patchUpdateAccount as patchUpdateAccountApiCall, 
+  patchUpdateAccount as patchUpdateAccountApiCall,
+  deleteAccount, 
 } from '@/backend/libs'
-import { accountDtoToAccount, accountDtosToAccounts } from '../mappings'
+import { accountDtoToAccount, accountDtosToAccounts, paginationResultDtoToPaginationResult } from '../mappings'
 import { Account, AccountRole } from '@/common/types/account'
 import { Session } from 'next-auth'
 
-export async function getAccountsList(_: NextApiRequest, res: NextApiResponse<ActionResult<Account[]>>): Promise<void> {
-  const accountDtos = await getAccounts()
+export async function getAccountsHandler(req: NextApiRequest, res: NextApiResponse<ActionResult<PaginationResult<Account>>>): Promise<void> {  
+  const pageNumber = req.query.pageNumber as string | undefined
+  const pageSize = req.query.pageSize as string | undefined
+    
+  const paginationResult = await getAccounts({ 
+    pageNumber: Number.parseInt(pageNumber ?? '1'),
+    pageSize: Number.parseInt(pageSize ?? '20')
+  })
 
-  res.send(createSucessfulActionResult(accountDtosToAccounts(accountDtos)))
+  res.send(
+    createSucessfulActionResult(
+      paginationResultDtoToPaginationResult({
+        ...paginationResult,
+        items: accountDtosToAccounts(paginationResult.items)
+      })
+    )
+  )
 }
 
-export async function postCreateAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<number>>): Promise<void> {
+export async function postCreateAccountHandler(req: NextApiRequest, res: NextApiResponse<ActionResult<number>>): Promise<void> {
   const payload: CreateAccountDto = {
     ...req.body,
     accountRole: AccountRole.User
@@ -35,7 +49,7 @@ export async function postCreateAccount(req: NextApiRequest, res: NextApiRespons
   }
 }
 
-export async function putUpdateAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<Account>>): Promise<void> {
+export async function putUpdateAccountHandler(req: NextApiRequest, res: NextApiResponse<ActionResult<Account>>): Promise<void> {
   const accountDto = await putUpdateAccountApiCall(req.body)
 
   if (accountDto) {
@@ -46,7 +60,7 @@ export async function putUpdateAccount(req: NextApiRequest, res: NextApiResponse
   }
 }
 
-export async function patchUpdateAccount(req: NextApiRequest, res: NextApiResponse<ActionResult<Account>>, session: Session): Promise<void> {
+export async function patchUpdateAccountHandler(req: NextApiRequest, res: NextApiResponse<ActionResult<Account>>, session: Session): Promise<void> {
   const payload: PatchUpdateAccountDto = {
     ...req.body,
     id: session.user.id
@@ -60,4 +74,12 @@ export async function patchUpdateAccount(req: NextApiRequest, res: NextApiRespon
     res.status(HttpStatusCode.NotFound)
       .send(createFailedActionResult('Account not found'))
   }
+}
+
+export async function deleteAccountHandler(req: NextApiRequest, res: NextApiResponse<ActionResultBase>): Promise<void> {
+  const accountId = req.query.accountId as string
+
+  await deleteAccount(Number.parseInt(accountId))
+
+  res.send(createSucessfulActionResultBase())
 }

@@ -1,5 +1,5 @@
 import axios, { HttpStatusCode } from 'axios';
-import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto, PatchUpdateAccountDto, PutUpdateAccountDto } from '@/backend/dtos';
+import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto, PaginationResultDto, PatchUpdateAccountDto, PutUpdateAccountDto } from '@/backend/dtos';
 import { AxiosRequestConfigBuilder, getDataOrNullTransformer } from '@/common/libs';
 
 const axiosClient = axios.create({
@@ -9,6 +9,12 @@ const axiosClient = axios.create({
     'X-Awesome-API-Key': process.env.AWESOME_API_KEY
   },
 })
+
+const toQueryParams = (parametersDictionary: { [parameter: string]: string | number }) => 
+  "?" + Object
+    .keys(parametersDictionary)
+    .map(parameter => `${parameter}=${encodeURI(parametersDictionary[parameter].toString())}`)
+    .join('&')
 
 export async function getAccount(id: number): Promise<AccountDto | null> {
   if (id <= 0) {
@@ -27,8 +33,12 @@ export async function getAccount(id: number): Promise<AccountDto | null> {
   return response.data
 }
 
-export async function getAccounts(): Promise<AccountDto[]> {
-  const response = await axiosClient.get<AccountDto[]>(`/account/list`)
+export async function getAccounts(params: { pageNumber: number, pageSize: number }): Promise<PaginationResultDto<AccountDto>> {
+  if (!params) {
+    throw new Error(`Parameter params cannot be falsy`)
+  }
+
+  const response = await axiosClient.get<PaginationResultDto<AccountDto>>(`/account/list` + toQueryParams(params))
 
   return response.data
 }
@@ -38,7 +48,7 @@ export async function createAccount(createAccountDto: CreateAccountDto): Promise
     throw new Error(`Parameter createAccountDto cannot be falsy`)
   }
 
-  const response = await axiosClient.post<AccountDto>(
+  const response = await axiosClient.post<AccountDto | null>(
     `/account`, 
     createAccountDto,
     AxiosRequestConfigBuilder
@@ -56,7 +66,7 @@ export async function putUpdateAccount(updateAccountDto: PutUpdateAccountDto): P
     throw new Error(`Parameter updateAccountDto cannot be falsy`)
   }
 
-  const response = await axiosClient.put<AccountDto>(
+  const response = await axiosClient.put<AccountDto | null>(
     `/account`, 
     updateAccountDto,
     AxiosRequestConfigBuilder
@@ -74,7 +84,7 @@ export async function patchUpdateAccount(updateAccountDto: PatchUpdateAccountDto
     throw new Error(`Parameter updateAccountDto cannot be falsy`)
   }
 
-  const response = await axiosClient.patch<AccountDto>(
+  const response = await axiosClient.patch<AccountDto | null>(
     `/account`, 
     updateAccountDto,
     AxiosRequestConfigBuilder
@@ -85,6 +95,14 @@ export async function patchUpdateAccount(updateAccountDto: PatchUpdateAccountDto
   )
 
   return response.data
+}
+
+export async function deleteAccount(id: number): Promise<void> {
+  if (id <= 0) {
+    throw new Error(`Parameter id must be positive intiger`)
+  }
+
+  await axiosClient.delete(`/account/${id}`)
 }
 
 export async function authenticateAccount(authenticateAccountDto: AuthenticateAccountDto): Promise<AuthenticationResultDto> {

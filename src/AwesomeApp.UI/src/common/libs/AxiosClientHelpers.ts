@@ -1,5 +1,5 @@
 import axios, { HttpStatusCode, AxiosRequestConfig, AxiosResponse, AxiosResponseTransformer } from 'axios'
-import { HEADER_CONTENT_TYPE, HEADER_CSRF_TOKEN } from '../consts'
+import { HEADER_CONTENT_TYPE } from '../consts'
 
 export const isOkStatusCode = (status: number | undefined): boolean =>
   !!status && status >= 200 && status < 300

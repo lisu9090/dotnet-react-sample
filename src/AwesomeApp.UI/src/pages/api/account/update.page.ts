@@ -1,4 +1,4 @@
-import { patchUpdateAccount, putUpdateAccount } from '@/backend/handlers/AccountHandlers'
+import { patchUpdateAccountHandler, putUpdateAccountHandler } from '@/backend/handlers/AccountHandlers'
 import { withErrorHandling, withEndpoints, withRoleAuthorization, withAuthentication, withCsrfTokenValidation } from '@/backend/libs'
 import { HttpMethod } from '@/common/types'
 import { AccountRole } from '@/common/types/account'
@@ -9,10 +9,10 @@ withErrorHandling(
     withEndpoints({
       [HttpMethod.put]: withRoleAuthorization(
         [AccountRole.Admin],
-        putUpdateAccount
+        putUpdateAccountHandler
       ),
       [HttpMethod.patch]: withAuthentication(
-        patchUpdateAccount
+        patchUpdateAccountHandler
       )   
     })
   )
