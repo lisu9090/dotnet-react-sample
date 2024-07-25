@@ -50,3 +50,10 @@ export class AxiosRequestConfigBuilder {
     return this.config
   }
 }
+
+export const toQueryParams = (parametersDictionary: { [parameter: string]: string | number }) => 
+  "?" + Object
+    .keys(parametersDictionary)
+    .map(parameter => `${parameter}=${encodeURI(parametersDictionary[parameter].toString())}`)
+    .join('&')
+    

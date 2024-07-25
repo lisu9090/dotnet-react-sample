@@ -1,6 +1,6 @@
 import axios, { HttpStatusCode } from 'axios';
 import { AccountDto, AuthenticateAccountDto, AuthenticationResultDto, CreateAccountDto, PaginationResultDto, PatchUpdateAccountDto, PutUpdateAccountDto } from '@/backend/dtos';
-import { AxiosRequestConfigBuilder, getDataOrNullTransformer } from '@/common/libs';
+import { AxiosRequestConfigBuilder, getDataOrNullTransformer, toQueryParams } from '@/common/libs';
 
 const axiosClient = axios.create({
   baseURL: process.env.AWESOME_API_URL,
@@ -9,12 +9,6 @@ const axiosClient = axios.create({
     'X-Awesome-API-Key': process.env.AWESOME_API_KEY
   },
 })
-
-const toQueryParams = (parametersDictionary: { [parameter: string]: string | number }) => 
-  "?" + Object
-    .keys(parametersDictionary)
-    .map(parameter => `${parameter}=${encodeURI(parametersDictionary[parameter].toString())}`)
-    .join('&')
 
 export async function getAccount(id: number): Promise<AccountDto | null> {
   if (id <= 0) {

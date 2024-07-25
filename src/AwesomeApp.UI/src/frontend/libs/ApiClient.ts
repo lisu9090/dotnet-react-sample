@@ -1,8 +1,7 @@
 import axios, { HttpStatusCode } from 'axios'
-import { ActionResult, ActionResultBase, AppSettings } from '@/common/types'
-import { AxiosRequestConfigBuilder, isOkResponse, createSucessfulActionResultBase, createFailedActionResultBase } from '@/common/libs'
+import { ActionResult, ActionResultBase, AppSettings, PaginationResult } from '@/common/types'
+import { AxiosRequestConfigBuilder, isOkResponse, createSucessfulActionResultBase, createFailedActionResultBase, toQueryParams } from '@/common/libs'
 import { Account, AuthenticateAccount, CreateAccount, PatchUpdateAccount, PutUpdateAccount } from '@/common/types/account'
-import { getCsrfToken } from 'next-auth/react'
 
 const axiosClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -17,8 +16,12 @@ export async function fetchSettings(): Promise<AppSettings> {
   return response.data
 }
 
-export async function fetchAccountsList(): Promise<ActionResult<Account[]>> {
-  const response = await axiosClient.get<ActionResult<Account[]>>(`/account/list`)
+export async function fetchAccounts(params: { pageNumber: number, pageSize: number }): Promise<ActionResult<PaginationResult<Account>>> {
+  if (!params) {
+    throw new Error('params cannot be falsy')
+  }
+  
+  const response = await axiosClient.get<ActionResult<PaginationResult<Account>>>(`/accounts` + toQueryParams(params))
 
   return response.data
 }
@@ -29,7 +32,7 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   }
 
   const response = await axiosClient.post<ActionResult<number>>(
-    `/account/create`, 
+    `/account`, 
     createAccountEntry,
     AxiosRequestConfigBuilder
       .create()
@@ -52,7 +55,7 @@ export async function putUpdateAccount(updateAccountEntry: PutUpdateAccount, csr
 
 
   const response = await axiosClient.put<ActionResult<Account>>(
-    `/account/update`, 
+    `/account`, 
     payload,
     AxiosRequestConfigBuilder
       .create()
@@ -74,13 +77,23 @@ export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount,
   }
 
   const response = await axiosClient.patch<ActionResult<Account>>(
-    `/account/update`, 
+    `/account`, 
     payload,
     AxiosRequestConfigBuilder
       .create()
       .addAcceptStatusCodes(HttpStatusCode.Ok, HttpStatusCode.NotFound)
       .build()
   )
+
+  return response.data
+}
+
+export async function deleteAccount(id: number): Promise<ActionResultBase> {
+  if (id <= 0) {
+    throw new Error(`id must be positive intiger`)
+  }
+
+  const response = await axiosClient.delete<ActionResultBase>(`/account/${id}`)
 
   return response.data
 }
