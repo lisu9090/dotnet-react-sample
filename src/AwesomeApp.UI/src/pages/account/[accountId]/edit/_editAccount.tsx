@@ -1,7 +1,7 @@
 import { DATETIME_ISO_DATE_FORMAT } from '@/common/consts'
 import { CsrfToken } from '@/common/types'
 import { Account, CustomerType, AccountRole, PutUpdateAccount } from '@/common/types/account'
-import { useAppSnackbar, useFetchWithErrorHandling } from '@/frontend/hooks'
+import { useAppSnackbar, useSendWithErrorHandling } from '@/frontend/hooks'
 import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, putUpdateAccount, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from '@/frontend/libs'
 import { AppPage, AppPageTitle } from '@/frontend/views'
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
@@ -73,7 +73,7 @@ const mapFormToPutUpdateAccount = (accontId: number, formValue: UpdateAccountFor
   accountRole: Number.parseInt(formValue.accountRole) as AccountRole,
 } as PutUpdateAccount)
 
-const useUpdateWithErrorHandling = () => useFetchWithErrorHandling(putUpdateAccount)
+const useUpdateWithErrorHandling = () => useSendWithErrorHandling(putUpdateAccount)
 
 export default function EditAccountPage({ account, accountToEdit, csrfToken }: Readonly<Props>) {
   const router = useRouter()

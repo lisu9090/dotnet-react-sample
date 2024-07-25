@@ -19,7 +19,7 @@ import { useRouter } from 'next/router'
 import { AuthenticateAccount, CustomerType } from '@/common/types/account'
 import { PAGE_ACCOUNT, PAGE_HOME } from '@/common/consts'
 import { getCsrfToken } from 'next-auth/react'
-import { useCallWithErrorHandling, useFetchWithErrorHandling } from '@/frontend/hooks'
+import { useCallWithErrorHandling, useSendWithErrorHandling } from '@/frontend/hooks'
 import { AppPage, AppPageTitle } from '@/frontend/views'
 
 type CreateAccountForm = {
@@ -72,7 +72,7 @@ const toCreateAccount = (formValue: CreateAccountForm) => ({
   customerType: Number.parseInt(formValue.customerType) as CustomerType
 } as CreateAccount)
 
-const useCreateAccountWithErrorHandling = () => useFetchWithErrorHandling(createAccount)
+const useCreateAccountWithErrorHandling = () => useSendWithErrorHandling(createAccount)
 
 const useLoginUserWithErrorHandling = () => useCallWithErrorHandling(loginUser)
 

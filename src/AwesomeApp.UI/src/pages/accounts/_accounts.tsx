@@ -1,10 +1,13 @@
-import { Account } from '@/common/types/account'
+import { Account, AccountRole } from '@/common/types/account'
 import { AppPage, AppPageTitle } from '@/frontend/views'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { useFetchWithErrorHandling } from '@/frontend/hooks'
 import { fetchAccounts } from '@/frontend/libs'
-import useSWR from 'swr'
+import Link from 'next/link'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import { Button } from '@mui/material'
 
 type Props = { 
   account: Account;
@@ -35,53 +38,57 @@ const columns = [
   {
     field: 'accountRole',
     headerName: 'Role',
-    flex: 1
+    flex: 1,
+    renderCell: ({ value }) => AccountRole[value]
   },
   {
     field: 'actions',
     headerName: 'Actions',
-    sortable: false
+    sortable: false,
+    renderCell: ({ id }) => (
+      <>
+        <Link href={`/account/${id}/edit`}>
+          <Button className="p-0 min-w-0 mr-3">
+            <ManageAccountsIcon />
+          </Button>
+        </Link>
+        <Button 
+          className="p-0 min-w-0" 
+          color="error"
+        >
+          <DeleteForeverIcon />
+        </Button>
+      </>
+    )
   },
 ] as GridColDef[]
 
 function useFetchAccountsWithErrorHandling(pageNumber: number, pageSize: number) {
-  return useSWR(
-    'fetchAccounts',
-    useFetchWithErrorHandling(
-      () => fetchAccounts({ pageNumber, pageSize })
-    )
+  return useFetchWithErrorHandling(
+    { pageNumber, pageSize },
+    fetchAccounts
   )
 }
   
 export default function Accounts({ account }: Readonly<Props>): ReactElement {
+  const [paginationModel, setPaginationModel] = useState<{page: number, pageSize: number}>({
+    page: 1,
+    pageSize: pageSizeOptions[0]
+  })
 
-  // const [items, setItems] = useState<Account[]>([])
-  const [pageNumber, setPageNumber] = useState<number>(1)
-  const [pageSize, setPageSize] = useState<number>(20)
-  // const [totalCount, setTotalCount] = useState<number>(0)
-
-  const { data } = useFetchAccountsWithErrorHandling(pageNumber, pageSize)
-
-  // useEffect(
-  //   () => {
-  //     tryFetchAccounts({ pageNumber, pageSize }).then(paginationResult => {
-  //       setItems(paginationResult.items)
-  //       setPageNumber(paginationResult.pageNumber)
-  //       setPageSize(paginationResult.pageSize)
-  //       setTotalCount(paginationResult.totalCount)
-  //     })
-  //   },
-  //   [tryFetchAccounts, pageNumber, pageSize]
-  // )
-
+  const paginationResult = useFetchAccountsWithErrorHandling(paginationModel.page, paginationModel.pageSize)
+  
   return (
     <AppPage account={account}>
       <AppPageTitle>Manage accounts</AppPageTitle>
       <DataGrid
-        rows={data?.items}
         columns={columns}
+        rows={paginationResult?.items}
         pageSizeOptions={pageSizeOptions}
-        rowCount={data?.totalCount}
+        rowCount={paginationResult?.totalCount}
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
+        paginationMode="server"
         disableColumnMenu
         disableColumnResize
       />

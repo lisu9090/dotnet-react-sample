@@ -1,7 +1,7 @@
 import { DATETIME_ISO_DATE_FORMAT } from '@/common/consts'
 import { CsrfToken } from '@/common/types'
 import { Account, CustomerType, PatchUpdateAccount } from '@/common/types/account'
-import { useAppSnackbar, useFetchWithErrorHandling } from '@/frontend/hooks'
+import { useAppSnackbar, useSendWithErrorHandling } from '@/frontend/hooks'
 import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, useSimpleFormValidation } from '@/frontend/libs'
 import { AppPage, AppPageTitle } from '@/frontend/views'
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
@@ -55,7 +55,7 @@ const mapFormToPatchUpdateAccount = (formValue: UpdateAccountForm) => ({
   customerType: Number.parseInt(formValue.customerType) as CustomerType || undefined,
 } as PatchUpdateAccount)
 
-const useUpdateAccountWithErrorHandling = () => useFetchWithErrorHandling(patchUpdateAccount)
+const useUpdateAccountWithErrorHandling = () => useSendWithErrorHandling(patchUpdateAccount)
 
 export default function EditAccountPage({ account, csrfToken }: Readonly<Props>) {
   const router = useRouter()

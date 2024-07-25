@@ -1,8 +1,6 @@
-﻿using System.Collections;
-
-namespace AwesomeApp.Application.Features
+﻿namespace AwesomeApp.Application.Features
 {
-    public class PaginationResultDto<T> : IEnumerable<T>
+    public class PaginationResultDto<T>
     {
         private PaginationResultDto(IEnumerable<T> items) 
         {
@@ -24,15 +22,5 @@ namespace AwesomeApp.Application.Features
                 PageSize = pageSize,
                 TotalCount = totalCount
             };
-
-        public IEnumerator<T> GetEnumerator()
-        {
-            return Items.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
     }
 }
