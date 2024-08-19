@@ -1,6 +1,6 @@
 import { Account, AccountRole } from '@/common/types/account'
 import { AppPage, AppPageTitle } from '@/frontend/views'
-import { ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useMemo, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { useFetchWithErrorHandling } from '@/frontend/hooks'
 import { fetchAccounts } from '@/frontend/libs'
@@ -15,8 +15,8 @@ type Props = {
 }
 
 type PageOptions = {
-  page: number, 
-  pageSize: number
+  page: number;
+  pageSize: number;
 }
 
 const pageSizeOptions = [
@@ -28,7 +28,6 @@ const pageSizeOptions = [
 
 const pageSizeStorageKey = 'PageSizeOption'
 const defaultPageSize = pageSizeOptions[3]
-const initialPageSize = Number.parseInt(localStorage.getItem(pageSizeStorageKey) ?? '') || defaultPageSize
 
 const columns = [
   {
@@ -81,6 +80,8 @@ function useFetchAccountsWithErrorHandling(pageNumber: number, pageSize: number)
 }
   
 export default function Accounts({ account }: Readonly<Props>): ReactElement {
+  const initialPageSize = useMemo(() => Number.parseInt(localStorage.getItem(pageSizeStorageKey) ?? '') || defaultPageSize, [])
+
   const [paginationModel, setPaginationModel] = useState<PageOptions>({
     page: 1,
     pageSize: initialPageSize
