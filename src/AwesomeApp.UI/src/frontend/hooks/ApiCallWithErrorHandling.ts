@@ -1,4 +1,4 @@
-import useSWR from 'swr'
+import useSWR, { KeyedMutator } from 'swr'
 import { useAppSnackbar } from './AppSnackbar'
 import { useAppSpinner } from './AppSpinner'
 import { isProdEnvironment } from '@/common/libs'
@@ -73,11 +73,11 @@ export function useFetchWithErrorHandling<T, TResult>(
   fetcherParams: T,
   fetcher: (params: T) => Promise<ActionResult<TResult>>, 
   errorMessage?: string
-): TResult | null {
+): [TResult | null, KeyedMutator<ActionResult<TResult>> ] {
   const { show: showSpinner, hide: hideSpinner } = useAppSpinner()
   const { warning: snackbarWarning, error: snackbarError } = useAppSnackbar()
 
-  const { data, isLoading } = useSWR(
+  const { data, isLoading, mutate } = useSWR(
     JSON.stringify(fetcherParams), 
     (stringifiedParams) => fetcher(JSON.parse(stringifiedParams)),
     {
@@ -102,5 +102,5 @@ export function useFetchWithErrorHandling<T, TResult>(
     [isLoading, showSpinner, hideSpinner]
   )
 
-  return data?.payload ?? null
+  return [data?.payload ?? null, mutate ]
 }

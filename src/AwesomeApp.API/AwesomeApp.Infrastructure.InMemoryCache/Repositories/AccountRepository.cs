@@ -43,14 +43,7 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Repositories
 
         public async Task DeleteAsync(uint id, CancellationToken _)
         {
-            var entity = _cache.GetEntity(id);
-
-            if (entity != null)
-            {
-                entity.IsDeleted = true;
-
-                _cache.SetEntity(entity);
-            }
+            _cache.DeleteEntity(id);
         }
     }
 }

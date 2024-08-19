@@ -29,12 +29,19 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 
         public T? GetEntity(uint id)
         {
-            return (T)_cache.Get(id.ToString());
+            return _cache
+                .GetAll()
+                .Cast<T>()
+                .Where(item => !item.IsDeleted)
+                .FirstOrDefault(item => item.Id == id);
         }
 
         public IEnumerable<T> GetEntities()
         {
-            return _cache.GetAll().Select(item => (T)item);
+            return _cache
+                .GetAll()
+                .Cast<T>()
+                .Where(item => !item.IsDeleted);
         }
 
         public T SetEntity(T entry)
@@ -63,7 +70,16 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 
         public void DeleteEntity(uint id)
         {
-            _cache.Remove(id.ToString());
+            T? entity = GetEntity(id);
+
+            if (entity == null) 
+            {
+                return;
+            }
+
+            entity.IsDeleted = true;
+
+            SetEntity(entity);
         }
 
         private uint GetNextId() => 
