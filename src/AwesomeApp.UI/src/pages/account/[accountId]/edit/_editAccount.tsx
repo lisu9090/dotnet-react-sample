@@ -1,16 +1,16 @@
-import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
-import { CsrfToken } from "@/common/types"
-import { Account, CustomerType, AccountRole, PutUpdateAccount } from "@/common/types/account"
-import { PageBox } from "@/frontend/components"
-import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, putUpdateAccount, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from "@/frontend/libs"
-import { useFetchWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useState } from "react"
+import { DATETIME_ISO_DATE_FORMAT } from '@/common/consts'
+import { CsrfToken } from '@/common/types'
+import { Account, CustomerType, AccountRole, PutUpdateAccount } from '@/common/types/account'
+import { useAppSnackbar, useSendWithErrorHandling } from '@/frontend/hooks'
+import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, putUpdateAccount, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from '@/frontend/libs'
+import { AppPage, AppPageTitle } from '@/frontend/views'
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 type Props = {
-  account: Account | null
+  account: Account;
+  accountToEdit: Account | null;
 } & CsrfToken
 
 type UpdateAccountForm = {
@@ -73,14 +73,14 @@ const mapFormToPutUpdateAccount = (accontId: number, formValue: UpdateAccountFor
   accountRole: Number.parseInt(formValue.accountRole) as AccountRole,
 } as PutUpdateAccount)
 
-const useUpdateWithErrorHandling = () => useFetchWithErrorHandling(putUpdateAccount)
+const useUpdateWithErrorHandling = () => useSendWithErrorHandling(putUpdateAccount)
 
-export default function EditAccountPage({ account, csrfToken }: Readonly<Props>) {
+export default function EditAccountPage({ account, accountToEdit, csrfToken }: Readonly<Props>) {
   const router = useRouter()
   const tryUpdateAccount = useUpdateWithErrorHandling()
   const { success } = useAppSnackbar()
 
-  const [ initialFormValue, setInitialFormValue ] = useState<UpdateAccountForm>(mapAccountToForm(account))
+  const [ initialFormValue, setInitialFormValue ] = useState<UpdateAccountForm>(mapAccountToForm(accountToEdit))
 
   const {
     formValue,
@@ -125,10 +125,10 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
   }
   
   return (
-    <PageBox>
+    <AppPage account={account}>
       <Grid container direction="column" spacing={4}>
         <Grid item>
-          <Typography variant="h5">Edit Account (Admin)</Typography>
+          <AppPageTitle>Edit account (Admin)</AppPageTitle>
         </Grid>
         <Grid
           item
@@ -232,15 +232,14 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
           justifyContent="space-between"
         >
           <Grid item xs={4}>
-            <Link href={PAGE_ACCOUNT}>
-              <Button
-                className="w-full"
-                variant="outlined"
-                color="secondary"
-              >
-                Cancel
-              </Button>
-            </Link>
+            <Button
+              className="w-full"
+              variant="outlined"
+              color="secondary"
+              onClick={router.back}
+            >
+              Back
+            </Button>
           </Grid>
           <Grid item xs={4}>
             <Button
@@ -254,6 +253,6 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
           </Grid>
         </Grid>
       </Grid>
-    </PageBox>
+    </AppPage>
   )
 }

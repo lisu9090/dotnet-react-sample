@@ -23,9 +23,17 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Repositories
             return _cache.GetEntities().FirstOrDefault(e => e.Email == email);
         }
 
-        public async Task<IEnumerable<Account>> GetAllAsync(CancellationToken _)
+        public async Task<IEnumerable<Account>> GetAsync(uint skip, uint take, CancellationToken _)
         {
-            return _cache.GetEntities();
+            return _cache
+                .GetEntities()
+                .Skip((int)skip)
+                .Take((int)take);
+        }
+
+        public async Task<uint> GetCountAsync(CancellationToken _)
+        {
+            return (uint)_cache.GetEntities().Count();
         }
 
         public async Task<Account> UpsertAsync(Account entity, CancellationToken _)
@@ -35,14 +43,7 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Repositories
 
         public async Task DeleteAsync(uint id, CancellationToken _)
         {
-            var entity = _cache.GetEntity(id);
-
-            if (entity != null)
-            {
-                entity.IsDeleted = true;
-
-                _cache.SetEntity(entity);
-            }
+            _cache.DeleteEntity(id);
         }
     }
 }

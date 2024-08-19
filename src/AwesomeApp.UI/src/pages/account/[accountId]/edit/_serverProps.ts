@@ -1,19 +1,27 @@
-import { ensureRoleAuthorized, getAccount, resultPropsWithCsrfToken, resultRedirect } from '@/backend/libs'
-import { accountDtotoAccount } from '@/backend/mappings'
-import { PAGE_NOT_FOUND } from '@/common/consts'
+import { ensureRoleAuthorized, getAccount, resultNotFound, resultPropsWithCsrfToken } from '@/backend/libs'
+import { accountDtoToAccount } from '@/backend/mappings'
 import { AccountRole } from '@/common/types/account'
 
-export const getServerSideProps = ensureRoleAuthorized([AccountRole.Admin], async (context) => {
-  const accountId = Number.parseInt(context.params?.accountId as string)
+export const getServerSideProps = ensureRoleAuthorized([AccountRole.Admin], async (context, session) => {
+  const currentAccountDto = await getAccount(session.user.id)
 
-  if (!accountId) {
-    return resultRedirect(PAGE_NOT_FOUND)
+  if (!currentAccountDto) {
+    return resultNotFound()
   }
 
-  const accountDto = await getAccount(accountId)
+  const editedAccountId = Number.parseInt(context.params?.accountId as string)
+
+  if (!editedAccountId) {
+    return resultNotFound()
+  }
+
+  const editedAccountDto = await getAccount(editedAccountId)
 
   return resultPropsWithCsrfToken(
     context, 
-    { account: accountDto ? accountDtotoAccount(accountDto) : null }
+    { 
+      account: accountDtoToAccount(currentAccountDto),
+      accountToEdit: editedAccountDto ? accountDtoToAccount(editedAccountDto) : null 
+    }
   )
 })

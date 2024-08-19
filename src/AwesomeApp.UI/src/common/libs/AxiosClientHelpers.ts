@@ -1,5 +1,5 @@
 import axios, { HttpStatusCode, AxiosRequestConfig, AxiosResponse, AxiosResponseTransformer } from 'axios'
-import { HEADER_CONTENT_TYPE, HEADER_CSRF_TOKEN } from '../consts'
+import { HEADER_CONTENT_TYPE } from '../consts'
 
 export const isOkStatusCode = (status: number | undefined): boolean =>
   !!status && status >= 200 && status < 300
@@ -50,3 +50,10 @@ export class AxiosRequestConfigBuilder {
     return this.config
   }
 }
+
+export const toQueryParams = (parametersDictionary: { [parameter: string]: string | number }) => 
+  "?" + Object
+    .keys(parametersDictionary)
+    .map(parameter => `${parameter}=${encodeURI(parametersDictionary[parameter].toString())}`)
+    .join('&')
+    

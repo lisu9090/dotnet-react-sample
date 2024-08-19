@@ -4,7 +4,9 @@
     {
         Task<T?> GetAsync(uint id, CancellationToken cancellationToken);
 
-        Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<T>> GetAsync(uint skip, uint take, CancellationToken cancellationToken);
+
+        Task<uint> GetCountAsync(CancellationToken cancellationToken);
 
         Task<T> UpsertAsync(T entity, CancellationToken cancellationToken);
 
