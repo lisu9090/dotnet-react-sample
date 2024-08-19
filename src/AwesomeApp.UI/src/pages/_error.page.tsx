@@ -18,7 +18,7 @@ function ErrorPage({ statusCode }: Readonly<Props>): ReactElement {
       case HttpStatusCode.Forbidden:
         return 'Forbidden (403)'
       default:
-        'Something went wrong' + statusCode ? ` (${statusCode})` : ''
+        return 'Something went wrong' + statusCode ? ` (${statusCode})` : ''
     }
   }
 

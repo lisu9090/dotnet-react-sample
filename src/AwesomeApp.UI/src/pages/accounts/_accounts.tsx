@@ -1,6 +1,6 @@
 import { Account, AccountRole } from '@/common/types/account'
 import { AppPage, AppPageTitle } from '@/frontend/views'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { useFetchWithErrorHandling } from '@/frontend/hooks'
 import { fetchAccounts } from '@/frontend/libs'
@@ -8,9 +8,15 @@ import Link from 'next/link'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { Button } from '@mui/material'
+import { pageAccountEdit } from '@/common/consts'
 
 type Props = { 
   account: Account;
+}
+
+type PageOptions = {
+  page: number, 
+  pageSize: number
 }
 
 const pageSizeOptions = [
@@ -19,6 +25,10 @@ const pageSizeOptions = [
   20,
   100
 ]
+
+const pageSizeStorageKey = 'PageSizeOption'
+const defaultPageSize = pageSizeOptions[3]
+const initialPageSize = Number.parseInt(localStorage.getItem(pageSizeStorageKey) ?? '') || defaultPageSize
 
 const columns = [
   {
@@ -47,7 +57,7 @@ const columns = [
     sortable: false,
     renderCell: ({ id }) => (
       <>
-        <Link href={`/account/${id}/edit`}>
+        <Link href={pageAccountEdit(id)}>
           <Button className="p-0 min-w-0 mr-3">
             <ManageAccountsIcon />
           </Button>
@@ -71,13 +81,18 @@ function useFetchAccountsWithErrorHandling(pageNumber: number, pageSize: number)
 }
   
 export default function Accounts({ account }: Readonly<Props>): ReactElement {
-  const [paginationModel, setPaginationModel] = useState<{page: number, pageSize: number}>({
+  const [paginationModel, setPaginationModel] = useState<PageOptions>({
     page: 1,
-    pageSize: pageSizeOptions[0]
+    pageSize: initialPageSize
   })
 
   const paginationResult = useFetchAccountsWithErrorHandling(paginationModel.page, paginationModel.pageSize)
   
+  useEffect(
+    () => localStorage.setItem(pageSizeStorageKey, paginationModel.pageSize.toString()),
+    [paginationModel.pageSize]
+  )
+
   return (
     <AppPage account={account}>
       <AppPageTitle>Manage accounts</AppPageTitle>
