@@ -8,7 +8,7 @@ namespace AwesomeApp.API.Filters
 {
     internal class ApiKeyAuthorizationFilter : IAsyncActionFilter
     {
-        private const string ApiKeyHeader = "X-Awesome-API-Key";
+        public const string ApiKeyHeader = "X-Awesome-API-Key";
         private readonly IEnumerable<byte[]> _allowedApiKeyHashes;
 
         public ApiKeyAuthorizationFilter(IOptions<ApiKeyAuthorizationFilterOptions> allowedApiKeysOtions)
