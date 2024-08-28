@@ -15,12 +15,12 @@
         Task<T?> GetAsync(uint id, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Gets asynchronously collection of <typeparamref name="T"/>
+        /// Gets asynchronously collection of <typeparamref name="T"/>s
         /// </summary>
         /// <param name="skip">Number of elements to skip</param>
         /// <param name="take">Number of elements to take</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Collection of <typeparamref name="T"/></returns>
+        /// <returns>Collection of <typeparamref name="T"/>s</returns>
         Task<IEnumerable<T>> GetAsync(uint skip, uint take, CancellationToken cancellationToken);
 
         /// <summary>
