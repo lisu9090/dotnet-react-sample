@@ -3,10 +3,18 @@ using Microsoft.OpenApi.Models;
 
 namespace AwesomeApp.API.Swagger
 {
+    /// <summary>
+    /// Swagger registration extensions
+    /// </summary>
     internal static class SwaggerRegistration
     {
         private const string ApiKeySecurityId = "ApiKey"; 
 
+        /// <summary>
+        /// Adds Swagger to <see cref="IServiceCollection"/>
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddSwagger(this IServiceCollection services) =>
             services.AddSwaggerGen(opt =>
             {

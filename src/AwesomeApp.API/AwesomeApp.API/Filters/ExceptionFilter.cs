@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 namespace AwesomeApp.API.Filters
 {
     /// <summary>
-    /// https://learn.microsoft.com/en-us/aspnet/core/web-api/handle-errors?view=aspnetcore-8.0#use-exceptions-to-modify-the-response
+    /// Global exception handler, translate well-know exceptions into status codes
     /// </summary>
     internal class ExceptionFilter : IExceptionFilter
     {
+        /// <inheritdoc/>
         public void OnException(ExceptionContext context)
         {
             StatusCodeResult? handledExceptionResult = context.Exception switch
