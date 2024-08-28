@@ -81,7 +81,7 @@ In order to run app you will need following software to be installed:
 - [x] Secure pages with user authentication
 - [x] Enable role-based user authorization
 - [ ] Enable App localization (string translations)
-- [ ] Apply docs
+- [ ] Inline code docs
 - [x] Feature: Landing, Error and NotFound pages
 - [x] Feature: Create user account
 - [x] Feature: Authenticate user
