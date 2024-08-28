@@ -1,4 +1,5 @@
 using AwesomeApp.API.Filters;
+using AwesomeApp.API.Swagger;
 using AwesomeApp.Application;
 using AwesomeApp.Infrastructure.InMemoryCache;
 
@@ -22,7 +23,7 @@ internal static class Program
         services.RegisterApplication();
         services.RegisterInMemoryCache(config);
 
-        services.AddSwaggerGen();
+        services.AddSwagger();
         services.AddEndpointsApiExplorer();
         services.AddControllers(opt =>
         {
