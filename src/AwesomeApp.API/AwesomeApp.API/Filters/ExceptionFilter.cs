@@ -10,7 +10,6 @@ namespace AwesomeApp.API.Filters
     /// </summary>
     internal class ExceptionFilter : IExceptionFilter
     {
-        /// <inheritdoc/>
         public void OnException(ExceptionContext context)
         {
             StatusCodeResult? handledExceptionResult = context.Exception switch

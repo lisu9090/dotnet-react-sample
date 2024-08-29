@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace AwesomeApp.Application.Exceptions
+﻿namespace AwesomeApp.Application.Exceptions
 {
     /// <summary>
     /// Application Layer Exception
@@ -14,11 +12,6 @@ namespace AwesomeApp.Application.Exceptions
 
         /// <inheritdoc/>
         protected ApplicationException(string? message) : base(message)
-        {
-        }
-
-        /// <inheritdoc/>
-        protected ApplicationException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
 

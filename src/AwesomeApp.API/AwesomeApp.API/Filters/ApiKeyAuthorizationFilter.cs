@@ -27,7 +27,6 @@ namespace AwesomeApp.API.Filters
             _allowedApiKeyHashes = allowedApiKeysOtions.Value.Select(HashStringToBytes);
         }
 
-        /// <inheritdoc/>
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             string? apiKey = context.HttpContext.Request.Headers[ApiKeyHeader];
