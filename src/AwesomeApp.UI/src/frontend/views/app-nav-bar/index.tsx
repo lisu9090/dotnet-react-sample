@@ -13,6 +13,11 @@ type Props = {
   account?: Account;
 }
 
+/**
+ * Navigation bar Component
+ * @param account User account data 
+ * @returns Component
+ */
 export function AppNavBar({ account }: Readonly<Props>) {
   const showForRole = (...roles: AccountRole[]) => !!account && (!roles.length || roles.includes(account.accountRole))
 

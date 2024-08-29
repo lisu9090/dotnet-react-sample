@@ -10,12 +10,22 @@ const axiosClient = axios.create({
   },
 })
 
+/**
+ * Fetchs settings from backend
+ * @returns AppSettings async
+ */
 export async function fetchSettings(): Promise<AppSettings> {
   const response = await axiosClient.get<AppSettings>(`/settings`)
 
   return response.data
 }
 
+/**
+ * Fetchs paginated chunk of Accounts set from backend
+ * @param pageNumber Page number
+ * @param pageSize Page Size
+ * @returns ActionResult of PaginationResult of Account async
+ */
 export async function fetchAccounts(params: { pageNumber: number, pageSize: number }): Promise<ActionResult<PaginationResult<Account>>> {
   if (!params) {
     throw new Error('params cannot be falsy')
@@ -26,6 +36,11 @@ export async function fetchAccounts(params: { pageNumber: number, pageSize: numb
   return response.data
 }
 
+/**
+ * Creates Account via backend
+ * @param createAccountEntry Account to be created
+ * @returns ActionResult of Acount ID async
+ */
 export async function createAccount(createAccountEntry: CreateAccount): Promise<ActionResult<number>> {
   if (!createAccountEntry) {
     throw new Error('createAccountEntry cannot be falsy')
@@ -43,6 +58,12 @@ export async function createAccount(createAccountEntry: CreateAccount): Promise<
   return response.data
 }
 
+/**
+ * Updates Account via backend
+ * @param updateAccountEntry Account to be updated
+ * @param csrfToken CSRF token
+ * @returns ActionResult of Account async
+ */
 export async function putUpdateAccount(updateAccountEntry: PutUpdateAccount, csrfToken: string | undefined): Promise<ActionResult<Account>> {
   if (!updateAccountEntry || !csrfToken) {
     throw new Error('createAccountEntry and csrfToken cannot be falsy')
@@ -66,6 +87,12 @@ export async function putUpdateAccount(updateAccountEntry: PutUpdateAccount, csr
   return response.data
 }
 
+/**
+ * Partially updates Account via backend
+ * @param updateAccountEntry Account to be updated
+ * @param csrfToken CSRF token
+ * @returns ActionResult of Account async
+ */
 export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount, csrfToken: string | undefined): Promise<ActionResult<Account>> {
   if (!updateAccountEntry || !csrfToken) {
     throw new Error('createAccountEntry and csrfToken cannot be falsy')
@@ -88,6 +115,11 @@ export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount,
   return response.data
 }
 
+/**
+ * Deletes Account via backend
+ * @param id Account ID
+ * @returns ActionRelustBase async
+ */
 export async function deleteAccount(id: number): Promise<ActionResultBase> {
   if (id <= 0) {
     throw new Error(`id must be positive intiger`)
@@ -98,6 +130,12 @@ export async function deleteAccount(id: number): Promise<ActionResultBase> {
   return response.data
 }
 
+/**
+ * Tries to login user via backend
+ * @param authenticateAccountEntry User credentials to validate
+ * @param authCsrfToken NextAuth CSRF token
+ * @returns ActionResultBase async
+ */
 export async function loginUser(authenticateAccountEntry: AuthenticateAccount, authCsrfToken: string | undefined): Promise<ActionResultBase> {
   if (!authenticateAccountEntry || !authCsrfToken) {
     throw new Error('authenticateAccountEntry and csrfToken cannot be falsy')
@@ -123,6 +161,11 @@ export async function loginUser(authenticateAccountEntry: AuthenticateAccount, a
     : createFailedActionResultBase('Authentication failed. Please try again.')
 }
 
+/**
+ * Tries to logout user via backend
+ * @param authCsrfToken NextAuth CSRF token
+ * @returns ActionResultBase async
+ */
 export async function logoutUser(authCsrfToken: string | undefined): Promise<ActionResultBase> {
   if (!authCsrfToken) {
     throw new Error('csrfToken cannot be falsy')

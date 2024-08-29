@@ -10,6 +10,12 @@ type Props = {
   children?: ReactNode;
 }
 
+/**
+ * General app layout Component
+ * @param account User account data
+ * @param children Children nodes
+ * @returns Component
+ */
 export function AppPage({ account, children }: Readonly<Props>): ReactElement {
   return (
     <Grid 

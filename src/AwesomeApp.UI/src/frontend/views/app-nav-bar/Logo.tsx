@@ -5,6 +5,10 @@ import { Typography } from '@mui/material'
 import Link from 'next/link'
 import { ReactElement } from 'react'
 
+/**
+ * Brand logo Component
+ * @returns Component
+ */
 export function Logo(): ReactElement {
   return (
     <Link href={PAGE_HOME}>

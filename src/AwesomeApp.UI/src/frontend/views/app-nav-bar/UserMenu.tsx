@@ -18,6 +18,11 @@ function useLogoutUserWithErrorHandling() {
   return useCallWithErrorHandling(logoutUser)
 }
 
+/**
+ * User's actions menu Component
+ * @param account User account data
+ * @returns Component
+ */
 export function UserMenu({ account }: Readonly<Props>): ReactElement {
   const router = useRouter()
   const tryLogout = useLogoutUserWithErrorHandling()
