@@ -76,6 +76,10 @@ const useCreateAccountWithErrorHandling = () => useSendWithErrorHandling(createA
 
 const useLoginUserWithErrorHandling = () => useCallWithErrorHandling(loginUser)
 
+/**
+ * Create Account Page Component
+ * @returns Page Component
+ */
 export default function CreateAccountPage(): ReactElement {
   const router = useRouter()
   const tryCreateAccount = useCreateAccountWithErrorHandling()

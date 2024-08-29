@@ -72,7 +72,12 @@ function ActionsCell({ id, refreshCallback }: { id: number, refreshCallback: () 
     </>
   )
 }
-  
+ 
+/**
+ * Accounts Page Component
+ * @param account User account data 
+ * @returns Page Component
+ */
 export default function Accounts({ account }: Readonly<Props>): ReactElement {
   const initialPageSize = useMemo(() => Number.parseInt(localStorage.getItem(pageSizeStorageKey) ?? '') || defaultPageSize, [])
 

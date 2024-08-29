@@ -7,6 +7,11 @@ type Props = {
   account: Account;
 }
 
+/**
+ * Account Page Component
+ * @param account User account data
+ * @returns Page Component
+ */
 export default function AccountPage({ account }: Readonly<Props>): ReactElement {
   const roleName = AccountRole[account.accountRole]
   const customerTypeName = CustomerType[account.customerType]

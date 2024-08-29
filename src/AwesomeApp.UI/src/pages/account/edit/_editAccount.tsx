@@ -57,6 +57,12 @@ const mapFormToPatchUpdateAccount = (formValue: UpdateAccountForm) => ({
 
 const useUpdateAccountWithErrorHandling = () => useSendWithErrorHandling(patchUpdateAccount)
 
+/**
+ * Edit Account Page Component
+ * @param account User account data
+ * @param csrfToken CSRF token
+ * @returns Page Component
+ */
 export default function EditAccountPage({ account, csrfToken }: Readonly<Props>) {
   const router = useRouter()
   const tryUpdateAccount = useUpdateAccountWithErrorHandling()

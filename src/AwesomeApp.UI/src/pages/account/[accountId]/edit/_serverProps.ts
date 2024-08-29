@@ -2,6 +2,11 @@ import { ensureRoleAuthorized, getAccount, resultNotFound, resultPropsWithCsrfTo
 import { accountDtoToAccount } from '@/backend/mappings'
 import { AccountRole } from '@/common/types/account'
 
+/**
+ * Prvides EditAccount Page server props
+ * @param context Request context
+ * @returns props
+ */
 export const getServerSideProps = ensureRoleAuthorized([AccountRole.Admin], async (context, session) => {
   const currentAccountDto = await getAccount(session.user.id)
 

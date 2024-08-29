@@ -45,6 +45,10 @@ function useLoginUserWithErrorHandling() {
   return useCallWithErrorHandling(loginUser)
 }
 
+/**
+ * 
+ * @returns 
+ */
 export default function LoginPage(): ReactElement {
   const router = useRouter()
   const { warning } = useAppSnackbar()

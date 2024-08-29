@@ -10,6 +10,11 @@ type Props = {
   account?: Account;
 }
 
+/**
+ * Home Page Component
+ * @param account User account data 
+ * @returns Page Component 
+ */
 export default function HomePage({ account }: Readonly<Props>): ReactElement {
   return (
     <AppPage account={account}>
