@@ -3,14 +3,14 @@ using System.Text;
 
 namespace AwesomeApp.Application.Security
 {
+    /// <summary>
+    /// <see cref="IHashService"/> implementation; uses SHA512 algorithm
+    /// </summary>
     internal class Sha512HashService : IHashService
     {
         public string GetHash(string key)
         {
-            if (string.IsNullOrEmpty(key))
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
+            ArgumentException.ThrowIfNullOrWhiteSpace(key);
 
             using (SHA512 sha = SHA512.Create())
             {
@@ -23,10 +23,8 @@ namespace AwesomeApp.Application.Security
 
         public bool Compare(string hash1, string hash2)
         {
-            if (string.IsNullOrEmpty(hash1) || string.IsNullOrEmpty(hash2))
-            {
-                throw new ArgumentNullException("Hash value cannot be null or empty");
-            }
+            ArgumentException.ThrowIfNullOrWhiteSpace(hash1);
+            ArgumentException.ThrowIfNullOrWhiteSpace(hash2);
 
             var hash1Bytes = Convert.FromHexString(hash1);
             var hash2Bytes = Convert.FromHexString(hash2);

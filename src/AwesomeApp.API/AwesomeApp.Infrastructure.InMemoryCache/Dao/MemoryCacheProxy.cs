@@ -3,7 +3,7 @@
 namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
     /// <summary>
-    /// InMemory cache proxy implementation
+    /// <see cref="IMemoryCacheProxy"/> implementation
     /// </summary>
     internal class MemoryCacheProxy : IMemoryCacheProxy, IDisposable
     {

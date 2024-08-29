@@ -5,7 +5,7 @@ using AwesomeApp.Infrastructure.InMemoryCache.Dao;
 namespace AwesomeApp.Infrastructure.InMemoryCache.Repositories
 {
     /// <summary>
-    /// Repository of <see cref="Account"/>
+    /// <see cref="IAccountRepository"/> implementation
     /// </summary>
     internal class AccountRepository : IAccountRepository
     {

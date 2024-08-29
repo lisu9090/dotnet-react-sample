@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
     /// <summary>
-    /// Implementation of IEntityCache
+    /// <see cref="IEntityCache{T}"/> implementation
     /// </summary>
     /// <typeparam name="T"><see cref="Entity"/></typeparam>
     internal class EntityCache<T> : IEntityCache<T> where T : Entity

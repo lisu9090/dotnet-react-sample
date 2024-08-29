@@ -11,10 +11,10 @@ namespace AwesomeApp.Application
     public static class ServiceRegistration
     {
         /// <summary>
-        /// Registers service
+        /// Registers services
         /// </summary>
-        /// <param name="services">service collection</param>
-        /// <returns>service collection</returns>
+        /// <param name="services">Service collection</param>
+        /// <returns>Service collection</returns>
         public static IServiceCollection RegisterApplication(this IServiceCollection services)
         {
             services.AddMediatR(cfg =>
