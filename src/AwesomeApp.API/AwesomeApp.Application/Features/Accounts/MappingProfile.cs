@@ -5,8 +5,12 @@ using AwesomeApp.Domain.Accounts.Entities;
 
 namespace AwesomeApp.Application.Features.Accounts
 {
+    /// <inheritdoc/>
     internal class MappingProfile : Profile
     {
+        /// <summary>
+        /// Creates new instance
+        /// </summary>
         public MappingProfile()
         {
             CreateMap<CreateAccountCommandRequest, Account>(MemberList.Source)

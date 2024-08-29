@@ -16,6 +16,11 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
             _cache = cache;
         }
 
+        /// <summary>
+        /// Creates and seeds instance of <see cref="EntityCache{T}"/>
+        /// </summary>
+        /// <param name="dataToSeed">Optional data to seed</param>
+        /// <returns>Instance</returns>
         public static EntityCache<T> CreateEntityCache(IOptions<List<T>>? dataToSeed = null)
         {
             var cache = new EntityCache<T>(new MemoryCacheProxy(nameof(T)));

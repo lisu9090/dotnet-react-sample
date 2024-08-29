@@ -3,27 +3,27 @@
 namespace AwesomeApp.Application.Features.Accounts.Dtos
 {
     /// <summary>
-    /// AccountSessionDto
+    /// Account DTO for session
     /// </summary>
     public class AccountSessionDto
     {
         /// <summary>
-        /// Id
+        /// Gets of sets identity
         /// </summary>
         public uint Id { get; set; }
 
         /// <summary>
-        /// EAccountRole
+        /// Gets or sets account role
         /// </summary>
         public EAccountRole AccountRole { get; set; }
 
         /// <summary>
-        /// Email
+        /// Gets or sets email
         /// </summary>
         public string? Email { get; set; }
 
         /// <summary>
-        /// FullName
+        /// Gets or sets full name
         /// </summary>
         public string? FullName { get; set; }
     }
