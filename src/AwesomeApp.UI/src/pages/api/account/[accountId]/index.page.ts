@@ -3,6 +3,9 @@ import { withEndpoints, withErrorHandling, withRoleAuthorization } from '@/backe
 import { HttpMethod } from '@/common/types/HttpMethod'
 import { AccountRole } from '@/common/types/account'
 
+/**
+ * Secured API endpoint wich allows to delete Account data
+ */
 export default
   withErrorHandling(
     withEndpoints({

@@ -3,6 +3,9 @@ import { withEndpoints, withErrorHandling, withRoleAuthorization } from '@/backe
 import { HttpMethod } from '@/common/types/HttpMethod'
 import { AccountRole } from '@/common/types/account'
 
+/**
+ * Secured API endpoint which provides paginated queries over Accouts
+ */
 export default
   withErrorHandling(
     withEndpoints({

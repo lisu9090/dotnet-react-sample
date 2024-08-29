@@ -3,6 +3,9 @@ import { withAuthentication, withCsrfTokenValidation, withEndpoints, withErrorHa
 import { HttpMethod } from '@/common/types/HttpMethod'
 import { AccountRole } from '@/common/types/account'
 
+/**
+ * Secured API endpoints which allows manipulate Account data
+ */
 export default
   withErrorHandling(
     withEndpoints({
