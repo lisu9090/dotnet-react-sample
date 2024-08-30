@@ -120,12 +120,17 @@ export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount,
  * @param id Account ID
  * @returns ActionRelustBase async
  */
-export async function deleteAccount(id: number): Promise<ActionResultBase> {
+export async function deleteAccount(id: number, csrfToken: string | undefined): Promise<ActionResultBase> {
   if (id <= 0) {
     throw new Error(`id must be positive intiger`)
   }
 
-  const response = await axiosClient.delete<ActionResultBase>(`/account/${id}`)
+  if (!csrfToken) {
+    throw new Error('csrfToken cannot be falsy')
+  }
+
+
+  const response = await axiosClient.delete<ActionResultBase>(`/account/${id}` + toQueryParams({ csrfToken }))
 
   return response.data
 }
