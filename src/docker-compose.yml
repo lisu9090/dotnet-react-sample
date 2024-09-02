@@ -1,8 +1,0 @@
-version: '3.4'
-
-services:
-  awesomeapp.api:
-    image: ${DOCKER_REGISTRY-}awesomeappapi
-    build:
-      context: .
-      dockerfile: AwesomeApp.API/Dockerfile

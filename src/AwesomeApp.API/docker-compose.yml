@@ -4,5 +4,12 @@ services:
   awesomeapp.api:
     image: ${DOCKER_REGISTRY-}awesomeappapi
     build:
-      context: .
-      dockerfile: AwesomeApp.API/Dockerfile
+      context: AwesomeApp.API
+      dockerfile: AwesomeApp.API/AwesomeApp.API/Dockerfile
+  awesomeapp.ui:
+    image: ${DOCKER_REGISTRY-}awesomeappui
+    build:
+      context: AwesomeApp.UI
+      dockerfile: AwesomeApp.UI/Dockerfile
+    ports:
+      - "3001:3000"
