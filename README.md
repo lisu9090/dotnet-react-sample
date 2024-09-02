@@ -89,4 +89,4 @@ In order to run app you will need following software to be installed:
 - [x] Feature: AdminPanel page that allows admins to manage accounts (secured)
 - [x] Feature: Server-side pagination
 - [ ] Unit tests
-- [ ] Docker support
+- [x] Docker support
