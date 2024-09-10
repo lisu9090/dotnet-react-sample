@@ -1,5 +1,3 @@
-version: '3.4'
-
 services:
   awesomeapp.api:
     image: ${DOCKER_REGISTRY-}awesomeappapi
@@ -11,5 +9,3 @@ services:
     build:
       context: ../AwesomeApp.UI/
       dockerfile: Dockerfile
-    ports:
-      - "3001:3000"

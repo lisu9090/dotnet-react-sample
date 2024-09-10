@@ -1,5 +1,5 @@
 import { authenticateAccount } from '@/backend/libs'
-import { isProdEnvironment } from '@/common/libs'
+import { isProductionEnvironment } from '@/common/libs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { NextAuthOptions, getServerSession as nextGetServerSession } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
@@ -8,7 +8,7 @@ import { PAGE_LOGIN } from '@/common/consts'
 
 const sessionSecret = process.env.SESSION_PASSWORD
 const sessionMaxAge = Number.parseInt(process.env.SESSION_MAX_AGE ?? '') || (3600 * 24)
-const useSecureCookie = isProdEnvironment()
+const useSecureCookie = isProductionEnvironment()
 
 export const nextAuthOptions: NextAuthOptions = {
   secret: sessionSecret,

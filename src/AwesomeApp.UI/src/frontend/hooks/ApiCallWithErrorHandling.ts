@@ -1,7 +1,7 @@
 import useSWR, { KeyedMutator } from 'swr'
 import { useAppSnackbar } from './AppSnackbar'
 import { useAppSpinner } from './AppSpinner'
-import { isProdEnvironment } from '@/common/libs'
+import { isProductionEnvironment } from '@/common/libs'
 import { ActionResult, ActionResultBase } from '@/common/types'
 import { useEffect } from 'react'
 
@@ -26,7 +26,7 @@ export function useCallWithErrorHandling<T extends any[]>(
     } catch (e) {
       error(errorMessage ?? 'Something went wrong...')
 
-      if (!isProdEnvironment()) {
+      if (!isProductionEnvironment()) {
         console.error(e)
       }
 
@@ -58,7 +58,7 @@ export function useSendWithErrorHandling<T extends any[], TResult>(
     } catch (e) {
       error(errorMessage ?? 'Something went wrong...')
 
-      if (!isProdEnvironment()) {
+      if (!isProductionEnvironment()) {
         console.error(e)
       }
 
@@ -90,7 +90,7 @@ export function useFetchWithErrorHandling<T, TResult>(
       onError: (error) => {
         snackbarError(errorMessage ?? 'Something went wrong...')
 
-        if (!isProdEnvironment()) {
+        if (!isProductionEnvironment()) {
           console.error(error)
         }
       },
