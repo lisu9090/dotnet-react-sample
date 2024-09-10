@@ -11,7 +11,7 @@ const axiosClient = axios.create({
 })
 
 /**
- * Fetchs settings from backend
+ * Fetches settings from backend
  * @returns AppSettings async
  */
 export async function fetchSettings(): Promise<AppSettings> {
@@ -21,7 +21,7 @@ export async function fetchSettings(): Promise<AppSettings> {
 }
 
 /**
- * Fetchs paginated chunk of Accounts set from backend
+ * Fetches paginated chunk of Accounts set from backend
  * @param pageNumber Page number
  * @param pageSize Page Size
  * @returns ActionResult of PaginationResult of Account async
@@ -118,7 +118,7 @@ export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount,
 /**
  * Deletes Account via backend
  * @param id Account ID
- * @returns ActionRelustBase async
+ * @returns ActionResultBase async
  */
 export async function deleteAccount(id: number, csrfToken: string | undefined): Promise<ActionResultBase> {
   if (id <= 0) {

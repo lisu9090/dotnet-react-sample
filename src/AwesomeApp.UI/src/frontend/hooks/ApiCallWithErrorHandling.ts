@@ -5,8 +5,14 @@ import { isProdEnvironment } from '@/common/libs'
 import { ActionResult, ActionResultBase } from '@/common/types'
 import { useEffect } from 'react'
 
+/**
+ * Wraps call to the API with Spinner usage and error handling. Primarly designed to work with endpoints which does not return any data 
+ * @param caller Function to be wrapped (API call)
+ * @param errorMessage Optional error message to be shown in error Snackbar 
+ * @returns Function that uses caller and returns success indicator
+ */
 export function useCallWithErrorHandling<T extends any[]>(
-  fetcher: (...params: T) => Promise<ActionResultBase>, 
+  caller: (...params: T) => Promise<ActionResultBase>, 
   errorMessage?: string
 ) : (...params: T) => Promise<boolean> {
   const { show: showSpinner, hide: hideSpinner } = useAppSpinner()
@@ -16,7 +22,7 @@ export function useCallWithErrorHandling<T extends any[]>(
     showSpinner()
 
     try {
-      const result = await fetcher(...params)
+      const result = await caller(...params)
 
       if (!result.success && result.errorCode) {
         warning(result.errorCode)
@@ -37,8 +43,14 @@ export function useCallWithErrorHandling<T extends any[]>(
   }
 }
 
+/**
+ * Wraps call to the API with Spinner usage and error handling. Primarly designed to work with endpoints which accept and return data 
+ * @param sender Function to be wrapped (API call)
+ * @param errorMessage Optional error message to be shown in error Snackbar 
+ * @returns Function that uses sender and returns data on success, otherwise null
+ */
 export function useSendWithErrorHandling<T extends any[], TResult>(
-  fetcher: (...params: T) => Promise<ActionResult<TResult>>, 
+  sender: (...params: T) => Promise<ActionResult<TResult>>, 
   errorMessage?: string
 ): (...params: T) => Promise<TResult | null> {
   const { show: showSpinner, hide: hideSpinner } = useAppSpinner()
@@ -48,7 +60,7 @@ export function useSendWithErrorHandling<T extends any[], TResult>(
     showSpinner()
 
     try {
-      const result = await fetcher(...params)
+      const result = await sender(...params)
 
       if (!result.success && result.errorCode) {
         warning(result.errorCode)
@@ -69,6 +81,13 @@ export function useSendWithErrorHandling<T extends any[], TResult>(
   }
 }
 
+/**
+ * Wraps data fetch from the API with SWR, Spinner usage and error handling. Designed to work with endpoints which return data 
+ * @param fetcherParams Fetcher parameters, used to detect changes and refresh data
+ * @param fetcher Function to be wrapped (API call)
+ * @param errorMessage Optional error message to be shown in error Snackbar 
+ * @returns [Data or null, mutator to trigger data reload]
+ */
 export function useFetchWithErrorHandling<T, TResult>(
   fetcherParams: T,
   fetcher: (params: T) => Promise<ActionResult<TResult>>, 
