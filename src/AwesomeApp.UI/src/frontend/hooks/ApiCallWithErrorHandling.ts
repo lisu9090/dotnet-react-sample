@@ -82,7 +82,7 @@ export function useSendWithErrorHandling<T extends any[], TResult>(
 }
 
 /**
- * Wraps data fetch from the API with SWR, Spinner usage and error handling. Designed to work with endpoints which return data 
+ * Wraps data fetching from the API with SWR, Spinner usage and error handling. Designed to work with endpoints which return data 
  * @param fetcherParams Fetcher parameters, used to detect changes and refresh data
  * @param fetcher Function to be wrapped (API call)
  * @param errorMessage Optional error message to be shown in error Snackbar 

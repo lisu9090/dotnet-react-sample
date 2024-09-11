@@ -13,6 +13,11 @@ const context = createContext<ContextProps>({
 
 let callCounter = 0;
 
+/**
+ * Component which creates and provides Spinner context
+ * @param children children
+ * @returns Component
+ */
 export function SpinnerProvider({ children }: Readonly<{ children: ReactNode }>): ReactElement {
   const [isShown, setIsShown] = useState<boolean>(false)
 
@@ -40,6 +45,10 @@ export function SpinnerProvider({ children }: Readonly<{ children: ReactNode }>)
   )
 }
 
+/**
+ * Hook to Spinner Component
+ * @returns Spinner context
+ */
 export function useSpinner(): ContextProps {
   return useContext(context)
 }
