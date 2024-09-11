@@ -1,5 +1,5 @@
 /**
- * Placeholder for environment-specific app settings
+ * Placeholder for environment-specific frontend settings
  */
 export interface AppSettings {
 

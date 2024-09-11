@@ -7,7 +7,7 @@ const settings = await import(`./${process.env.NEXT_PUBLIC_ENVIRONMENT}.settings
 export default settings
 
 /**
- * Settings type; provides environment specific app configuration
+ * Settings type placeholder; provides environment-specific app configuration
  */
 export interface Settings {
 }

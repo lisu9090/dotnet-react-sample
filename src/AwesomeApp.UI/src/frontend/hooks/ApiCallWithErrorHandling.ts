@@ -6,8 +6,8 @@ import { ActionResult, ActionResultBase } from '@/common/types'
 import { useEffect } from 'react'
 
 /**
- * Wraps call to the API with Spinner usage and error handling. Primarly designed to work with endpoints which does not return any data 
- * @param caller Function to be wrapped (API call)
+ * Decorates call to the API with Spinner usage and error handling. Primarly designed to work with endpoints which does not return any data 
+ * @param caller Function to be decorated (API call)
  * @param errorMessage Optional error message to be shown in error Snackbar 
  * @returns Function that uses caller and returns success indicator
  */
@@ -44,8 +44,8 @@ export function useCallWithErrorHandling<T extends any[]>(
 }
 
 /**
- * Wraps call to the API with Spinner usage and error handling. Primarly designed to work with endpoints which accept and return data 
- * @param sender Function to be wrapped (API call)
+ * Decorates call to the API with Spinner usage and error handling. Primarly designed to work with endpoints which accept and return data 
+ * @param sender Function to be decorated (API call)
  * @param errorMessage Optional error message to be shown in error Snackbar 
  * @returns Function that uses sender and returns data on success, otherwise null
  */
@@ -82,9 +82,9 @@ export function useSendWithErrorHandling<T extends any[], TResult>(
 }
 
 /**
- * Wraps data fetching from the API with SWR, Spinner usage and error handling. Designed to work with endpoints which return data 
+ * Decorates data fetching from the API with SWR, Spinner usage and error handling. Designed to work with endpoints which return data 
  * @param fetcherParams Fetcher parameters, used to detect changes and refresh data
- * @param fetcher Function to be wrapped (API call)
+ * @param fetcher Function to be decorated (API call)
  * @param errorMessage Optional error message to be shown in error Snackbar 
  * @returns [Data or null, mutator to trigger data reload]
  */

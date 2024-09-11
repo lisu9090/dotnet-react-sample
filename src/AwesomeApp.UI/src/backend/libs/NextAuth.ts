@@ -10,6 +10,9 @@ const sessionSecret = process.env.SESSION_PASSWORD
 const sessionMaxAge = Number.parseInt(process.env.SESSION_MAX_AGE ?? '') || (3600 * 24)
 const useSecureCookie = isProdEnvironment()
 
+/**
+ * NextAuth options
+ */
 export const nextAuthOptions: NextAuthOptions = {
   secret: sessionSecret,
   useSecureCookies: useSecureCookie,
@@ -72,4 +75,10 @@ export const nextAuthOptions: NextAuthOptions = {
   ]
 }
 
+/**
+ * Gets user session for backend
+ * @param req NextApiRequest
+ * @param res NextApiResponse
+ * @returns Session or null
+ */
 export const getServerSession = (req: NextApiRequest, res: NextApiResponse) => nextGetServerSession(req, res, nextAuthOptions)
