@@ -1,5 +1,8 @@
 import { CustomerType, AccountRole } from '@/common/types/account';
 
+/**
+ * Model of Account
+ */
 export interface Account {
   id: number;
   email: string;
