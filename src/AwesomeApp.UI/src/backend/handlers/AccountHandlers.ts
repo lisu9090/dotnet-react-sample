@@ -14,6 +14,11 @@ import { accountDtoToAccount, accountDtosToAccounts, paginationResultDtoToPagina
 import { Account, AccountRole } from '@/common/types/account'
 import { Session } from 'next-auth'
 
+/**
+ * Request handler which responds with paginated collection of Accounts
+ * @param req NextApiRequest
+ * @param res NextApiResponse of ActionResult of PaginatedResult of Account
+ */
 export async function getAccountsHandler(req: NextApiRequest, res: NextApiResponse<ActionResult<PaginationResult<Account>>>): Promise<void> {  
   const pageNumber = req.query.pageNumber as string | undefined
   const pageSize = req.query.pageSize as string | undefined
@@ -33,6 +38,11 @@ export async function getAccountsHandler(req: NextApiRequest, res: NextApiRespon
   )
 }
 
+/**
+ * Request handler which creates Account; it responds with failed ActionResult in case of conflict
+ * @param req NextApiRequest
+ * @param res NextApiResponse of ActionResult of Account ID
+ */
 export async function postCreateAccountHandler(req: NextApiRequest, res: NextApiResponse<ActionResult<number>>): Promise<void> {
   const payload: CreateAccountDto = {
     ...req.body,
@@ -49,6 +59,11 @@ export async function postCreateAccountHandler(req: NextApiRequest, res: NextApi
   }
 }
 
+/**
+ * Request handler which creates or updates Account; it responds with failed ActionResult in case of conflict
+ * @param req NextApiRequest
+ * @param res NextApiResponse of ActionResult of Account
+ */
 export async function putUpdateAccountHandler(req: NextApiRequest, res: NextApiResponse<ActionResult<Account>>): Promise<void> {
   const accountDto = await putUpdateAccountApiCall(req.body)
 
@@ -60,6 +75,12 @@ export async function putUpdateAccountHandler(req: NextApiRequest, res: NextApiR
   }
 }
 
+/**
+ * Request handler which updates Account using ID obrained from request Session; it responds with failed ActionResult in case of not found
+ * @param req NextApiRequest
+ * @param res NextApiResponse of ActionResult of Account
+ * @param session Request Session
+ */
 export async function patchUpdateAccountHandler(req: NextApiRequest, res: NextApiResponse<ActionResult<Account>>, session: Session): Promise<void> {
   const payload: PatchUpdateAccountDto = {
     ...req.body,
@@ -76,6 +97,11 @@ export async function patchUpdateAccountHandler(req: NextApiRequest, res: NextAp
   }
 }
 
+/**
+ * Request handler which deletes Account
+ * @param req NextApiRequest 
+ * @param res NextApiResponse of ActionResultBase
+ */
 export async function deleteAccountHandler(req: NextApiRequest, res: NextApiResponse<ActionResultBase>): Promise<void> {
   const accountId = req.query.accountId as string
 
