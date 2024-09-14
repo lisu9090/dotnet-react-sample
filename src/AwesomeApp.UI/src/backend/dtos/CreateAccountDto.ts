@@ -1,5 +1,8 @@
-import { AccountRole, CustomerType } from '@/common/types/account';
+import { AccountRole, CustomerType } from '@/common/types/account'
 
+/**
+ * DTO to create Account
+ */
 export interface CreateAccountDto {
   email: string;
   password: string;

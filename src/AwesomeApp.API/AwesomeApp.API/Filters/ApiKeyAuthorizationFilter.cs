@@ -6,11 +6,22 @@ using Microsoft.Extensions.Options;
 
 namespace AwesomeApp.API.Filters
 {
+    /// <summary>
+    /// Security filter, authorizes incoming request by checking API Key
+    /// </summary>
     internal class ApiKeyAuthorizationFilter : IAsyncActionFilter
     {
-        public const string ApiKeyHeader = "X-Awesome-API-Key";
         private readonly IEnumerable<byte[]> _allowedApiKeyHashes;
+        
+        /// <summary>
+        /// HTTP header name of API Key 
+        /// </summary>
+        public const string ApiKeyHeader = "X-Awesome-API-Key";
 
+        /// <summary>
+        /// Creates an instance
+        /// </summary>
+        /// <param name="allowedApiKeysOtions">API Key hashes to authorize requests</param>
         public ApiKeyAuthorizationFilter(IOptions<ApiKeyAuthorizationFilterOptions> allowedApiKeysOtions)
         {
             _allowedApiKeyHashes = allowedApiKeysOtions.Value.Select(HashStringToBytes);
@@ -44,6 +55,9 @@ namespace AwesomeApp.API.Filters
         private byte[] HashStringToBytes(string input) => Convert.FromHexString(input);
     }
 
+    /// <summary>
+    /// Type to register authorized API Keys with Options pattern
+    /// </summary>
     internal class ApiKeyAuthorizationFilterOptions : List<string>
     {
     }

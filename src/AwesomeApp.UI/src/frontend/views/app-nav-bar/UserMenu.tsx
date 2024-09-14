@@ -1,13 +1,12 @@
-import styles from './styles.module.css'
-import { PAGE_ACCOUNT_EDIT, PAGE_CREATE_ACCOUNT, PAGE_HOME, PAGE_LOGIN } from '@/common/consts';
+import { PAGE_ACCOUNT_EDIT, PAGE_CREATE_ACCOUNT, PAGE_HOME, PAGE_LOGIN } from '@/common/consts'
 import { Account } from '@/common/types/account'
-import { useCallWithErrorHandling } from '@/frontend/hooks';
-import { logoutUser } from '@/frontend/libs';
+import { useCallWithErrorHandling } from '@/frontend/hooks'
+import { logoutUser } from '@/frontend/libs'
 import { Box, IconButton, Avatar, Menu, MenuItem } from '@mui/material'
-import { lightBlue } from '@mui/material/colors';
-import { getCsrfToken } from 'next-auth/react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { lightBlue } from '@mui/material/colors'
+import { getCsrfToken } from 'next-auth/react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { ReactElement, useState } from 'react'
 
 type Props = {
@@ -18,6 +17,11 @@ function useLogoutUserWithErrorHandling() {
   return useCallWithErrorHandling(logoutUser)
 }
 
+/**
+ * User's actions menu Component
+ * @param account User account data
+ * @returns Component
+ */
 export function UserMenu({ account }: Readonly<Props>): ReactElement {
   const router = useRouter()
   const tryLogout = useLogoutUserWithErrorHandling()

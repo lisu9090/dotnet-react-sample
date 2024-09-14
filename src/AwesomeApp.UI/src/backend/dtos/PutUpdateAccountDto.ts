@@ -1,5 +1,8 @@
-import { AccountRole, CustomerType } from '@/common/types/account';
+import { AccountRole, CustomerType } from '@/common/types/account'
 
+/**
+ * DTO to create or update Account
+ */
 export interface PutUpdateAccountDto {
   id: number;
   email: string;

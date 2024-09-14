@@ -21,8 +21,13 @@ function applyInter(): Promise<void> {
   })
 }
 
+/**
+ * Base Component for all Pages
+ * @param Page Component and its props
+ * @returns Page Component 
+ */
 export default function App({ Component, pageProps }: any): ReactElement {
-  const isAppInited = useModulesInit([
+  const isAppInitialized = useModulesInit([
     applyInter,
     initAppSettingsModule
   ])
@@ -33,8 +38,8 @@ export default function App({ Component, pageProps }: any): ReactElement {
         <link rel="icon" href="favicon.ico" />
         <title>AwesomeApp</title>
       </Head>
-      {!isAppInited && <AppLoading />}
-      {isAppInited && (
+      {!isAppInitialized && <AppLoading />}
+      {isAppInitialized && (
         <SpinnerProvider>
           <SnackbarProvider>
             <Component {...pageProps} />

@@ -1,18 +1,24 @@
 ﻿namespace AwesomeApp.Application.Features.Accounts.Dtos
 {
+    /// <summary>
+    /// DTO to describe authentication result
+    /// </summary>
     public class AuthenticationResultDto
     {
-        public AccountSessionDto? Account { get; set; }
+        /// <summary>
+        /// Gets Account DTO session data
+        /// </summary>
+        public AccountSessionDto? Account { get; private set; }
 
         /// <summary>
-        /// AuthenticationSuccessful
+        /// Gets authentication success indicator
         /// </summary>
-        public bool AuthenticationSuccessful { get; set; }
+        public bool AuthenticationSuccessful { get; private set; }
 
         /// <summary>
-        /// AuthenticationErrorMessage
+        /// Gets authentication error message
         /// </summary>
-        public string? AuthenticationErrorMessage { get; set; }
+        public string? AuthenticationErrorMessage { get; private set; }
 
         public static AuthenticationResultDto AuthenticationSuccessfulResult(AccountSessionDto account) =>
             new AuthenticationResultDto

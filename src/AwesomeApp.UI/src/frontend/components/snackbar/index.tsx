@@ -18,6 +18,11 @@ const anchor = {
   horizontal: 'right'
 } as SnackbarOrigin
 
+/**
+ * Component which creates and provides Snackbar context
+ * @param children children
+ * @returns Component
+ */
 export function SnackbarProvider({ children }: Readonly<{ children: ReactNode }>): ReactElement {
   return (
     <SnackbarProviderNotistack
@@ -29,6 +34,10 @@ export function SnackbarProvider({ children }: Readonly<{ children: ReactNode }>
   )
 }
 
+/**
+ * Hook to Snackbar Component
+ * @returns Snackbar context
+ */
 export function useSnackbar(): SnackbarApi {
   const { enqueueSnackbar } = useSnackbarNotistack()
 

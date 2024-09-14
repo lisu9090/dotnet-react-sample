@@ -1,6 +1,9 @@
-import { AccountRole } from './AccountRole';
-import { CustomerType } from './CustomerType';
+import { AccountRole } from './AccountRole'
+import { CustomerType } from './CustomerType'
 
+/**
+ * Model to update or create Account
+ */
 export interface PutUpdateAccount {
   id: number;
   email: string;

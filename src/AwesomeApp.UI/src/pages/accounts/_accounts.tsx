@@ -1,6 +1,6 @@
 import { Account, AccountRole } from '@/common/types/account'
 import { AppPage, AppPageTitle } from '@/frontend/views'
-import { ReactElement, useEffect, useMemo, useState } from 'react'
+import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react'
 import { DataGrid, GridColDef } from '@mui/x-data-grid'
 import { useCallWithErrorHandling, useFetchWithErrorHandling } from '@/frontend/hooks'
 import { deleteAccount, fetchAccounts } from '@/frontend/libs'
@@ -10,10 +10,11 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { Button } from '@mui/material'
 import { pageAccountEdit } from '@/common/consts'
 import { useSnackbar } from '@/frontend/components'
+import { CsrfToken } from '@/common/types'
 
-type Props = { 
+type Props = {
   account: Account;
-}
+} & CsrfToken
 
 type PageOptions = {
   page: number;
@@ -41,16 +42,9 @@ function useDeleteAccountWithErrorHandling() {
   return useCallWithErrorHandling(deleteAccount)
 }
 
-function ActionsCell({ id, refreshCallback }: { id: number, refreshCallback: () => void }): ReactElement {
-  const { success } = useSnackbar()
-  const tryDeleteAccount = useDeleteAccountWithErrorHandling()
-
+function ActionsCell({ id, deleteCallback }: Readonly<{ id: number, deleteCallback: (id: number) => void }>): ReactElement {
   const onDelete = async (event: React.MouseEvent<HTMLElement>) => {
-    if (await tryDeleteAccount(id)) {
-      success(`Account (${id}) has been deleted`)
-      refreshCallback()
-    }
-
+    deleteCallback(id)
     event.stopPropagation()
     event.preventDefault()
   }
@@ -62,8 +56,8 @@ function ActionsCell({ id, refreshCallback }: { id: number, refreshCallback: () 
           <ManageAccountsIcon />
         </Button>
       </Link>
-      <Button 
-        className="p-0 min-w-0" 
+      <Button
+        className="p-0 min-w-0"
         color="error"
         onClick={onDelete}
       >
@@ -72,8 +66,15 @@ function ActionsCell({ id, refreshCallback }: { id: number, refreshCallback: () 
     </>
   )
 }
-  
-export default function Accounts({ account }: Readonly<Props>): ReactElement {
+
+/**
+ * Accounts Page Component
+ * @param account User account data 
+ * @param csrfToken CSRF token
+ * @returns Page Component
+ */
+export default function Accounts({ account, csrfToken }: Readonly<Props>): ReactElement {
+  const { success } = useSnackbar()
   const initialPageSize = useMemo(() => Number.parseInt(localStorage.getItem(pageSizeStorageKey) ?? '') || defaultPageSize, [])
 
   const [paginationModel, setPaginationModel] = useState<PageOptions>({
@@ -81,7 +82,18 @@ export default function Accounts({ account }: Readonly<Props>): ReactElement {
     pageSize: initialPageSize
   })
 
+  const tryDeleteAccount = useDeleteAccountWithErrorHandling()
   const [accountsPaginationResult, mutator] = useFetchAccountsWithErrorHandling(paginationModel.page, paginationModel.pageSize)
+
+  const deleteAccount = useCallback(
+    async (id: number) => {
+      if (await tryDeleteAccount(id, csrfToken)) {
+        success(`Account (${id}) has been deleted`)
+        mutator()
+      }
+    },
+    [csrfToken, tryDeleteAccount, success, mutator]
+  )
 
   const columns = useMemo(
     () => [
@@ -109,10 +121,10 @@ export default function Accounts({ account }: Readonly<Props>): ReactElement {
         field: 'actions',
         headerName: 'Actions',
         sortable: false,
-        renderCell: ({ id }) => <ActionsCell id={id as number} refreshCallback={mutator} />
+        renderCell: ({ id }) => <ActionsCell id={id as number} deleteCallback={deleteAccount} />
       },
     ] as GridColDef[],
-    [mutator]
+    [deleteAccount]
   )
 
   useEffect(

@@ -6,6 +6,12 @@ type Props = {
   height: string;
 }
 
+/**
+ * Brand logo icon Component
+ * @param width Icon width
+ * @param height Icon height
+ * @returns Component
+ */
 export function NextIcon({ width, height }: Readonly<Props>): ReactElement {
   return (
     <SvgIcon style={{ width, height, marginTop: '-3px' }} className="mr-2">

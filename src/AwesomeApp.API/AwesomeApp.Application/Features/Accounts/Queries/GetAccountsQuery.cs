@@ -6,11 +6,19 @@ using MediatR;
 
 namespace AwesomeApp.Application.Features.Accounts.Queries
 {
+    /// <summary>
+    /// Provides paginated Accounts data 
+    /// </summary>
     internal class GetAccountsQuery : IRequestHandler<GetAccountsQueryRequest, PaginationResultDto<AccountDto>>
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Creates an instance
+        /// </summary>
+        /// <param name="accountRepository">Accounts repository</param>
+        /// <param name="mapper">Mapper instance</param>
         public GetAccountsQuery(IAccountRepository accountRepository, IMapper mapper)
         {
             _accountRepository = accountRepository;
@@ -26,7 +34,7 @@ namespace AwesomeApp.Application.Features.Accounts.Queries
             IEnumerable<Account> accounts = await _accountRepository.GetAsync(skip, take, cancellationToken);
             uint totalCount = await _accountRepository.GetCountAsync(cancellationToken);
             
-            return PaginationResultDto<AccountDto>.Create(
+            return new PaginationResultDto<AccountDto>(
                 _mapper.Map<List<AccountDto>>(accounts),
                 request.PageNumber,
                 request.PageSize,

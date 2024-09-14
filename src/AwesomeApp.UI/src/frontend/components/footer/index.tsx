@@ -5,6 +5,11 @@ type Props = {
   content: string;
 }
 
+/**
+ * Footer layout Component
+ * @param content Text content
+ * @returns Component
+ */
 export function Footer({ content }: Readonly<Props>): ReactElement {
   return (
     <Paper 
