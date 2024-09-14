@@ -1,4 +1,4 @@
-import { CustomerType, AccountRole } from '@/common/types/account';
+import { CustomerType, AccountRole } from '@/common/types/account'
 
 /**
  * Model of Account

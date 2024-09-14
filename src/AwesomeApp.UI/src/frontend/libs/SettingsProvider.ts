@@ -11,12 +11,12 @@ export async function initAppSettingsModule(): Promise<void> {
 }
 
 /**
- * Gets app settings when inited, otherwise throws error
+ * Gets app settings when initialized, otherwise throws error
  * @returns App settings
  */
 export function getAppSettings(): AppSettings {
   if (!appSettings) {
-    throw new Error('Module Settigns has not been initialized')
+    throw new Error('Module settings has not been initialized')
   }
 
   return { ...appSettings }

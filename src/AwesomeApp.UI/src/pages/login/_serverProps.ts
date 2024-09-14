@@ -4,7 +4,7 @@ import { GetServerSidePropsContext } from 'next'
 import { getSession } from 'next-auth/react'
 
 /**
- * Prvides Login Page server props
+ * Provides Login Page server props
  * @param context Request context
  * @returns props
  */

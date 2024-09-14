@@ -1,7 +1,7 @@
-import { CustomerType } from './CustomerType';
+import { CustomerType } from './CustomerType'
 
 /**
- * Model to partialy update Account
+ * Model to partially update Account
  */
 export interface PatchUpdateAccount {
   fullName?: string;

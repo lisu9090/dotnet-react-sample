@@ -3,7 +3,7 @@ import { accountDtoToAccount } from '@/backend/mappings'
 import { AccountRole } from '@/common/types/account'
 
 /**
- * Prvides EditAccount Page server props
+ * Provides EditAccount Page server props
  * @param context Request context
  * @returns props
  */

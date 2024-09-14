@@ -6,7 +6,7 @@ import { getSession } from 'next-auth/react'
 import { resultForbidden, resultProps, resultRedirect } from './ServerPropsHelpers'
 
 /**
- * Function type to check if user has acceess to particular resource
+ * Function type to check if user has access to particular resource
  */
 export type ResourceContextAuthorization = (context: GetServerSidePropsContext, session: Session) => boolean | Promise<boolean>
 
@@ -59,8 +59,8 @@ export function ensureRoleAuthorized<T>(
 }
 
 /**
- * Decorates getServerSideProps function with logic that checks if user has been authenticated and has acceess to particular resource
- * @param authorize Authorization function which indicates user acceess
+ * Decorates getServerSideProps function with logic that checks if user has been authenticated and has access to particular resource
+ * @param authorize Authorization function which indicates user access
  * @param getServerSideProps getServerSideProps
  * @returns Decorated getServerSideProps
  */

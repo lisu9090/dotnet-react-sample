@@ -1,4 +1,4 @@
-import { CustomerType } from './CustomerType';
+import { CustomerType } from './CustomerType'
 
 /**
  * Model to create Account

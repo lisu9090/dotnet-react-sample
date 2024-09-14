@@ -6,7 +6,7 @@ import { ActionResult, ActionResultBase } from '@/common/types'
 import { useEffect } from 'react'
 
 /**
- * Decorates call to the API with Spinner usage and error handling. Primarly designed to work with endpoints which does not return any data 
+ * Decorates call to the API with Spinner usage and error handling. Primarily designed to work with endpoints which does not return any data 
  * @param caller Function to be decorated (API call)
  * @param errorMessage Optional error message to be shown in error Snackbar 
  * @returns Function that uses caller and returns success indicator
@@ -44,7 +44,7 @@ export function useCallWithErrorHandling<T extends any[]>(
 }
 
 /**
- * Decorates call to the API with Spinner usage and error handling. Primarly designed to work with endpoints which accept and return data 
+ * Decorates call to the API with Spinner usage and error handling. Primarily designed to work with endpoints which accept and return data 
  * @param sender Function to be decorated (API call)
  * @param errorMessage Optional error message to be shown in error Snackbar 
  * @returns Function that uses sender and returns data on success, otherwise null

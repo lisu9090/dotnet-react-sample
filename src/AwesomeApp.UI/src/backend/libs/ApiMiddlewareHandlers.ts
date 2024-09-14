@@ -18,7 +18,7 @@ export type ResourceRequestAuthorization = (req: NextApiRequest, session: Sessio
   boolean | Promise<boolean>
 
 /**
- * Dictionary of HTTP methot and its NextApiHandler
+ * Dictionary of HTTP method and its NextApiHandler
  */
 export interface EndpointHandlers {
   /**
@@ -30,7 +30,7 @@ export interface EndpointHandlers {
 /**
  * Backend request processing middleware; it delegates request processing to handler (or other middleware) based on HTTP method;
  * if request uses method that is not defined, it responds with MethodNotAllowed
- * @param endpointHandlers Dictionary of HTTP mathods and handlers
+ * @param endpointHandlers Dictionary of HTTP methods and handlers
  * @returns Decorated handler
  */
 export function withEndpoints(endpointHandlers: EndpointHandlers): NextApiHandler {
@@ -103,9 +103,9 @@ export function withRoleAuthorization(allowedRoles: AccountRole[], handler: Sess
 }
 
 /**
- * Backend request processing middleware; it authorizes request by checking if request has acceess to the particular resource;
+ * Backend request processing middleware; it authorizes request by checking if request has access to the particular resource;
  * it delegates processing to next request handler when authorize function returns true, otherwise returns Forbidden
- * @param authorize Authorization function which indicates request acceess
+ * @param authorize Authorization function which indicates request access
  * @param handler Request handler
  * @returns Decorated handler
  */
@@ -122,7 +122,7 @@ export function withResourceAuthorization(authorize: ResourceRequestAuthorizatio
 
 /**
  * Backend request processing middleware; it wraps execution of next request handler with try-catch clause; 
- * it returns InternalServerError on any error occurence
+ * it returns InternalServerError on any error occurrence
  * @param handler Request handler
  * @returns Decorated handler
  */

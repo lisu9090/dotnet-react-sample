@@ -19,7 +19,7 @@ export const accountDtoToAccount = (dto: AccountDto) => ({
 } as Account)
 
 /**
- * Maps colletion of AccountDtos to colletion of Accounts
+ * Maps collection of AccountDtos to collection of Accounts
  * @param dtos Collection of AccountDtos
  * @returns Collection of Accounts
  */
@@ -30,7 +30,7 @@ export const accountDtosToAccounts = (dtos: AccountDto[]) => dtos.map(accountDto
  * @param dto AccountSessionDto
  * @returns User
  */
-export const accountSessionDtotoUser = (dto: AccountSessionDto) => ({
+export const accountSessionDtoToUser = (dto: AccountSessionDto) => ({
   id: dto.id,
   email: dto.email,
   name: dto.fullName,

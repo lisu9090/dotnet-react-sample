@@ -4,7 +4,7 @@ import { ActionResult, ActionResultBase } from '@/common/types'
  * Creates ActionResultBase indicating success 
  * @returns ActionResultBase instance
  */
-export function createSucessfulActionResultBase(): ActionResultBase {
+export function createSuccessfulActionResultBase(): ActionResultBase {
   return {
     success: true,
   }
@@ -27,9 +27,9 @@ export function createFailedActionResultBase(errorCode: string): ActionResultBas
  * @param payload Data
  * @returns ActionResult instance
  */
-export function createSucessfulActionResult<T>(payload: T): ActionResult<T> {
+export function createSuccessfulActionResult<T>(payload: T): ActionResult<T> {
   return {
-    ...createSucessfulActionResultBase(),
+    ...createSuccessfulActionResultBase(),
     payload: payload,
   }
 }

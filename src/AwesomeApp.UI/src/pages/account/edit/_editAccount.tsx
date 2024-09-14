@@ -2,7 +2,14 @@ import { DATETIME_ISO_DATE_FORMAT } from '@/common/consts'
 import { CsrfToken } from '@/common/types'
 import { Account, CustomerType, PatchUpdateAccount } from '@/common/types/account'
 import { useAppSnackbar, useSendWithErrorHandling } from '@/frontend/hooks'
-import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, useSimpleFormValidation } from '@/frontend/libs'
+import { 
+  FormValidators, 
+  SimpleFormValidation, 
+  minLengthValidator, 
+  patchUpdateAccount, 
+  positiveValueValidator, 
+  useSimpleFormValidation 
+} from '@/frontend/libs'
 import { AppPage, AppPageTitle } from '@/frontend/views'
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
 import { useRouter } from 'next/router'
@@ -92,7 +99,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
 
   const formHasChanged = () => JSON.stringify(initialFormValue) !== JSON.stringify(formValue)
 
-  const updateAccontAndRefreshForm = async () => {
+  const updateAccountAndRefreshForm = async () => {
     if (!formValidation.isValid || !formHasChanged()) {
       return
     }
@@ -145,7 +152,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
           <TextField
             className="mb-2"
             type="number"
-            label={`Number of owned vechicles: ${formLabels.vehiclesNumber}`}
+            label={`Number of owned vehicles: ${formLabels.vehiclesNumber}`}
             placeholder="1"
             variant="standard"
             value={formValue.vehiclesNumber}
@@ -187,7 +194,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
               className="w-full"
               variant="outlined"
               disabled={!formValidation.isValid || !formHasChanged()}
-              onClick={updateAccontAndRefreshForm}
+              onClick={updateAccountAndRefreshForm}
             >
               Save
             </Button>

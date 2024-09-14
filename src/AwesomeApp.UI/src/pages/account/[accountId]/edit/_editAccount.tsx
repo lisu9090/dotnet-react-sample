@@ -2,7 +2,17 @@ import { DATETIME_ISO_DATE_FORMAT } from '@/common/consts'
 import { CsrfToken } from '@/common/types'
 import { Account, CustomerType, AccountRole, PutUpdateAccount } from '@/common/types/account'
 import { useAppSnackbar, useSendWithErrorHandling } from '@/frontend/hooks'
-import { FormValidators, SimpleFormValidation, emailValidator, minLengthValidator, positiveValueValidator, putUpdateAccount, requiredValidator, strongPasswordValidator, useSimpleFormValidation } from '@/frontend/libs'
+import { 
+  FormValidators, 
+  SimpleFormValidation, 
+  emailValidator, 
+  minLengthValidator, 
+  positiveValueValidator, 
+  putUpdateAccount, 
+  requiredValidator, 
+  strongPasswordValidator, 
+  useSimpleFormValidation 
+} from '@/frontend/libs'
 import { AppPage, AppPageTitle } from '@/frontend/views'
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
 import { useRouter } from 'next/router'
@@ -62,8 +72,8 @@ const mapAccountToForm = (account: Account | null) => (account ? {
   accountRole: '',
 } as UpdateAccountForm)
 
-const mapFormToPutUpdateAccount = (accontId: number, formValue: UpdateAccountForm) => ({
-  id: accontId,
+const mapFormToPutUpdateAccount = (accountId: number, formValue: UpdateAccountForm) => ({
+  id: accountId,
   email: formValue.email,
   password: formValue.password || undefined,
   fullName: formValue.fullName,
@@ -111,7 +121,7 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
 
   const formHasChanged = () => JSON.stringify(initialFormValue) !== JSON.stringify(formValue)
 
-  const updateAccont = async () => {
+  const updateAccount = async () => {
     const accountId = Number.parseInt(router.query.accountId as string)
 
     if (!formValidation.isValid || !formHasChanged() || !accountId) {
@@ -199,7 +209,7 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
             required
             className="mb-2"
             type="number"
-            label="Number of owned vechicles"
+            label="Number of owned vehicles"
             placeholder="1"
             variant="standard"
             value={formValue.vehiclesNumber}
@@ -253,7 +263,7 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
               className="w-full"
               variant="outlined"
               disabled={!formValidation.isValid || !formHasChanged()}
-              onClick={updateAccont}
+              onClick={updateAccount}
             >
               Save
             </Button>

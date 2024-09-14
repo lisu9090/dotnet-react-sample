@@ -4,7 +4,7 @@ import { HttpMethod } from '@/common/types/HttpMethod'
 import { AccountRole } from '@/common/types/account'
 
 /**
- * Secured API endpoint wich allows to delete Account data
+ * Secured API endpoint which allows to delete Account data
  */
 export default
   withErrorHandling(

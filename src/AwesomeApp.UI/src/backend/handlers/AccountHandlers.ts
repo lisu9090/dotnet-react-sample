@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { HttpStatusCode } from 'axios'
 import { ActionResult, ActionResultBase, PaginationResult } from '@/common/types'
 import { CreateAccountDto, PatchUpdateAccountDto } from '@/backend/dtos'
-import { createFailedActionResult, createSucessfulActionResult, createSucessfulActionResultBase } from '@/common/libs'
+import { createFailedActionResult, createSuccessfulActionResult, createSuccessfulActionResultBase } from '@/common/libs'
 import { 
   getAccounts, 
   createAccount, 
@@ -29,7 +29,7 @@ export async function getAccountsHandler(req: NextApiRequest, res: NextApiRespon
   })
 
   res.send(
-    createSucessfulActionResult(
+    createSuccessfulActionResult(
       paginationResultDtoToPaginationResult({
         ...paginationResult,
         items: accountDtosToAccounts(paginationResult.items)
@@ -52,7 +52,7 @@ export async function postCreateAccountHandler(req: NextApiRequest, res: NextApi
   const accountDto = await createAccount(payload)
 
   if (accountDto) {
-    res.send(createSucessfulActionResult(accountDto.id))
+    res.send(createSuccessfulActionResult(accountDto.id))
   } else {
     res.status(HttpStatusCode.Conflict)
       .send(createFailedActionResult('Account with this email exists'))
@@ -68,7 +68,7 @@ export async function putUpdateAccountHandler(req: NextApiRequest, res: NextApiR
   const accountDto = await putUpdateAccountApiCall(req.body)
 
   if (accountDto) {
-    res.send(createSucessfulActionResult(accountDtoToAccount(accountDto)))
+    res.send(createSuccessfulActionResult(accountDtoToAccount(accountDto)))
   } else {
     res.status(HttpStatusCode.Conflict)
       .send(createFailedActionResult('Account with this email exists'))
@@ -76,7 +76,7 @@ export async function putUpdateAccountHandler(req: NextApiRequest, res: NextApiR
 }
 
 /**
- * Request handler which updates Account using ID obrained from request Session; it responds with failed ActionResult in case of not found
+ * Request handler which updates Account using ID obtained from request Session; it responds with failed ActionResult in case of not found
  * @param req NextApiRequest
  * @param res NextApiResponse of ActionResult of Account
  * @param session Request Session
@@ -90,7 +90,7 @@ export async function patchUpdateAccountHandler(req: NextApiRequest, res: NextAp
   const accountDto = await patchUpdateAccountApiCall(payload)
 
   if (accountDto) {
-    res.send(createSucessfulActionResult(accountDtoToAccount(accountDto)))
+    res.send(createSuccessfulActionResult(accountDtoToAccount(accountDto)))
   } else {
     res.status(HttpStatusCode.NotFound)
       .send(createFailedActionResult('Account not found'))
@@ -107,5 +107,5 @@ export async function deleteAccountHandler(req: NextApiRequest, res: NextApiResp
 
   await deleteAccount(Number.parseInt(accountId))
 
-  res.send(createSucessfulActionResultBase())
+  res.send(createSuccessfulActionResultBase())
 }

@@ -9,7 +9,7 @@ type Props = {
 }
 
 /**
- * Prvides Home Page server props
+ * Provides Home Page server props
  * @param context request context
  * @returns props
  */

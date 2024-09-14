@@ -3,7 +3,7 @@ import { isProdEnvironment } from '@/common/libs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { NextAuthOptions, getServerSession as nextGetServerSession } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { accountSessionDtotoUser } from '../mappings'
+import { accountSessionDtoToUser as accountSessionDtoToUser } from '../mappings'
 import { PAGE_LOGIN } from '@/common/consts'
 
 const sessionSecret = process.env.SESSION_PASSWORD
@@ -69,7 +69,7 @@ export const nextAuthOptions: NextAuthOptions = {
           return null
         }
 
-        return accountSessionDtotoUser(authenticationResult.account)
+        return accountSessionDtoToUser(authenticationResult.account)
       },
     })
   ]

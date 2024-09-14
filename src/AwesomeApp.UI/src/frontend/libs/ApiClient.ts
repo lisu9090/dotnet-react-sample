@@ -1,6 +1,6 @@
 import axios, { HttpStatusCode } from 'axios'
 import { ActionResult, ActionResultBase, AppSettings, PaginationResult } from '@/common/types'
-import { AxiosRequestConfigBuilder, isOkResponse, createSucessfulActionResultBase, createFailedActionResultBase, toQueryParams } from '@/common/libs'
+import { AxiosRequestConfigBuilder, isOkResponse, createSuccessfulActionResultBase, createFailedActionResultBase, toQueryParams } from '@/common/libs'
 import { Account, AuthenticateAccount, CreateAccount, PatchUpdateAccount, PutUpdateAccount } from '@/common/types/account'
 
 const axiosClient = axios.create({
@@ -39,7 +39,7 @@ export async function fetchAccounts(params: { pageNumber: number, pageSize: numb
 /**
  * Creates Account via backend
  * @param createAccountEntry Account to be created
- * @returns ActionResult of Acount ID async
+ * @returns ActionResult of Account ID async
  */
 export async function createAccount(createAccountEntry: CreateAccount): Promise<ActionResult<number>> {
   if (!createAccountEntry) {
@@ -122,7 +122,7 @@ export async function patchUpdateAccount(updateAccountEntry: PatchUpdateAccount,
  */
 export async function deleteAccount(id: number, csrfToken: string | undefined): Promise<ActionResultBase> {
   if (id <= 0) {
-    throw new Error(`id must be positive intiger`)
+    throw new Error(`id must be positive integer`)
   }
 
   if (!csrfToken) {
@@ -162,7 +162,7 @@ export async function loginUser(authenticateAccountEntry: AuthenticateAccount, a
   )
 
   return isOkResponse(response) 
-    ? createSucessfulActionResultBase()
+    ? createSuccessfulActionResultBase()
     : createFailedActionResultBase('Authentication failed. Please try again.')
 }
 
@@ -186,6 +186,6 @@ export async function logoutUser(authCsrfToken: string | undefined): Promise<Act
   )
 
   return isOkResponse(response) 
-    ? createSucessfulActionResultBase()
+    ? createSuccessfulActionResultBase()
     : createFailedActionResultBase('Authentication failed. Please try again.')
 }

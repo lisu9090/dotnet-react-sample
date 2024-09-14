@@ -1,13 +1,13 @@
-import { loginUser } from "@/frontend/libs"
-import { Button, Grid, TextField, Typography } from "@mui/material"
-import Link from "next/link"
-import { ReactElement, useState } from "react"
-import { useRouter } from "next/router"
-import { PAGE_ACCOUNT, PAGE_CREATE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
-import { ParsedUrlQuery } from "querystring"
-import { getCsrfToken } from "next-auth/react"
-import { useAppSnackbar, useCallWithErrorHandling } from "@/frontend/hooks"
-import { AppPage, AppPageTitle } from "@/frontend/views"
+import { loginUser } from '@/frontend/libs'
+import { Button, Grid, TextField, Typography } from '@mui/material'
+import Link from 'next/link'
+import { ReactElement, useState } from 'react'
+import { useRouter } from 'next/router'
+import { PAGE_ACCOUNT, PAGE_CREATE_ACCOUNT, QUERY_RETURN_URL } from '@/common/consts'
+import { ParsedUrlQuery } from 'querystring'
+import { getCsrfToken } from 'next-auth/react'
+import { useAppSnackbar, useCallWithErrorHandling } from '@/frontend/hooks'
+import { AppPage, AppPageTitle } from '@/frontend/views'
 
 function validateReturnUrlOrigin (url: string | undefined) {
   if (!url) {
@@ -120,7 +120,7 @@ export default function LoginPage(): ReactElement {
             container
             direction="column"
           >
-          <Typography className="mt-6">Don&apos;t hane an account? Create one!</Typography>
+          <Typography className="mt-6">Don&apos;t have an account? Create one!</Typography>
           <Grid
             className="mt-2"
             item

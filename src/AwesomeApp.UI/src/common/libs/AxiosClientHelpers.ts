@@ -59,7 +59,7 @@ export class AxiosRequestConfigBuilder {
   }
 
   /**
-   * Adds expected reponse status codes so they won't throw Error. Helpful to handle known errors using ActionResult
+   * Adds expected response status codes so they won't throw Error. Helpful to handle known errors using ActionResult
    * @param statuses Expected status codes
    * @returns Builder instance
    */

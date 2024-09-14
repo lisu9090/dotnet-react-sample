@@ -33,7 +33,7 @@ export default function AccountPage({ account }: Readonly<Props>): ReactElement 
         <span className="mb-2">{account.fullName}</span>
         <Typography variant="h6">Date of birth</Typography>
         <span className="mb-2">{dateOfBirth.toLocaleDateString()}</span>
-        <Typography variant="h6">Number of vechicles</Typography>
+        <Typography variant="h6">Number of vehicles</Typography>
         <span className="mb-2">{account.vehiclesNumber}</span>
         <Typography variant="h6">Customer type</Typography>
         <span className="mb-2">{customerTypeName}</span>

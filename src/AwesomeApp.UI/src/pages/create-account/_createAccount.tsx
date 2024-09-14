@@ -112,7 +112,7 @@ export default function CreateAccountPage(): ReactElement {
     router.replace(PAGE_ACCOUNT)
   }
 
-  const createAccontAndLogin = async () => {
+  const createAccountAndLogin = async () => {
     if (!formValidation.isValid) {
       return
     }
@@ -210,7 +210,7 @@ export default function CreateAccountPage(): ReactElement {
             required
             className="mb-2"
             type="number"
-            label="Number of owned vechicles"
+            label="Number of owned vehicles"
             placeholder="1"
             variant="standard"
             value={formValue.vehiclesNumber}
@@ -253,7 +253,7 @@ export default function CreateAccountPage(): ReactElement {
               className="w-full"
               variant="outlined"
               disabled={!formValidation.isValid}
-              onClick={createAccontAndLogin}
+              onClick={createAccountAndLogin}
             >
               Create
             </Button>

@@ -2,7 +2,7 @@ import { ensureAuthenticated, getAccount, resultNotFound, resultPropsWithCsrfTok
 import { accountDtoToAccount } from '@/backend/mappings'
 
 /**
- * Prvides EditAccount Page server props
+ * Provides EditAccount Page server props
  * @param context Request context
  * @returns props
  */

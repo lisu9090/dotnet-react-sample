@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react'
 
 const emailRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const strongPasswordRegExp = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,20})/
@@ -9,7 +9,7 @@ const strongPasswordRegExp = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]
 export type ValidatorFn = (fieldValue: string, formValue: any) => string
 
 /**
- * Type of function that allows programatically validate particular form field
+ * Type of function that allows programmatically validate particular form field
  */
 export type ValidateFormFieldFn = (fieldName: string, fieldValue: string) => void
 
@@ -56,9 +56,9 @@ export const requiredValidator: (message?: string) => ValidatorFn =
     (fieldValue: string) => fieldValue?.trim().length > 0 ? '' : message
 
 /**
- * Creates validator function which checks if value is at least n characerts long
+ * Creates validator function which checks if value is at least n characters long
  * @param message Optional error message
- * @param minLength Optional minimal string leght used to validate value; default is 3
+ * @param minLength Optional minimal string length used to validate value; default is 3
  * @returns Validator function
  */  
 export const minLengthValidator: (message?: string, minLength?: number) => ValidatorFn = 
@@ -66,7 +66,7 @@ export const minLengthValidator: (message?: string, minLength?: number) => Valid
     (fieldValue: string) => !fieldValue || fieldValue.trim().length >= minLength ? '' : (customMessage ?? `Value must consists of at least ${minLength} characters`)
 
 /**
- * Creates validator function which checks if value is positive intiger
+ * Creates validator function which checks if value is positive integer
  * @param message Optional error message
  * @returns Validator function
  */ 
@@ -93,7 +93,7 @@ export const strongPasswordValidator: (message?: string) => ValidatorFn =
     (fieldValue: string) => !fieldValue || strongPasswordRegExp.test(fieldValue) ? '' : message
 
 /**
- * Creates validator function which checks if value is the same as in other foem field
+ * Creates validator function which checks if value is the same as in other form field
  * @param otherFieldName Other filed name to check value against
  * @param message Optional error message
  * @returns Validator function
@@ -106,7 +106,7 @@ export const fieldEqualityValidator: (otherFieldName: string, message?: string) 
  * Hook which creates form state, form validation metadata state and form validators state
  * @param initialFormValue initial from state
  * @param initialFormValidationValue initial form validation metadata state
- * @param validators initial from falidators
+ * @param validators initial from validators
  * @returns from value, form validation metadata, function to set form value, function to validate form field, function to set validators
  */
 export function useSimpleFormValidation<T> (

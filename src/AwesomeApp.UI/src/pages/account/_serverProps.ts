@@ -2,7 +2,7 @@ import { ensureAuthenticated, getAccount, resultNotFound, resultProps } from '@/
 import { accountDtoToAccount } from '@/backend/mappings'
 
 /**
- * Prvides Account Page server props
+ * Provides Account Page server props
  * @param context Request context
  * @returns props
  */
