@@ -8,6 +8,11 @@ type Props = {
   account?: Account;
 }
 
+/**
+ * Provides Home Page server props
+ * @param context request context
+ * @returns props
+ */
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   const session = await getSession(context)
 

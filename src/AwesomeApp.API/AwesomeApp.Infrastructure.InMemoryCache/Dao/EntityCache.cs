@@ -3,6 +3,10 @@ using Microsoft.Extensions.Options;
 
 namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
+    /// <summary>
+    /// <see cref="IEntityCache{T}"/> implementation
+    /// </summary>
+    /// <typeparam name="T"><see cref="Entity"/></typeparam>
     internal class EntityCache<T> : IEntityCache<T> where T : Entity
     {
         private readonly IMemoryCacheProxy _cache;
@@ -12,6 +16,11 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
             _cache = cache;
         }
 
+        /// <summary>
+        /// Creates and seeds instance of <see cref="EntityCache{T}"/>
+        /// </summary>
+        /// <param name="dataToSeed">Optional data to seed</param>
+        /// <returns>Instance</returns>
         public static EntityCache<T> CreateEntityCache(IOptions<List<T>>? dataToSeed = null)
         {
             var cache = new EntityCache<T>(new MemoryCacheProxy(nameof(T)));

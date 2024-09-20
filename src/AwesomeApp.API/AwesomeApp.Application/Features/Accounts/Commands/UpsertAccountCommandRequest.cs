@@ -4,45 +4,48 @@ using MediatR;
 
 namespace AwesomeApp.Application.Features.Accounts.Commands
 {
+    /// <summary>
+    /// UpsertAccountCommand request
+    /// </summary>
     public class UpsertAccountCommandRequest : IRequest<AccountDto>
     {
         /// <summary>
-        /// Account identity
+        /// Gets of sets identity
         /// </summary>
         public uint Id { get; set; }
 
         /// <summary>
-        /// Email
+        /// Gets or sets email
         /// </summary>
         public string? Email { get; set; }
 
         /// <summary>
-        /// Password
+        /// Gets or sets password
         /// </summary>
         public string? Password { get; set; }
 
         /// <summary>
-        /// FullName
+        /// Gets or sets full name
         /// </summary>
         public string? FullName { get; set; }
 
         /// <summary>
-        /// DateOfBirth
+        /// Gets or sets date of birth
         /// </summary>
         public DateTime DateOfBirth { get; set; }
 
         /// <summary>
-        /// VehiclesNumber
+        /// Gets or sets number of vehicles
         /// </summary>
         public uint VehiclesNumber { get; set; }
 
         /// <summary>
-        /// ECustomerType
+        /// Gets or sets customer type
         /// </summary>
         public ECustomerType CustomerType { get; set; }
 
         /// <summary>
-        /// EAccountRole
+        /// Gets or sets account role
         /// </summary>
         public EAccountRole AccountRole { get; set; }
     }

@@ -1,14 +1,19 @@
 import { deleteAccountHandler } from '@/backend/handlers/AccountHandlers'
-import { withEndpoints, withErrorHandling, withRoleAuthorization } from '@/backend/libs'
+import { withCsrfTokenValidation, withEndpoints, withErrorHandling, withRoleAuthorization } from '@/backend/libs'
 import { HttpMethod } from '@/common/types/HttpMethod'
 import { AccountRole } from '@/common/types/account'
 
+/**
+ * Secured API endpoint which allows to delete Account data
+ */
 export default
   withErrorHandling(
     withEndpoints({
-      [HttpMethod.delete]: withRoleAuthorization(
-        [AccountRole.Admin],
-        deleteAccountHandler
+      [HttpMethod.delete]: withCsrfTokenValidation(
+        withRoleAuthorization(
+          [AccountRole.Admin],
+          deleteAccountHandler
+        )
       )
     })
   )

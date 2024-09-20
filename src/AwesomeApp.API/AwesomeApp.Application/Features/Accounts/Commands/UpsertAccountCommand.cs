@@ -1,5 +1,4 @@
-﻿using System.Security.Principal;
-using AutoMapper;
+﻿using AutoMapper;
 using AwesomeApp.Application.Features.Accounts.Dtos;
 using AwesomeApp.Application.Features.Accounts.Exceptions;
 using AwesomeApp.Application.Security;
@@ -9,12 +8,21 @@ using MediatR;
 
 namespace AwesomeApp.Application.Features.Accounts.Commands
 {
+    /// <summary>
+    /// Tries to insert or update an Account
+    /// </summary>
     internal class UpsertAccountCommand : IRequestHandler<UpsertAccountCommandRequest, AccountDto>
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IHashService _hashService;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Creates an instance
+        /// </summary>
+        /// <param name="accountRepository">Accounts repository</param>
+        /// <param name="hashService">Hash service</param>
+        /// <param name="mapper">Mapper instance</param>
         public UpsertAccountCommand(IAccountRepository accountRepository, IHashService hashService, IMapper mapper)
         {
             _accountRepository = accountRepository;

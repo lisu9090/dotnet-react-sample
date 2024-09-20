@@ -10,6 +10,11 @@ type Props = {
   statusCode: number;
 }
 
+/**
+ * Generic error Page Component
+ * @param statusCode HTTP status code
+ * @returns Page Component 
+ */
 function ErrorPage({ statusCode }: Readonly<Props>): ReactElement {
   const getErrorMessage = () => {
     switch (statusCode) {

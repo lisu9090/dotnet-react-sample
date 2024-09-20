@@ -6,6 +6,11 @@ type Props = {
   show: boolean
 }
 
+/**
+ * Loading spinner Component
+ * @param show indicates whether Component should be shown
+ * @returns Component
+ */
 export function Spinner({ show }: Props): ReactElement | null {
   if(!show) {
     return null

@@ -28,7 +28,7 @@ System consists of three main components:
 
 ### RESTful web API
 
-Created using ASP.NET Core Web API is a REST compliant web service. It takes advanteage of Layered Architecture and implements Command-Query Responsibility Segregation (CQRS) and Repository patterns. Each layer is separated with contracts that hide implementations and enables power of Dependency Injection. Code quality is ensured by set of Unit Tests.
+Created using ASP.NET Core Web API is a REST compliant web service. It takes advantage of Layered Architecture and implements Command-Query Responsibility Segregation (CQRS) and Repository patterns. Each layer is separated with contracts that hide implementations and enables power of Dependency Injection. Code quality is ensured by set of Unit Tests.
 
 ### App backend
 
@@ -56,7 +56,7 @@ In order to run app you will need following software to be installed:
     2. From menu in the top of window select Debug > Start debugging or press F5 button
 2. App
     1. Create config file .env.local in src/AwesomeApp.UI folder based on example.env. Provide value for SESSION_PASSWORD variable (this needs to be strong password of at least 32 characters; you can generate one [here](https://1password.com/password-generator/))
-    2. Open src\AwesomeApp.UI folder in termianl
+    2. Open src\AwesomeApp.UI folder in terminal
     3. Run commands 
     ``` bash
     npm install
@@ -81,7 +81,7 @@ In order to run app you will need following software to be installed:
 - [x] Secure pages with user authentication
 - [x] Enable role-based user authorization
 - [ ] Enable App localization (string translations)
-- [ ] Inline code docs
+- [x] Inline code docs
 - [x] Feature: Landing, Error and NotFound pages
 - [x] Feature: Create user account
 - [x] Feature: Authenticate user
