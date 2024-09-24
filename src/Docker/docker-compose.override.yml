@@ -15,5 +15,8 @@ services:
       - NODE_ENV=production
       - PORT=3000
       - HOSTNAME="0.0.0.0"
+      - NEXTAUTH_URL="http://localhost:3001"
+      - AWESOME_API_URL="https://localhost:8081" 
+      - NEXT_PUBLIC_API_URL="http://localhost:3001/api"
     ports:
       - "3001:3000"
