@@ -1,9 +1,9 @@
 services:
   awesomeapp.api:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_HTTP_PORTS=8080
-      - ASPNETCORE_HTTPS_PORTS=8081
+    build:
+      args:
+        port_http: 8080
+        port_https: 8081
     ports:
       - "8080"
       - "8081"
@@ -11,12 +11,11 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
   awesomeapp.ui:
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - HOSTNAME="0.0.0.0"
-      - NEXTAUTH_URL="http://localhost:3001"
-      - AWESOME_API_URL="https://localhost:8081" 
-      - NEXT_PUBLIC_API_URL="http://localhost:3001/api"
+    build:
+      args:
+        host_network: "0.0.0.0"
+        port: 3001
+        api_url: "http://awesomeapp.api:8080"
+        app_url: "http://localhost:3001"
     ports:
-      - "3001:3000"
+      - "3001:3001"
