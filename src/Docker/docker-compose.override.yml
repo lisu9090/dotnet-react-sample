@@ -4,18 +4,21 @@ services:
       args:
         port_http: 8080
         port_https: 8081
+    env_file: "../AwesomeApp.API/.cert/kestrel.env"
+    environment:
+      ASPNETCORE_Kestrel__Certificates__Default__Path: "/home/app/https/AwesomeApp.API.pfx"
+      # ASPNETCORE_Kestrel__Certificates__Default__Password: "password_placeholder"
     ports:
       - "8080"
       - "8081"
     volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ../AwesomeApp.API/.cert:/home/app/https:ro
   awesomeapp.ui:
     build:
       args:
         host_network: "0.0.0.0"
         port: 3001
-        api_url: "http://awesomeapp.api:8080"
+        api_url: "https://awesomeapp.api:8081"
         app_url: "http://localhost:3001"
     ports:
       - "3001:3001"
