@@ -8,4 +8,7 @@ services:
     image: ${DOCKER_REGISTRY-}awesomeappui
     build:
       context: ../AwesomeApp.UI/
-      dockerfile: Dockerfile
+  nginx:
+    image: ${DOCKER_REGISTRY-}nginx
+    build:
+      context: ../Nginx/
