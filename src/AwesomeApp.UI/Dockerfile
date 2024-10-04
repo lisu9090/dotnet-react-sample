@@ -34,11 +34,13 @@ ARG host_network
 ARG port
 ARG api_url
 ARG app_url
+ARG nextauth_url
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV HOSTNAME=$host_network
 ENV PORT=$port
 ENV AWESOME_API_URL=$api_url
 ENV NEXTAUTH_URL=$app_url
+ENV NEXTAUTH_URL_INTERNAL=$nextauth_url
 ENV NEXT_PUBLIC_API_URL="$app_url/api"
 WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs && \

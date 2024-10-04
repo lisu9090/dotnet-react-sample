@@ -14,6 +14,7 @@ services:
         port: 3001
         api_url: "https://awesomeapp.api:8081"
         app_url: "https://localhost:443"
+        nextauth_url: "http://localhost:3001"
   nginx:
     ports:
       - "80:80"
