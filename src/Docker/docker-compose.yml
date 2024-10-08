@@ -1,0 +1,17 @@
+services:
+  awesomeapp.api:
+    container_name: awesomeappapi
+    image: ${DOCKER_REGISTRY-}awesomeappapi
+    build:
+      context: ../AwesomeApp.API/
+      dockerfile: AwesomeApp.API/Dockerfile
+  awesomeapp.ui:
+    container_name: awesomeappui
+    image: ${DOCKER_REGISTRY-}awesomeappui
+    build:
+      context: ../AwesomeApp.UI/
+  nginx:
+    container_name: nginx
+    image: ${DOCKER_REGISTRY-}nginx
+    build:
+      context: ../Nginx/

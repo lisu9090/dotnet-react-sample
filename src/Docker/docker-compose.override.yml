@@ -1,0 +1,24 @@
+services:
+  awesomeapp.api:
+    build:
+      args:
+        port_http: 8080
+        port_https: 8081
+    env_file: "../AwesomeApp.API/.cert/kestrel.env"
+    volumes:
+      - ../AwesomeApp.API/.cert:/home/app/https:ro
+  awesomeapp.ui:
+    build:
+      args:
+        host_network: "0.0.0.0"
+        port: 3001
+        api_url: "https://awesomeapp.api:8081"
+        app_url: "https://localhost:443"
+        nextauth_url: "http://localhost:3001"
+  nginx:
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../Nginx/.cert:/etc/nginx/ssl:ro
+    restart: always
