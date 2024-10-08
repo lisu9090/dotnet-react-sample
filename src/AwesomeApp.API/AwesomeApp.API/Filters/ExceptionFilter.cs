@@ -1,24 +1,28 @@
 ﻿using AwesomeApp.Application.Behaviors.RequestValidations;
+using AwesomeApp.Application.Features.Accounts.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace AwesomeApp.API.Filters
 {
-    internal class ExceptionFilter : IAsyncActionFilter
+    /// <summary>
+    /// Global exception handler, translate well-know exceptions into status codes
+    /// </summary>
+    internal class ExceptionFilter : IExceptionFilter
     {
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        public void OnException(ExceptionContext context)
         {
-            try
+            StatusCodeResult? handledExceptionResult = context.Exception switch
             {
-                await next();
-            }
-            catch (Exception e)
+                RequestValidationException => new StatusCodeResult(StatusCodes.Status400BadRequest),
+                AccountCreationException => new StatusCodeResult(StatusCodes.Status409Conflict),
+                _ => null
+            };
+
+            if (context.Exception != null && handledExceptionResult != null)
             {
-                context.Result = e switch
-                {
-                    RequestValidationException => new StatusCodeResult(StatusCodes.Status400BadRequest),
-                    _ => new StatusCodeResult(StatusCodes.Status500InternalServerError)
-                };
+                context.Result = handledExceptionResult;
+                context.ExceptionHandled = true;
             }
         }
     }

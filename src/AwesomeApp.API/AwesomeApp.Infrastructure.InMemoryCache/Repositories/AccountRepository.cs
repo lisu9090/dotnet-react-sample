@@ -4,45 +4,60 @@ using AwesomeApp.Infrastructure.InMemoryCache.Dao;
 
 namespace AwesomeApp.Infrastructure.InMemoryCache.Repositories
 {
+    /// <summary>
+    /// <see cref="IAccountRepository"/> implementation
+    /// </summary>
     internal class AccountRepository : IAccountRepository
     {
         private readonly IEntityCache<Account> _cache;
 
+        /// <summary>
+        /// Creates an instance
+        /// </summary>
+        /// <param name="cache">Entity cache instance</param>
         public AccountRepository(IEntityCache<Account> cache)
         {
             _cache = cache;
         }
 
-        public async Task<Account?> GetAsync(uint id, CancellationToken _)
+        public Task<Account?> GetAsync(uint id, CancellationToken _)
         {
-            return _cache.GetEntity(id);
+            return Task.FromResult(
+                _cache.GetEntity(id));
         }
 
-        public async Task<Account?> GetByEmailAsync(string email, CancellationToken _)
+        public Task<IEnumerable<Account>> GetAsync(uint skip, uint take, CancellationToken _)
         {
-            return _cache.GetEntities().FirstOrDefault(e => e.Email == email);
+            return Task.FromResult(
+                _cache
+                    .GetEntities()
+                    .Skip((int)skip)
+                    .Take((int)take));
         }
 
-        public async Task<IEnumerable<Account>> GetAllAsync(CancellationToken _)
+        public Task<Account?> GetByEmailAsync(string email, CancellationToken _)
         {
-            return _cache.GetEntities();
+            return Task.FromResult(
+                _cache.GetEntities().FirstOrDefault(e => e.Email == email));
         }
 
-        public async Task<Account> UpsertAsync(Account entity, CancellationToken _)
+        public Task<uint> GetCountAsync(CancellationToken _)
         {
-            return _cache.SetEntity(entity);
+            return Task.FromResult(
+                (uint)_cache.GetEntities().Count());
         }
 
-        public async Task DeleteAsync(uint id, CancellationToken _)
+        public Task<Account> UpsertAsync(Account entity, CancellationToken _)
         {
-            var entity = _cache.GetEntity(id);
+            return Task.FromResult(
+                _cache.SetEntity(entity));
+        }
 
-            if (entity != null)
-            {
-                entity.IsDeleted = true;
+        public Task DeleteAsync(uint id, CancellationToken _)
+        {
+            _cache.DeleteEntity(id);
 
-                _cache.SetEntity(entity);
-            }
+            return Task.CompletedTask;
         }
     }
 }

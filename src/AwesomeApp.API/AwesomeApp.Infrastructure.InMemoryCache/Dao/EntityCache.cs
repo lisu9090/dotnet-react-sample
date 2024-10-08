@@ -3,6 +3,10 @@ using Microsoft.Extensions.Options;
 
 namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
+    /// <summary>
+    /// <see cref="IEntityCache{T}"/> implementation
+    /// </summary>
+    /// <typeparam name="T"><see cref="Entity"/></typeparam>
     internal class EntityCache<T> : IEntityCache<T> where T : Entity
     {
         private readonly IMemoryCacheProxy _cache;
@@ -12,6 +16,11 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
             _cache = cache;
         }
 
+        /// <summary>
+        /// Creates and seeds instance of <see cref="EntityCache{T}"/>
+        /// </summary>
+        /// <param name="dataToSeed">Optional data to seed</param>
+        /// <returns>Instance</returns>
         public static EntityCache<T> CreateEntityCache(IOptions<List<T>>? dataToSeed = null)
         {
             var cache = new EntityCache<T>(new MemoryCacheProxy(nameof(T)));
@@ -29,12 +38,19 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 
         public T? GetEntity(uint id)
         {
-            return (T)_cache.Get(id.ToString());
+            return _cache
+                .GetAll()
+                .Cast<T>()
+                .Where(item => !item.IsDeleted)
+                .FirstOrDefault(item => item.Id == id);
         }
 
         public IEnumerable<T> GetEntities()
         {
-            return _cache.GetAll().Select(item => (T)item);
+            return _cache
+                .GetAll()
+                .Cast<T>()
+                .Where(item => !item.IsDeleted);
         }
 
         public T SetEntity(T entry)
@@ -63,7 +79,16 @@ namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 
         public void DeleteEntity(uint id)
         {
-            _cache.Remove(id.ToString());
+            T? entity = GetEntity(id);
+
+            if (entity == null) 
+            {
+                return;
+            }
+
+            entity.IsDeleted = true;
+
+            SetEntity(entity);
         }
 
         private uint GetNextId() => 

@@ -2,11 +2,18 @@
 
 namespace AwesomeApp.Infrastructure.InMemoryCache.Dao
 {
+    /// <summary>
+    /// <see cref="IMemoryCacheProxy"/> implementation
+    /// </summary>
     internal class MemoryCacheProxy : IMemoryCacheProxy, IDisposable
     {
         private const int CacheTtlInDays = 100;
         private readonly MemoryCache _cache;
 
+        /// <summary>
+        /// Creates an instance
+        /// </summary>
+        /// <param name="name">Name of MemoryCache</param>
         public MemoryCacheProxy(string name)
         {
             _cache = new MemoryCache(name);

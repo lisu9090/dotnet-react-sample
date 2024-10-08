@@ -1,12 +1,19 @@
-import { DATETIME_ISO_DATE_FORMAT, PAGE_ACCOUNT } from "@/common/consts"
-import { CsrfToken } from "@/common/types"
-import { Account, CustomerType, PatchUpdateAccount } from "@/common/types/account"
-import { PageBox } from "@/frontend/components"
-import { FormValidators, SimpleFormValidation, minLengthValidator, patchUpdateAccount, positiveValueValidator, useSimpleFormValidation } from "@/frontend/libs"
-import { useFetchWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from "@mui/material"
-import Link from "next/link"
-import { useState } from "react"
+import { DATETIME_ISO_DATE_FORMAT } from '@/common/consts'
+import { CsrfToken } from '@/common/types'
+import { Account, CustomerType, PatchUpdateAccount } from '@/common/types/account'
+import { useAppSnackbar, useSendWithErrorHandling } from '@/frontend/hooks'
+import { 
+  FormValidators, 
+  SimpleFormValidation, 
+  minLengthValidator, 
+  patchUpdateAccount, 
+  positiveValueValidator, 
+  useSimpleFormValidation 
+} from '@/frontend/libs'
+import { AppPage, AppPageTitle } from '@/frontend/views'
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 type Props = {
   account: Account;
@@ -55,9 +62,16 @@ const mapFormToPatchUpdateAccount = (formValue: UpdateAccountForm) => ({
   customerType: Number.parseInt(formValue.customerType) as CustomerType || undefined,
 } as PatchUpdateAccount)
 
-const useUpdateAccountWithErrorHandling = () => useFetchWithErrorHandling(patchUpdateAccount)
+const useUpdateAccountWithErrorHandling = () => useSendWithErrorHandling(patchUpdateAccount)
 
+/**
+ * Edit Account Page Component
+ * @param account User account data
+ * @param csrfToken CSRF token
+ * @returns Page Component
+ */
 export default function EditAccountPage({ account, csrfToken }: Readonly<Props>) {
+  const router = useRouter()
   const tryUpdateAccount = useUpdateAccountWithErrorHandling()
   const { success } = useAppSnackbar()
 
@@ -85,7 +99,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
 
   const formHasChanged = () => JSON.stringify(initialFormValue) !== JSON.stringify(formValue)
 
-  const updateAccontAndRefreshForm = async () => {
+  const updateAccountAndRefreshForm = async () => {
     if (!formValidation.isValid || !formHasChanged()) {
       return
     }
@@ -100,12 +114,12 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
     setFormValue(initialFormValue)
     success('Saved')
    }
-  
+
   return (
-    <PageBox>
+    <AppPage account={account}>
       <Grid container direction="column" spacing={4}>
         <Grid item>
-          <Typography variant="h5">Edit Account</Typography>
+          <AppPageTitle>Edit account</AppPageTitle>
         </Grid>
         <Grid
           item
@@ -138,7 +152,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
           <TextField
             className="mb-2"
             type="number"
-            label={`Number of owned vechicles: ${formLabels.vehiclesNumber}`}
+            label={`Number of owned vehicles: ${formLabels.vehiclesNumber}`}
             placeholder="1"
             variant="standard"
             value={formValue.vehiclesNumber}
@@ -166,28 +180,27 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
           justifyContent="space-between"
         >
           <Grid item xs={4}>
-            <Link href={PAGE_ACCOUNT}>
-              <Button
-                className="w-full"
-                variant="outlined"
-                color="secondary"
-              >
-                Cancel
-              </Button>
-            </Link>
+            <Button
+              className="w-full"
+              variant="outlined"
+              color="secondary"
+              onClick={router.back}
+            >
+              Cancel
+            </Button>
           </Grid>
           <Grid item xs={4}>
             <Button
               className="w-full"
               variant="outlined"
               disabled={!formValidation.isValid || !formHasChanged()}
-              onClick={updateAccontAndRefreshForm}
+              onClick={updateAccountAndRefreshForm}
             >
               Save
             </Button>
           </Grid>
         </Grid>
       </Grid>
-    </PageBox>
+    </AppPage>
   )
 }

@@ -1,15 +1,18 @@
 import { authenticateAccount } from '@/backend/libs'
-import { isProdEnvironment } from '@/common/libs'
+import { isProductionEnvironment } from '@/common/libs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { NextAuthOptions, getServerSession as nextGetServerSession } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { accountSessionDtotoUser } from '../mappings'
+import { accountSessionDtoToUser as accountSessionDtoToUser } from '../mappings'
 import { PAGE_LOGIN } from '@/common/consts'
 
 const sessionSecret = process.env.SESSION_PASSWORD
 const sessionMaxAge = Number.parseInt(process.env.SESSION_MAX_AGE ?? '') || (3600 * 24)
-const useSecureCookie = isProdEnvironment()
+const useSecureCookie = isProductionEnvironment()
 
+/**
+ * NextAuth options
+ */
 export const nextAuthOptions: NextAuthOptions = {
   secret: sessionSecret,
   useSecureCookies: useSecureCookie,
@@ -66,10 +69,16 @@ export const nextAuthOptions: NextAuthOptions = {
           return null
         }
 
-        return accountSessionDtotoUser(authenticationResult.account)
+        return accountSessionDtoToUser(authenticationResult.account)
       },
     })
   ]
 }
 
+/**
+ * Gets user session for backend
+ * @param req NextApiRequest
+ * @param res NextApiResponse
+ * @returns Session or null
+ */
 export const getServerSession = (req: NextApiRequest, res: NextApiResponse) => nextGetServerSession(req, res, nextAuthOptions)

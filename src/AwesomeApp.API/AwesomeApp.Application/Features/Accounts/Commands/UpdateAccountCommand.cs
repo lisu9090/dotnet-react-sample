@@ -1,17 +1,24 @@
 ﻿using AutoMapper;
 using AwesomeApp.Application.Features.Accounts.Dtos;
 using AwesomeApp.Domain.Accounts.Entities;
-using AwesomeApp.Domain.Accounts.Enums;
 using AwesomeApp.Domain.Accounts.Repositories;
 using MediatR;
 
 namespace AwesomeApp.Application.Features.Accounts.Commands
 {
+    /// <summary>
+    /// Tries to update an Account
+    /// </summary>
     internal class UpdateAccountCommand : IRequestHandler<UpdateAccountCommandRequest, AccountDto?>
     {
         private readonly IAccountRepository _accountRepository;
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Creates an instance
+        /// </summary>
+        /// <param name="accountRepository">Accounts repository</param>
+        /// <param name="mapper">Mapper instance</param>
         public UpdateAccountCommand(IAccountRepository accountRepository, IMapper mapper)
         {
             _accountRepository = accountRepository;

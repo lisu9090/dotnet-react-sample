@@ -1,13 +1,13 @@
-import { PageBox } from "@/frontend/components"
-import { loginUser } from "@/frontend/libs"
-import { Button, Grid, TextField, Typography } from "@mui/material"
-import Link from "next/link"
-import { ReactElement, useState } from "react"
-import { useCallWithErrorHandling, useAppSnackbar } from "@/pages/_hooks"
-import { useRouter } from "next/router"
-import { PAGE_ACCOUNT, PAGE_CREATE_ACCOUNT, QUERY_RETURN_URL } from "@/common/consts"
-import { ParsedUrlQuery } from "querystring"
-import { getCsrfToken } from "next-auth/react"
+import { loginUser } from '@/frontend/libs'
+import { Button, Grid, TextField, Typography } from '@mui/material'
+import Link from 'next/link'
+import { ReactElement, useState } from 'react'
+import { useRouter } from 'next/router'
+import { PAGE_ACCOUNT, PAGE_CREATE_ACCOUNT, QUERY_RETURN_URL } from '@/common/consts'
+import { ParsedUrlQuery } from 'querystring'
+import { getCsrfToken } from 'next-auth/react'
+import { useAppSnackbar, useCallWithErrorHandling } from '@/frontend/hooks'
+import { AppPage, AppPageTitle } from '@/frontend/views'
 
 function validateReturnUrlOrigin (url: string | undefined) {
   if (!url) {
@@ -45,6 +45,10 @@ function useLoginUserWithErrorHandling() {
   return useCallWithErrorHandling(loginUser)
 }
 
+/**
+ * 
+ * @returns 
+ */
 export default function LoginPage(): ReactElement {
   const router = useRouter()
   const { warning } = useAppSnackbar()
@@ -61,7 +65,6 @@ export default function LoginPage(): ReactElement {
     }
 
     const authCsrfToken = await getCsrfToken()
-
     const result = await tryLoginUser(
       {
         email: userEmail,
@@ -76,7 +79,7 @@ export default function LoginPage(): ReactElement {
   }
 
   return (
-    <PageBox>
+    <AppPage>
       <form 
         onSubmit={(event: React.FormEvent) => {
           event.preventDefault()
@@ -90,7 +93,7 @@ export default function LoginPage(): ReactElement {
           spacing={4}
         >
           <Grid item>
-            <Typography variant="h5">Login to AwesomeApp</Typography>
+            <AppPageTitle>Login to AwesomeApp</AppPageTitle>
           </Grid>
           <Grid 
             item 
@@ -117,7 +120,7 @@ export default function LoginPage(): ReactElement {
             container
             direction="column"
           >
-          <Typography className="mt-6">Don&apos;t hane an account? Create one!</Typography>
+          <Typography className="mt-6">Don&apos;t have an account? Create one!</Typography>
           <Grid
             className="mt-2"
             item
@@ -149,6 +152,6 @@ export default function LoginPage(): ReactElement {
           </Grid>
         </Grid>
       </form>
-    </PageBox>
+    </AppPage>
   )
 }

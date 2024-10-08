@@ -1,11 +1,20 @@
 import { ActionResult, ActionResultBase } from '@/common/types'
 
-export function createSucessfulActionResultBase(): ActionResultBase {
+/**
+ * Creates ActionResultBase indicating success 
+ * @returns ActionResultBase instance
+ */
+export function createSuccessfulActionResultBase(): ActionResultBase {
   return {
     success: true,
   }
 }
 
+/**
+ * Creates ActionResultBase indicating failure
+ * @param errorCode Error code
+ * @returns ActionResultBase instance
+ */
 export function createFailedActionResultBase(errorCode: string): ActionResultBase {
   return {
     success: false,
@@ -13,13 +22,24 @@ export function createFailedActionResultBase(errorCode: string): ActionResultBas
   }
 }
 
-export function createSucessfulActionResult<T>(payload: T): ActionResult<T> {
+/**
+ * Creates ActionResult indicating success and containing data
+ * @param payload Data
+ * @returns ActionResult instance
+ */
+export function createSuccessfulActionResult<T>(payload: T): ActionResult<T> {
   return {
-    ...createSucessfulActionResultBase(),
+    ...createSuccessfulActionResultBase(),
     payload: payload,
   }
 }
 
+/**
+ * Creates ActionResult indicating failure with optional data
+ * @param errorCode Error code
+ * @param payload Optional data
+ * @returns ActionResult instance
+ */
 export function createFailedActionResult<T>(errorCode: string, payload?: T): ActionResult<T> {
   return {
     ...createFailedActionResultBase(errorCode),

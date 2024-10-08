@@ -1,7 +1,6 @@
-import { ReactElement } from 'react';
-import { PageBox } from '@/frontend/components';
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField, Typography } from '@mui/material';
-import Link from 'next/link';
+import { ReactElement } from 'react'
+import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
+import Link from 'next/link'
 import {
   FormValidators,
   SimpleFormValidation,
@@ -14,12 +13,14 @@ import {
   createAccount,
   fieldEqualityValidator,
   loginUser,
-} from '@/frontend/libs';
-import { CreateAccount } from '@/common/types/account/CreateAccount';
-import { useRouter } from 'next/router';
-import { useCallWithErrorHandling, useFetchWithErrorHandling } from '@/pages/_hooks';
-import { AuthenticateAccount, CustomerType } from '@/common/types/account';
-import { PAGE_ACCOUNT, PAGE_HOME } from '@/common/consts';
+} from '@/frontend/libs'
+import { CreateAccount } from '@/common/types/account/CreateAccount'
+import { useRouter } from 'next/router'
+import { AuthenticateAccount, CustomerType } from '@/common/types/account'
+import { PAGE_ACCOUNT, PAGE_HOME } from '@/common/consts'
+import { getCsrfToken } from 'next-auth/react'
+import { useCallWithErrorHandling, useSendWithErrorHandling } from '@/frontend/hooks'
+import { AppPage, AppPageTitle } from '@/frontend/views'
 
 type CreateAccountForm = {
   email: string;
@@ -71,10 +72,14 @@ const toCreateAccount = (formValue: CreateAccountForm) => ({
   customerType: Number.parseInt(formValue.customerType) as CustomerType
 } as CreateAccount)
 
-const useCreateAccountWithErrorHandling = () => useFetchWithErrorHandling(createAccount)
+const useCreateAccountWithErrorHandling = () => useSendWithErrorHandling(createAccount)
 
 const useLoginUserWithErrorHandling = () => useCallWithErrorHandling(loginUser)
 
+/**
+ * Create Account Page Component
+ * @returns Page Component
+ */
 export default function CreateAccountPage(): ReactElement {
   const router = useRouter()
   const tryCreateAccount = useCreateAccountWithErrorHandling()
@@ -97,7 +102,8 @@ export default function CreateAccountPage(): ReactElement {
     }
 
   const login = async (authenticateAccount: AuthenticateAccount) => {
-    const result = await tryLoginUser(authenticateAccount)
+    const authCsrfToken = await getCsrfToken()
+    const result = await tryLoginUser(authenticateAccount, authCsrfToken)
 
     if (!result) {
       return
@@ -106,7 +112,7 @@ export default function CreateAccountPage(): ReactElement {
     router.replace(PAGE_ACCOUNT)
   }
 
-  const createAccontAndLogin = async () => {
+  const createAccountAndLogin = async () => {
     if (!formValidation.isValid) {
       return
     }
@@ -125,10 +131,10 @@ export default function CreateAccountPage(): ReactElement {
   }
 
   return (
-    <PageBox>
+    <AppPage>
       <Grid container direction="column" spacing={4}>
         <Grid item>
-          <Typography variant="h5">Create Account</Typography>
+          <AppPageTitle>Create account</AppPageTitle>
         </Grid>
         <Grid
           item
@@ -204,7 +210,7 @@ export default function CreateAccountPage(): ReactElement {
             required
             className="mb-2"
             type="number"
-            label="Number of owned vechicles"
+            label="Number of owned vehicles"
             placeholder="1"
             variant="standard"
             value={formValue.vehiclesNumber}
@@ -247,13 +253,13 @@ export default function CreateAccountPage(): ReactElement {
               className="w-full"
               variant="outlined"
               disabled={!formValidation.isValid}
-              onClick={createAccontAndLogin}
+              onClick={createAccountAndLogin}
             >
               Create
             </Button>
           </Grid>
         </Grid>
       </Grid>
-    </PageBox>
+    </AppPage>
   )
 }

@@ -1,22 +1,22 @@
 ﻿namespace AwesomeApp.Domain
 {
     /// <summary>
-    /// Entity
+    /// Entity base class
     /// </summary>
     public abstract class Entity
     {
         /// <summary>
-        /// Entity identity
+        /// Gets of sets identity
         /// </summary>
         public uint Id { get; set; }
 
         /// <summary>
-        /// CreatedAt
+        /// Gets or sets creation date and time
         /// </summary>
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
-        /// Gets or sets is entity deleted indicator
+        /// Gets or sets soft-deletion indicator
         /// </summary>
         public bool IsDeleted { get; set; }
     }

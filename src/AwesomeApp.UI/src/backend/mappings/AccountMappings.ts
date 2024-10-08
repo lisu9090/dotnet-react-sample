@@ -2,7 +2,12 @@ import { Account } from '@/common/types/account'
 import { AccountDto, AccountSessionDto } from '../dtos'
 import { User } from 'next-auth'
 
-export const accountDtotoAccount = (dto: AccountDto) => ({
+/**
+ * Maps AccountDto to Account
+ * @param dto AccountDto
+ * @returns Account
+ */
+export const accountDtoToAccount = (dto: AccountDto) => ({
   accountRole: dto.accountRole,
   createdAt: dto.createdAt,
   customerType: dto.customerType,
@@ -13,9 +18,19 @@ export const accountDtotoAccount = (dto: AccountDto) => ({
   vehiclesNumber: dto.vehiclesNumber,
 } as Account)
 
-export const accountDtostoAccounts = (dtos: AccountDto[]) => dtos.map(accountDtotoAccount)
+/**
+ * Maps collection of AccountDtos to collection of Accounts
+ * @param dtos Collection of AccountDtos
+ * @returns Collection of Accounts
+ */
+export const accountDtosToAccounts = (dtos: AccountDto[]) => dtos.map(accountDtoToAccount)
 
-export const accountSessionDtotoUser = (dto: AccountSessionDto) => ({
+/**
+ * Maps AccountSessionDto to User
+ * @param dto AccountSessionDto
+ * @returns User
+ */
+export const accountSessionDtoToUser = (dto: AccountSessionDto) => ({
   id: dto.id,
   email: dto.email,
   name: dto.fullName,
