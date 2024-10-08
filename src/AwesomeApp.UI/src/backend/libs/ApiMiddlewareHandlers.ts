@@ -132,7 +132,7 @@ export function withErrorHandling(handler: NextApiHandler): NextApiHandler {
       await handler(req, res)
     }
     catch (e) {
-      console.log(e)
+      console.error(e)
 
       res.status(HttpStatusCode.InternalServerError)
         .send('Internal server error - ' + e)
