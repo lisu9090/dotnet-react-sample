@@ -17,6 +17,7 @@ RUN \
 # Build source
 FROM base AS builder
 ARG app_url
+ENV NEXT_PUBLIC_ENVIRONMENT=$NODE_ENV
 ENV NEXT_PUBLIC_API_URL="$app_url/api"
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
@@ -41,6 +42,7 @@ ENV PORT=$port
 ENV AWESOME_API_URL=$api_url
 ENV NEXTAUTH_URL=$app_url
 ENV NEXTAUTH_URL_INTERNAL=$nextauth_url
+ENV NEXT_PUBLIC_ENVIRONMENT=$NODE_ENV
 ENV NEXT_PUBLIC_API_URL="$app_url/api"
 WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs && \
