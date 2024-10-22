@@ -21,7 +21,7 @@ namespace AwesomeApp.Application.Features.Accounts.Validators
         {
             return ruleBuilder
                 .GreaterThanOrEqualTo(_dateOfBirthMinValue)
-                .WithMessage("Date of birth should be later or equal to 1900-01-01");
+                .WithMessage($"Date of birth should be later or equal to {_dateOfBirthMinValue.ToShortDateString()}");
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace AwesomeApp.Application.Features.Accounts.Validators
             return ruleBuilder
                 .NotNull()
                 .GreaterThanOrEqualTo(_dateOfBirthMinValue)
-                .WithMessage("Date of birth should be later or equal to 1900-01-01");
+                .WithMessage($"Date of birth should be later or equal to {_dateOfBirthMinValue.ToShortDateString()}");
         }
 
         /// <summary>

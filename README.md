@@ -107,7 +107,7 @@ docker compose up
 - [x] Secure App backend with CSRF token
 - [x] Secure pages with user authentication
 - [x] Enable role-based user authorization
-- [ ] Enable App localization (string translations)
+- [x] Enable App localization (string translations)
 - [x] Inline code docs
 - [x] Feature: Landing, Error and NotFound pages
 - [x] Feature: Create user account
@@ -117,3 +117,4 @@ docker compose up
 - [x] Feature: Server-side pagination
 - [ ] Unit tests
 - [x] Docker support
+- [] (New) Migrate to App router

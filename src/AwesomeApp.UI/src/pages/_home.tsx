@@ -5,6 +5,7 @@ import { Button, Grid, Typography } from '@mui/material'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactElement } from 'react'
+import { Trans } from 'react-i18next'
 
 type Props = {
   account?: Account;
@@ -31,7 +32,7 @@ export default function HomePage({ account }: Readonly<Props>): ReactElement {
           container
           justifyContent="center"
         >
-          <AppPageTitle>Welcome to AwesomeApp</AppPageTitle>
+          <AppPageTitle><Trans>Welcome to AwesomeApp</Trans></AppPageTitle>
         </Grid>
         <Grid
           item
