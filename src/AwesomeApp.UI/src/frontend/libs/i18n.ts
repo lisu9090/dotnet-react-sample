@@ -1,34 +1,17 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
-
-const resources = {
-  'en-US': {
-    translation: {
-      'Welcome to AwesomeApp': 'Welcome to AwesomeApp!'
-    }
-  },
-  'de-DE': {
-    translation: {
-      'Welcome to AwesomeApp': 'Willkommen bei AwesomeApp!'
-    }
-  },
-  'pl': {
-    translation: {
-      'Welcome to AwesomeApp': 'Witaj w AwesomeApp!'
-    }
-  }
-}
+import { languageResources as resources } from '../lang'
 
 i18n
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
     resources,
-    supportedLngs: ['en-US', 'de-DE', 'pl'],
+    supportedLngs: ['en', 'de', 'pl'],
+    fallbackLng: 'en',
     detection: {
       order: ['cookie', 'path'],
-
       // order and from where user language should be detected
       // order: ['querystring', 'cookie', 'localStorage', 'sessionStorage', 'navigator', 'htmlTag', 'path', 'subdomain'],
 
@@ -61,6 +44,6 @@ i18n
     interpolation: {
       escapeValue: false
     }
-  });
+  })
 
-export default i18n;
+export default i18n

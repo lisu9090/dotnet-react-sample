@@ -1,4 +1,5 @@
 export * from './ApiClient'
+export * from './i18n'
 export * from './ModuleInitializer'
 export * from './SettingsProvider'
 export * from './SimpleFormValidation'

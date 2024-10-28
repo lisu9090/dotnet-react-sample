@@ -3,8 +3,8 @@ const nextConfig = {
   pageExtensions: [ 'page.ts', 'page.tsx' ],
   output: 'standalone',
   i18n: {
-    locales: ['en-US', 'de-DE', 'pl'],
-    defaultLocale: 'en-US',
+    locales: ['en', 'de', 'pl'],
+    defaultLocale: 'en',
   }
  }
 

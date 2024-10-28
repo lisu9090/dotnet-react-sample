@@ -1,5 +1,4 @@
 import './globals.css'
-import './_i18n'
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import { ReactElement } from 'react'
