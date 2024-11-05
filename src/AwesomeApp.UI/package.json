@@ -36,9 +36,8 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "gulp": "^5.0.0",
-    "gulp-typescript": "^6.0.0-alpha.1",
     "i18next-scanner": "^4.6.0",
+    "i18next-scanner-typescript": "^1.2.1",
     "requirejs": "^2.3.7"
   }
 }

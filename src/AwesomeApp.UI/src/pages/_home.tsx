@@ -32,7 +32,9 @@ export default function HomePage({ account }: Readonly<Props>): ReactElement {
           container
           justifyContent="center"
         >
-          <AppPageTitle><Trans>Welcome to AwesomeApp</Trans></AppPageTitle>
+          <AppPageTitle>
+            <Trans>Welcome to AwesomeApp</Trans>
+          </AppPageTitle>
         </Grid>
         <Grid
           item
@@ -41,7 +43,9 @@ export default function HomePage({ account }: Readonly<Props>): ReactElement {
           alignItems="center"
           justifyContent="center"
         >
-          <Typography variant="caption" className="mb-2">Powered by</Typography>
+          <Typography variant="caption" className="mb-2">
+            <Trans>Powered by</Trans>
+          </Typography>
           <Image
             src="next.svg"
             width={500}

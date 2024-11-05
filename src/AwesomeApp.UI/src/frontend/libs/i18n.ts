@@ -19,7 +19,7 @@ i18n
     },
     load: 'languageOnly',
     backend: {
-      loadPath: '/locales/{{lng}}.json'
+      loadPath: '/locales/{{lng}}/resource.json'
     }
   })
 
