@@ -4,6 +4,7 @@ import { Container, Grid } from '@mui/material'
 import { Footer, PageBox } from '@/frontend/components'
 import { AppNavBar } from '../app-nav-bar'
 import { Account } from '@/common/types/account'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
   account?: Account;
@@ -17,6 +18,8 @@ type Props = {
  * @returns Component
  */
 export function AppPage({ account, children }: Readonly<Props>): ReactElement {
+  const { t } = useTranslation()
+
   return (
     <Grid 
       className={styles.appPage}
@@ -29,7 +32,7 @@ export function AppPage({ account, children }: Readonly<Props>): ReactElement {
       <Container className="my-6" maxWidth="md" >
         <PageBox>{ children }</PageBox>
       </Container>
-      <Footer content="AwesomeApp, 2024 - App footer" />
+      <Footer content={t('AwesomeApp, 2024 - App footer')} />
     </Grid>
   )
 }

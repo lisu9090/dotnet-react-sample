@@ -4,5 +4,13 @@
   "Return to home": "[en] Return to home",
   "Not found (404)": "[en] Not found (404)",
   "Forbidden (403)": "[en] Forbidden (403)",
-  "Something went wrong ({{statusCode}})": "[en] Something went wrong ({{statusCode}})"
+  "Something went wrong ({{statusCode}})": "[en] Something went wrong ({{statusCode}})",
+  "Create Account": "[en] Create Account",
+  "or": "[en] or",
+  "Login": "[en] Login",
+  "Login to AwesomeApp": "[en] Login to AwesomeApp",
+  "Don't have an account? Create one!": "[en] Don't have an account? Create one!",
+  "Login failed. Email and password cannot be empty": "[en] Login failed. Email and password cannot be empty",
+  "Email": "[en] Email",
+  "Password": "[en] Password"
 }

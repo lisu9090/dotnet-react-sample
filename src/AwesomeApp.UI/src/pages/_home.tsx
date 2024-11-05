@@ -67,7 +67,9 @@ export default function HomePage({ account }: Readonly<Props>): ReactElement {
               alignItems="stretch"
             >
               <Link href={PAGE_CREATE_ACCOUNT}>
-                <Button className="w-full" variant="outlined">Create Account</Button>
+                <Button className="w-full" variant="outlined">
+                  <Trans>Create Account</Trans>
+                </Button>
               </Link>
             </Grid>
             <Grid
@@ -77,7 +79,9 @@ export default function HomePage({ account }: Readonly<Props>): ReactElement {
               alignItems="center"
               justifyContent="center"
             >
-              <Typography variant="caption">or</Typography>
+              <Typography variant="caption">
+                <Trans>or</Trans>
+              </Typography>
             </Grid>
             <Grid
               item
@@ -87,7 +91,9 @@ export default function HomePage({ account }: Readonly<Props>): ReactElement {
               alignItems="stretch"
             >
               <Link href={PAGE_LOGIN}>
-                <Button className="w-full" variant="outlined">Login</Button>
+                <Button className="w-full" variant="outlined">
+                  <Trans>Login</Trans>
+                </Button>
               </Link>
             </Grid>
           </Grid>

@@ -4,5 +4,13 @@
   "Return to home": "[pl] Return to home",
   "Not found (404)": "[pl] Not found (404)",
   "Forbidden (403)": "[pl] Forbidden (403)",
-  "Something went wrong ({{statusCode}})": "[pl] Something went wrong {{statusCode}}"
+  "Something went wrong ({{statusCode}})": "[pl] Something went wrong {{statusCode}}",
+  "Create Account": "[pl] Create Account",
+  "or": "[pl] or",
+  "Login": "[pl] Login",
+  "Login to AwesomeApp": "[pl] Login to AwesomeApp",
+  "Don't have an account? Create one!": "[pl] Don't have an account? Create one!",
+  "Login failed. Email and password cannot be empty": "[pl] Login failed. Email and password cannot be empty",
+  "Email": "[pl] Email",
+  "Password": "[pl] Password"
 }

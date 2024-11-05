@@ -21,6 +21,7 @@ import { PAGE_ACCOUNT, PAGE_HOME } from '@/common/consts'
 import { getCsrfToken } from 'next-auth/react'
 import { useCallWithErrorHandling, useSendWithErrorHandling } from '@/frontend/hooks'
 import { AppPage, AppPageTitle } from '@/frontend/views'
+import { Trans, useTranslation } from 'react-i18next'
 
 type CreateAccountForm = {
   email: string;
@@ -84,6 +85,7 @@ export default function CreateAccountPage(): ReactElement {
   const router = useRouter()
   const tryCreateAccount = useCreateAccountWithErrorHandling()
   const tryLoginUser = useLoginUserWithErrorHandling()
+  const { t } = useTranslation()
 
   const {
     formValue,
@@ -134,7 +136,9 @@ export default function CreateAccountPage(): ReactElement {
     <AppPage>
       <Grid container direction="column" spacing={4}>
         <Grid item>
-          <AppPageTitle>Create account</AppPageTitle>
+          <AppPageTitle>
+            <Trans>Create account</Trans>
+          </AppPageTitle>
         </Grid>
         <Grid
           item
@@ -148,7 +152,7 @@ export default function CreateAccountPage(): ReactElement {
             className="mb-2"
             type="email"
             label="Email"
-            placeholder="you@inbox.com"
+            placeholder={t('you@inbox.com')}
             variant="standard"
             value={formValue.email}
             error={!!formValidation.fieldErrors.email}
@@ -160,7 +164,7 @@ export default function CreateAccountPage(): ReactElement {
             required
             className="mb-2"
             type="password"
-            label="Password"
+            label={t('Password')}
             variant="standard"
             value={formValue.password}
             error={!!formValidation.fieldErrors.password}
@@ -172,7 +176,7 @@ export default function CreateAccountPage(): ReactElement {
             required
             className="mb-2"
             type="password"
-            label="Repeat password"
+            label={t('Repeat password')}
             variant="standard"
             value={formValue.passwordRepeated}
             error={!!formValidation.fieldErrors.passwordRepeated}
@@ -184,7 +188,7 @@ export default function CreateAccountPage(): ReactElement {
             required
             className="mb-2"
             type="text"
-            label="Full name"
+            label={t('Full name')}
             placeholder="Jane Doe"
             variant="standard"
             value={formValue.fullName}
@@ -197,7 +201,7 @@ export default function CreateAccountPage(): ReactElement {
             required
             className="mb-2"
             type="date"
-            label="Date of birth"
+            label={t('Date of birth')}
             variant="standard"
             InputLabelProps={{ shrink: true }}
             value={formValue.dateOfBirth}
@@ -210,7 +214,7 @@ export default function CreateAccountPage(): ReactElement {
             required
             className="mb-2"
             type="number"
-            label="Number of owned vehicles"
+            label={t('Number of owned vehicles')}
             placeholder="1"
             variant="standard"
             value={formValue.vehiclesNumber}
@@ -220,7 +224,9 @@ export default function CreateAccountPage(): ReactElement {
             onChange={createFormFieldChangeHandler("vehiclesNumber")}
           />
           <FormControl>
-            <FormLabel id="customer-type">Customer type</FormLabel>
+            <FormLabel id="customer-type">
+              <Trans>Customer type</Trans>
+            </FormLabel>
             <RadioGroup
               row
               name="customer-type-radio"
@@ -244,7 +250,7 @@ export default function CreateAccountPage(): ReactElement {
                 variant="outlined"
                 color="secondary"
               >
-                Return to home
+                <Trans>Return to home</Trans>
               </Button>
             </Link>
           </Grid>
@@ -255,7 +261,7 @@ export default function CreateAccountPage(): ReactElement {
               disabled={!formValidation.isValid}
               onClick={createAccountAndLogin}
             >
-              Create
+              <Trans>Create</Trans>
             </Button>
           </Grid>
         </Grid>

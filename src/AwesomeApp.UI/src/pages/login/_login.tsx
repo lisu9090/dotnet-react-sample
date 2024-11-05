@@ -8,6 +8,7 @@ import { ParsedUrlQuery } from 'querystring'
 import { getCsrfToken } from 'next-auth/react'
 import { useAppSnackbar, useCallWithErrorHandling } from '@/frontend/hooks'
 import { AppPage, AppPageTitle } from '@/frontend/views'
+import { Trans, useTranslation } from 'react-i18next'
 
 function validateReturnUrlOrigin (url: string | undefined) {
   if (!url) {
@@ -53,13 +54,14 @@ export default function LoginPage(): ReactElement {
   const router = useRouter()
   const { warning } = useAppSnackbar()
   const tryLoginUser = useLoginUserWithErrorHandling()
+  const { t } = useTranslation()
 
   const [userEmail, setUserEmail] = useState<string>('')
   const [userPassword, setUserPassword] = useState<string>('')
 
   const login = async () => {
     if (!userEmail || !userPassword) {
-      warning('Login failed. Email and password cannot be empty')
+      warning(t('Login failed. Email and password cannot be empty'))
 
       return
     }
@@ -93,7 +95,9 @@ export default function LoginPage(): ReactElement {
           spacing={4}
         >
           <Grid item>
-            <AppPageTitle>Login to AwesomeApp</AppPageTitle>
+            <AppPageTitle>
+              <Trans>Login to AwesomeApp</Trans>
+            </AppPageTitle>
           </Grid>
           <Grid 
             item 
@@ -104,13 +108,13 @@ export default function LoginPage(): ReactElement {
             <TextField
               className="mb-2"
               type="text"
-              label="Email"
+              label={t('Email')}
               value={userEmail}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => setUserEmail(event.target.value)}
             />
             <TextField
               type="password"
-              label="Password"
+              label={t('Password')}
               value={userPassword}
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => setUserPassword(event.target.value)}
             />
@@ -120,7 +124,9 @@ export default function LoginPage(): ReactElement {
             container
             direction="column"
           >
-          <Typography className="mt-6">Don&apos;t have an account? Create one!</Typography>
+          <Typography className="mt-6">
+            <Trans>Don&apos;t have an account? Create one!</Trans>
+          </Typography>
           <Grid
             className="mt-2"
             item
@@ -135,7 +141,7 @@ export default function LoginPage(): ReactElement {
                   color="secondary"
                   variant="outlined"
                 >
-                  Create Account
+                  <Trans>Create Account</Trans>
                 </Button>
               </Link>
             </Grid>
@@ -145,7 +151,7 @@ export default function LoginPage(): ReactElement {
                 type="submit"
                 variant="outlined"
               >
-                Login
+                <Trans>Login</Trans>
               </Button>
             </Grid>
           </Grid>
