@@ -4,5 +4,5 @@
   "Return to home": "[en] Return to home",
   "Not found (404)": "[en] Not found (404)",
   "Forbidden (403)": "[en] Forbidden (403)",
-  "Something went wrong {{statusCode}}": "[en] Something went wrong {{statusCode}}"
+  "Something went wrong ({{statusCode}})": "[en] Something went wrong ({{statusCode}})"
 }
