@@ -1,4 +1,8 @@
 {
   "Welcome to AwesomeApp": "Welcome to AwesomeApp",
-  "Powered by": "[en] Powered by"
+  "Powered by": "[en] Powered by",
+  "Return to home": "[en] Return to home",
+  "Not found (404)": "[en] Not found (404)",
+  "Forbidden (403)": "[en] Forbidden (403)",
+  "Something went wrong {{statusCode}}": "[en] Something went wrong {{statusCode}}"
 }
