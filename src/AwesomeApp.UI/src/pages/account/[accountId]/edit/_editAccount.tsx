@@ -17,6 +17,7 @@ import { AppPage, AppPageTitle } from '@/frontend/views'
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 
 type Props = {
   account: Account;
@@ -96,6 +97,7 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
   const router = useRouter()
   const tryUpdateAccount = useUpdateWithErrorHandling()
   const { success } = useAppSnackbar()
+  const { t } = useTranslation()
 
   const [ initialFormValue, setInitialFormValue ] = useState<UpdateAccountForm>(mapAccountToForm(accountToEdit))
 
@@ -109,6 +111,8 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
     initialFormValidation, 
     formValidators
   )
+
+  const translateIfNotNull = (message: string | null) => message ? t(message) : ''
 
   const createBlurHandler = (fieldName: string, fieldValue: string) =>
     () => validateFormField(fieldName, fieldValue)
@@ -138,14 +142,16 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
     
     setInitialFormValue(updatedFormValue)
     setFormValue(updatedFormValue)
-    success('Saved')
+    success(t('Saved'))
   }
   
   return (
     <AppPage account={account}>
       <Grid container direction="column" spacing={4}>
         <Grid item>
-          <AppPageTitle>Edit account (Admin)</AppPageTitle>
+          <AppPageTitle>
+            <Trans>Edit account (Admin)</Trans>
+          </AppPageTitle>
         </Grid>
         <Grid
           item
@@ -159,11 +165,11 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
             className="mb-2"
             type="email"
             label="Email"
-            placeholder="you@inbox.com"
+            placeholder={t('you@inbox.com')}
             variant="standard"
             value={formValue.email}
             error={!!formValidation.fieldErrors.email}
-            helperText={formValidation.fieldErrors.email}
+            helperText={translateIfNotNull(formValidation.fieldErrors.email)}
             onBlur={createBlurHandler("email", formValue.email)}
             onChange={createFormFieldChangeHandler("email")}
           />
@@ -171,11 +177,11 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
             required
             className="mb-2"
             type="password"
-            label="Password"
+            label={t('Password')}
             variant="standard"
             value={formValue.password}
             error={!!formValidation.fieldErrors.password}
-            helperText={formValidation.fieldErrors.password}
+            helperText={translateIfNotNull(formValidation.fieldErrors.password)}
             onBlur={createBlurHandler("password", formValue.password)}
             onChange={createFormFieldChangeHandler("password")}
           />
@@ -183,12 +189,12 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
             required
             className="mb-2"
             type="text"
-            label="Full name"
+            label={t('Full name')}
             placeholder="Jane Doe"
             variant="standard"
             value={formValue.fullName}
             error={!!formValidation.fieldErrors.fullName}
-            helperText={formValidation.fieldErrors.fullName}
+            helperText={translateIfNotNull(formValidation.fieldErrors.fullName)}
             onBlur={createBlurHandler("fullName", formValue.fullName)}
             onChange={createFormFieldChangeHandler("fullName")}
           />
@@ -196,12 +202,12 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
             required
             className="mb-2"
             type="date"
-            label="Date of birth"
+            label={t('Date of birth')}
             variant="standard"
             InputLabelProps={{ shrink: true }}
             value={formValue.dateOfBirth}
             error={!!formValidation.fieldErrors.dateOfBirth}
-            helperText={formValidation.fieldErrors.dateOfBirth}
+            helperText={translateIfNotNull(formValidation.fieldErrors.dateOfBirth)}
             onBlur={createBlurHandler("dateOfBirth", formValue.dateOfBirth)}
             onChange={createFormFieldChangeHandler("dateOfBirth")}
           />
@@ -209,37 +215,57 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
             required
             className="mb-2"
             type="number"
-            label="Number of owned vehicles"
+            label={t('Number of owned vehicles')}
             placeholder="1"
             variant="standard"
             value={formValue.vehiclesNumber}
             error={!!formValidation.fieldErrors.vehiclesNumber}
-            helperText={formValidation.fieldErrors.vehiclesNumber}
+            helperText={translateIfNotNull(formValidation.fieldErrors.vehiclesNumber)}
             onBlur={createBlurHandler("vehiclesNumber", formValue.vehiclesNumber)}
             onChange={createFormFieldChangeHandler("vehiclesNumber")}
           />
           <FormControl>
-            <FormLabel id="customer-type">Customer type</FormLabel>
+            <FormLabel id="customer-type">
+              <Trans>Customer type</Trans>
+            </FormLabel>
             <RadioGroup
               row
               name="customer-type-radio"
               value={formValue.customerType}
               onChange={createFormFieldChangeHandler("customerType")}
             >
-              <FormControlLabel value={CustomerType.Private} control={<Radio />} label="Private" />
-              <FormControlLabel value={CustomerType.Company} control={<Radio />} label="Company" />
+              <FormControlLabel 
+                value={CustomerType.Private} 
+                control={<Radio />} 
+                label={t('Private')} 
+              />
+              <FormControlLabel 
+                value={CustomerType.Company} 
+                control={<Radio />} 
+                label={t('Company')}
+              />
             </RadioGroup>
           </FormControl>
           <FormControl>
-            <FormLabel id="account-role">Account role</FormLabel>
+            <FormLabel id="account-role">
+              <Trans>Account role</Trans>
+            </FormLabel>
             <RadioGroup
               row
               name="account-role-radio"
               value={formValue.accountRole}
               onChange={createFormFieldChangeHandler("accountRole")}
             >
-              <FormControlLabel value={AccountRole.User} control={<Radio />} label="User" />
-              <FormControlLabel value={AccountRole.Admin} control={<Radio />} label="Admin" />
+              <FormControlLabel 
+                value={AccountRole.User} 
+                control={<Radio />} 
+                label={t('User')} 
+              />
+              <FormControlLabel 
+                value={AccountRole.Admin} 
+                control={<Radio />} 
+                label={t('Admin')}
+              />
             </RadioGroup>
           </FormControl>
         </Grid>
@@ -255,7 +281,7 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
               color="secondary"
               onClick={router.back}
             >
-              Back
+              <Trans>Back</Trans>
             </Button>
           </Grid>
           <Grid item xs={4}>
@@ -265,7 +291,7 @@ export default function EditAccountPage({ account, accountToEdit, csrfToken }: R
               disabled={!formValidation.isValid || !formHasChanged()}
               onClick={updateAccount}
             >
-              Save
+              <Trans>Save</Trans>
             </Button>
           </Grid>
         </Grid>

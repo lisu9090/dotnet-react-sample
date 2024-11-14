@@ -6,7 +6,8 @@
     "dev": "next dev --experimental-https",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "translation": "i18next-scanner --config i18next-scanner.config.js"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",

@@ -94,6 +94,8 @@ export default function CreateAccountPage(): ReactElement {
     validateFormField
   } = useSimpleFormValidation(initialFormValue, initialFormValidation, formValidators)
 
+  const translateIfNotNull = (message : string | null) => message ? t(message) : '' 
+
   const createBlurHandler = (fieldName: string, fieldValue: string) =>
     () => validateFormField(fieldName, fieldValue)
 
@@ -156,7 +158,7 @@ export default function CreateAccountPage(): ReactElement {
             variant="standard"
             value={formValue.email}
             error={!!formValidation.fieldErrors.email}
-            helperText={formValidation.fieldErrors.email}
+            helperText={translateIfNotNull(formValidation.fieldErrors.email)}
             onBlur={createBlurHandler("email", formValue.email)}
             onChange={createFormFieldChangeHandler("email")}
           />
@@ -168,7 +170,7 @@ export default function CreateAccountPage(): ReactElement {
             variant="standard"
             value={formValue.password}
             error={!!formValidation.fieldErrors.password}
-            helperText={formValidation.fieldErrors.password}
+            helperText={translateIfNotNull(formValidation.fieldErrors.password)}
             onBlur={createBlurHandler("password", formValue.password)}
             onChange={createFormFieldChangeHandler("password")}
           />
@@ -180,7 +182,7 @@ export default function CreateAccountPage(): ReactElement {
             variant="standard"
             value={formValue.passwordRepeated}
             error={!!formValidation.fieldErrors.passwordRepeated}
-            helperText={formValidation.fieldErrors.passwordRepeated}
+            helperText={translateIfNotNull(formValidation.fieldErrors.passwordRepeated)}
             onBlur={createBlurHandler("passwordRepeated", formValue.passwordRepeated)}
             onChange={createFormFieldChangeHandler("passwordRepeated")}
           />
@@ -193,7 +195,7 @@ export default function CreateAccountPage(): ReactElement {
             variant="standard"
             value={formValue.fullName}
             error={!!formValidation.fieldErrors.fullName}
-            helperText={formValidation.fieldErrors.fullName}
+            helperText={translateIfNotNull(formValidation.fieldErrors.fullName)}
             onBlur={createBlurHandler("fullName", formValue.fullName)}
             onChange={createFormFieldChangeHandler("fullName")}
           />
@@ -206,7 +208,7 @@ export default function CreateAccountPage(): ReactElement {
             InputLabelProps={{ shrink: true }}
             value={formValue.dateOfBirth}
             error={!!formValidation.fieldErrors.dateOfBirth}
-            helperText={formValidation.fieldErrors.dateOfBirth}
+            helperText={translateIfNotNull(formValidation.fieldErrors.dateOfBirth)}
             onBlur={createBlurHandler("dateOfBirth", formValue.dateOfBirth)}
             onChange={createFormFieldChangeHandler("dateOfBirth")}
           />
@@ -219,7 +221,7 @@ export default function CreateAccountPage(): ReactElement {
             variant="standard"
             value={formValue.vehiclesNumber}
             error={!!formValidation.fieldErrors.vehiclesNumber}
-            helperText={formValidation.fieldErrors.vehiclesNumber}
+            helperText={translateIfNotNull(formValidation.fieldErrors.vehiclesNumber)}
             onBlur={createBlurHandler("vehiclesNumber", formValue.vehiclesNumber)}
             onChange={createFormFieldChangeHandler("vehiclesNumber")}
           />
@@ -233,8 +235,16 @@ export default function CreateAccountPage(): ReactElement {
               value={formValue.customerType}
               onChange={createFormFieldChangeHandler("customerType")}
             >
-              <FormControlLabel value={CustomerType.Private} control={<Radio />} label="Private" />
-              <FormControlLabel value={CustomerType.Company} control={<Radio />} label="Company" />
+              <FormControlLabel 
+                value={CustomerType.Private} 
+                control={<Radio />} 
+                label={t('Private')}
+              />
+              <FormControlLabel 
+                value={CustomerType.Company} 
+                control={<Radio />} 
+                label={t('Company')}
+              />
             </RadioGroup>
           </FormControl>
         </Grid>

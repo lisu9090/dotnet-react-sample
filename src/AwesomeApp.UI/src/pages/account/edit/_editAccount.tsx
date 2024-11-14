@@ -14,6 +14,7 @@ import { AppPage, AppPageTitle } from '@/frontend/views'
 import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 type Props = {
   account: Account;
@@ -74,6 +75,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
   const router = useRouter()
   const tryUpdateAccount = useUpdateAccountWithErrorHandling()
   const { success } = useAppSnackbar()
+  const { t } = useTranslation()
 
   const [ formLabels, setFormLabels ] = useState<UpdateAccountForm>(mapAccountToForm(account))
 
@@ -112,7 +114,7 @@ export default function EditAccountPage({ account, csrfToken }: Readonly<Props>)
 
     setFormLabels(mapAccountToForm(updatedAccount))
     setFormValue(initialFormValue)
-    success('Saved')
+    success(t('Saved'))
    }
 
   return (

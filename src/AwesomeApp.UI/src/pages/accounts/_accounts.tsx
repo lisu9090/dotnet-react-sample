@@ -11,6 +11,7 @@ import { Button } from '@mui/material'
 import { pageAccountEdit } from '@/common/consts'
 import { useSnackbar } from '@/frontend/components'
 import { CsrfToken } from '@/common/types'
+import { Trans, useTranslation } from 'react-i18next'
 
 type Props = {
   account: Account;
@@ -75,6 +76,7 @@ function ActionsCell({ id, deleteCallback }: Readonly<{ id: number, deleteCallba
  */
 export default function Accounts({ account, csrfToken }: Readonly<Props>): ReactElement {
   const { success } = useSnackbar()
+  const { t } = useTranslation()
   const initialPageSize = useMemo(() => Number.parseInt(localStorage.getItem(pageSizeStorageKey) ?? '') || defaultPageSize, [])
 
   const [paginationModel, setPaginationModel] = useState<PageOptions>({
@@ -88,43 +90,43 @@ export default function Accounts({ account, csrfToken }: Readonly<Props>): React
   const deleteAccount = useCallback(
     async (id: number) => {
       if (await tryDeleteAccount(id, csrfToken)) {
-        success(`Account (${id}) has been deleted`)
+        success(t(`Account (${{id}}) has been deleted`))
         mutator()
       }
     },
-    [csrfToken, tryDeleteAccount, success, mutator]
+    [csrfToken, t, tryDeleteAccount, success, mutator]
   )
 
   const columns = useMemo(
     () => [
       {
         field: 'id',
-        headerName: 'ID',
+        headerName: t('ID'),
       },
       {
         field: 'email',
-        headerName: 'Email',
+        headerName: t('Email'),
         flex: 1
       },
       {
         field: 'fullName',
-        headerName: 'Full name',
+        headerName: t('Full name'),
         flex: 1
       },
       {
         field: 'accountRole',
-        headerName: 'Role',
+        headerName: t('Role'),
         flex: 1,
         renderCell: ({ value }) => AccountRole[value]
       },
       {
         field: 'actions',
-        headerName: 'Actions',
+        headerName: t('Actions'),
         sortable: false,
         renderCell: ({ id }) => <ActionsCell id={id as number} deleteCallback={deleteAccount} />
       },
     ] as GridColDef[],
-    [deleteAccount]
+    [t, deleteAccount]
   )
 
   useEffect(
@@ -134,7 +136,9 @@ export default function Accounts({ account, csrfToken }: Readonly<Props>): React
 
   return (
     <AppPage account={account}>
-      <AppPageTitle>Manage accounts</AppPageTitle>
+      <AppPageTitle>
+        <Trans>Manage accounts</Trans>
+      </AppPageTitle>
       <DataGrid
         columns={columns}
         rows={accountsPaginationResult?.items}

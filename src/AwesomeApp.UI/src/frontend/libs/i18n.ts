@@ -23,4 +23,7 @@ i18n
     }
   })
 
+/**
+ * Exports i18n configuration  
+ */  
 export default i18n
